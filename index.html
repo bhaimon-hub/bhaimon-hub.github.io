@@ -3,151 +3,374 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aetherial MLBB Spin</title>
+  <title>Aetherial MLBB Spin | Fixed & Enhanced</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  
   <style>
+    /* --- 1. THEME & BACKGROUND --- */
     :root {
       --deep-forest: #1a3c34;
       --cream: #fbfbf8;
       --soft-white: #ffffff;
+      --gold-accent: #c4a77d;
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       margin: 0;
+      /* The textured background, using your uploaded moss image */
       background-color: var(--cream);
-      /* This is a placeholder that looks cool even if your image is missing */
-      background-image: linear-gradient(rgba(251, 251, 248, 0.9), rgba(251, 251, 248, 0.9)), 
-                        url('https://raw.githubusercontent.com/username/repository/main/1000117952.jpg'); 
+      background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)), 
+                        url('1000117952.jpg'); /* 🌿 Uses image here */
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      
       color: #333;
       text-align: center;
       font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden; /* Prevents scrollbars during confetti */
+      padding: 0 20px 40px;
     }
 
+    /* --- 2. TYPOGRAPHY --- */
     h1 {
-      margin-top: 40px;
+      margin-top: 50px;
+      margin-bottom: 10px;
       font-family: 'Playfair Display', serif;
-      font-size: 32px;
+      font-weight: 600;
+      font-size: 36px;
       color: var(--deep-forest);
+      letter-spacing: -1px;
     }
 
-    .wheel-container {
+    p {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 40px;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* --- 3. WHEEL CONTAINER & POINTER (Fixed) --- */
+    .wheel-main-container {
       position: relative;
-      width: 320px;
-      margin: 30px auto;
+      width: 90vw;
+      max-width: 380px;
+      margin: 0 auto;
     }
 
-    /* Elegant Pointer */
+    /* The new minimalist pointer at the top */
     .pointer {
-      width: 0; height: 0;
+      width: 0;
+      height: 0;
       border-left: 15px solid transparent;
       border-right: 15px solid transparent;
-      border-top: 30px solid var(--deep-forest);
+      border-top: 30px solid var(--deep-forest); /* Theme color */
       position: absolute;
-      top: -10px;
+      top: -10px; /* Offset to touch the canvas border */
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
     }
 
+    /* The canvas wheel */
     canvas {
       width: 100%;
+      height: auto;
       border-radius: 50%;
-      border: 8px solid var(--soft-white);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      background: white; /* Ensures wheel is visible if script loads slowly */
+      border: 8px solid var(--soft-white); /* Matte border */
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      /* Initial state for JavaScript reset */
+      transform: rotate(0deg); 
     }
 
+    /* --- 4. BUTTONS & RESULTS --- */
     button {
-      margin-top: 20px;
-      padding: 15px 45px;
-      background: var(--deep-forest);
-      color: white;
+      margin-top: 30px;
+      padding: 18px 50px;
+      font-size: 14px;
+      font-family: 'Montserrat', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
       border: none;
+      background-color: var(--deep-forest);
+      color: var(--soft-white);
       border-radius: 50px;
       font-weight: 600;
-      letter-spacing: 1px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    button:hover { transform: scale(1.05); background: #26594d; }
+    button:hover {
+      background-color: #26594d;
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: scale(1);
+    }
 
     #result {
-      margin-top: 25px;
-      font-weight: 600;
+      margin-top: 30px;
+      min-height: 80px; /* Placeholder space */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .winner-announcement {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
       color: var(--deep-forest);
-      min-height: 50px;
+      animation: popIn 0.5s ease;
+    }
+
+    .winner-prize {
+      color: var(--gold-accent);
+      font-weight: 600;
+      font-size: 32px;
+      margin-top: 5px;
+    }
+
+    /* --- 5. ANIMATIONS --- */
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Confetti Styling (Dynamic) */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0.8;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 100;
     }
   </style>
 </head>
+
 <body>
 
-<h1>AETHERIAL SPIN</h1>
-<p>Align your fortune with nature.</p>
+    <h1>AETHERIAL SPIN</h1>
+    <p>Align your fortune with nature’s rhythm. Spin and claim your rare rewards.</p>
 
-<div class="wheel-container">
-  <div class="pointer"></div>
-  <canvas id="wheel" width="400" height="400"></canvas>
-</div>
+    <div class="wheel-main-container">
+      <div class="pointer" title="Aligned Fortune Pointer"></div>
+      <canvas id="wheel" width="400" height="400"></canvas>
+    </div>
 
-<button id="spinBtn">SPIN WHEEL</button>
-<div id="result"></div>
+    <button id="spinBtn">Test Your Luck</button>
 
-<script>
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
-const sections = ["Try Again", "50 💎", "Epic Fragment", "100 💎", "Rare Skin", "Epic Skin", "Lucky Gem", "JACKPOT"];
-const colors = ["#f4d3d3", "#d1e7dd", "#cfe2f3", "#fff3cd", "#e2e3e5", "#f8d7da", "#e0fbfc", "#ffefdb"];
+    <div id="result"></div>
 
-const total = sections.length;
-const arc = 2 * Math.PI / total;
+    <audio id="spinSound" loop>
+      <source src="https://raw.githubusercontent.com/username/repository/main/spin_loop.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="winSound">
+      <source src="https://raw.githubusercontent.com/username/repository/main/win_fanfare.mp3" type="audio/mpeg">
+    </audio>
 
-function drawWheel() {
-  ctx.clearRect(0,0,400,400);
-  for (let i = 0; i < total; i++) {
-    ctx.beginPath();
-    ctx.fillStyle = colors[i];
-    ctx.moveTo(200, 200);
-    ctx.arc(200, 200, 200, i * arc, (i + 1) * arc);
-    ctx.fill();
+    <script>
+        // --- Configuration & Elements ---
+        const canvas = document.getElementById("wheel");
+        const ctx = canvas.getContext("2d");
+        const spinBtn = document.getElementById("spinBtn");
+        const resultDiv = document.getElementById("result");
+        const spinSound = document.getElementById("spinSound");
+        const winSound = document.getElementById("winSound");
 
-    ctx.save();
-    ctx.translate(200, 200);
-    ctx.rotate(i * arc + arc / 2);
-    ctx.fillStyle = "#333";
-    ctx.font = "bold 14px Montserrat";
-    ctx.fillText(sections[i], 80, 5);
-    ctx.restore();
-  }
-}
+        // The exact size of the canvas drawing area (400x400)
+        const size = 400;
+        const centerX = size / 2;
+        const centerY = size / 2;
+        const radius = size / 2; // Full radius
 
-drawWheel(); // Initial draw
+        // --- 🌿 ORGANIC PRIZE POOL 🌿 ---
+        const sections = [
+          "Try Again", // Index 0
+          "50 💎",     // Index 1
+          "Misted Trail", // Index 2
+          "100 💎",    // Index 3
+          "Moss Bloom",  // Index 4
+          "Epic Skin",   // Index 5 (JACKPOT LIGHT)
+          "Verdant Grove", // Index 6
+          "JACKPOT"     // Index 7 (SUPER JACKPOT)
+        ];
 
-let spinning = false;
-document.getElementById("spinBtn").onclick = function() {
-  if (spinning) return;
-  spinning = true;
-  
-  const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = "Seeking your fortune...";
+        // Muted Organic Pastels
+        const colors = [
+          "#f4d3d3", // Pink
+          "#d1e7dd", // Green
+          "#cfe2f3", // Blue
+          "#fff3cd", // Yellow
+          "#e2e3e5", // Purple
+          "#f8d7da", // Peach
+          "#e0fbfc", // Teal
+          "#ffefdb"  // Cream
+        ];
 
-  let index = Math.floor(Math.random() * total);
-  let anglePer = 360 / total;
-  // Offset to make the pointer at the top (270 degrees) match the index
-  let finalAngle = 270 - (index * anglePer + anglePer / 2);
-  let spinAngle = 3600 + finalAngle;
+        const total = sections.length;
+        const arc = 2 * Math.PI / total; // Angle of each segment (in radians)
 
-  canvas.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
-  canvas.style.transform = `rotate(${spinAngle}deg)`;
+        // --- DRAW WHEEL FUNCTION (Standard Drawing) ---
+        function drawWheel() {
+          ctx.clearRect(0,0,size,size); // Clear previous frame
 
-  setTimeout(() => {
-    resultDiv.innerHTML = `✨ Result: ${sections[index]} ✨<br>Screenshot & DM to claim!`;
-    spinning = false;
-  }, 4000);
-};
-</script>
+          for (let i = 0; i < total; i++) {
+            // Draw Segment
+            ctx.beginPath();
+            ctx.fillStyle = colors[i];
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, i * arc, (i + 1) * arc);
+            ctx.fill();
+
+            // Draw Text Label
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            // Rotate the text to the middle of the segment
+            ctx.rotate(i * arc + arc / 2);
+            // Text styling (Standard sans-serif, dark grey)
+            ctx.fillStyle = "#333"; 
+            ctx.font = "600 16px Montserrat, sans-serif";
+            // Place text along the segment (radius * 0.6 places it well)
+            ctx.fillText(sections[i], radius * 0.60, 7); 
+            ctx.restore();
+          }
+        }
+
+        // Pre-draw the wheel so it is visible immediately
+        drawWheel(); 
+
+        let spinning = false;
+
+        // --- MAIN SPIN INTERACTION (Fixed Logic) ---
+        spinBtn.onclick = function () {
+          if (spinning) return; // Prevent multi-clicks
+          spinning = true;
+
+          // Feedback: Clear result, disable button, start sound
+          resultDiv.innerHTML = "";
+          spinBtn.innerHTML = "Seeking...";
+          spinBtn.disabled = true;
+          spinSound.play(); // Start ticking sound
+
+          // 1. CHOOSE A WINNER (Randomly select an index)
+          const winningIndex = Math.floor(Math.random() * total);
+          console.log("Planned winner: " + sections[winningIndex]);
+
+          // 2. CALCULATE FINAL ROTATION (CRITICAL FIX)
+          // Since the canvas is drawn starting from the right (0 deg), 
+          // and the pointer is at the TOP (270 deg / -90 deg), we must calculate 
+          // the exact degree to rotate the *canvas* to align the middle 
+          // of the winning segment with the pointer.
+          const segmentAngleDeg = 360 / total; // 45 degrees
+          
+          // Offset to align pointer (270) to canvas (0)
+          // Then subtract the winner's position and center them in the segment
+          const baseAlignment = 270; 
+          const winnerOffset = (winningIndex * segmentAngleDeg) + (segmentAngleDeg / 2);
+          
+          const targetFinalAngle = baseAlignment - winnerOffset;
+
+          // 3. ADD HIGH VELOCITY SPINS (e.g., 10 full turns for 'cool' effect)
+          const totalRotationDeg = 3600 + targetFinalAngle;
+
+          // 4. ANIMATION SEQUENCE
+          // Reset the wheel instantly (No transition) to 0, 
+          // so the final animation always starts fresh.
+          canvas.style.transition = "none";
+          canvas.style.transform = "rotate(0deg)";
+
+          // Set the final target using CSS Transition
+          // Use 'cubic-bezier' for a smooth, high-speed spin that slowly eases to a stop.
+          // The delay (50ms) is required to ensure the reset happens before the animation.
+          setTimeout(() => {
+            canvas.style.transition = "transform 5s cubic-bezier(0.15, 0.8, 0.2, 1)";
+            canvas.style.transform = `rotate(${totalRotationDeg}deg)`;
+          }, 50);
+
+          // 5. HANDLE SPIN COMPLETION (5 seconds later)
+          setTimeout(() => {
+            spinning = false;
+            spinBtn.disabled = false;
+            spinBtn.innerHTML = "Spin Again";
+            
+            spinSound.pause(); // Stop ticking
+            spinSound.currentTime = 0; // Reset sound position
+            winSound.play(); // Play win fanfare
+            
+            // Generate Celebrations!
+            celebrateWin(sections[winningIndex]);
+
+          }, 5000); // 5000ms must match transition duration (5s)
+        };
+
+        // --- 🎉 WIN CELEBRATION FUNCTION 🎉 ---
+        function celebrateWin(prize) {
+          // Display the stylized result
+          resultDiv.innerHTML = `
+            <div class="winner-announcement">The Aether Has Chosen:</div>
+            <div class="winner-prize">${prize}</div>
+            <div style="font-size:14px; color:#666; margin-top:5px;">Screenshot & DM to claim!</div>
+          `;
+
+          // Generate Confetti bursts
+          createConfettiBurst();
+          createConfettiBurst();
+        }
+
+        // Dynamic Confetti Creation
+        function createConfettiBurst() {
+          const confettiCount = 50;
+          const container = document.body;
+          
+          for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            
+            // Randomize styling and starting position
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = (Math.random() * 100) + 'vw';
+            confetti.style.top = (Math.random() * -50) + 'px'; // Start above screen
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            container.appendChild(confetti);
+            
+            // Randomize falling animation
+            const duration = (Math.random() * 3) + 2; // 2-5 seconds
+            const fallKeyframes = [
+              { top: confetti.style.top, opacity: 1 },
+              { top: '100vh', opacity: 0 }
+            ];
+            
+            confetti.animate(fallKeyframes, {
+              duration: duration * 1000,
+              easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              fill: 'forwards'
+            });
+            
+            // Clean up elements
+            setTimeout(() => {
+              confetti.remove();
+            }, duration * 1000);
+          }
+        }
+    </script>
 </body>
 </html>
