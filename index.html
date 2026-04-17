@@ -3,221 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aetherial MLBB Spin | Organic Modern</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
+  <title>Aetherial MLBB Spin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
-    /* -----------------------------------------------------------
-       1. GLOBAL STYLES & THEME (Organic Modern)
-       ----------------------------------------------------------- */
     :root {
-      /* Palette inspired by the moss (image_0.png) */
-      --deep-forest: #1a3c34;  /* A dark, earthy green */
-      --sage: #a3b18a;         /* Soft green accent */
-      --cream: #fbfbf8;        /* Clean, off-white background */
+      --deep-forest: #1a3c34;
+      --cream: #fbfbf8;
       --soft-white: #ffffff;
-      --text-main: #333333;
-      
-      /* New modern, muted pastels for the wheel */
-      --spin-pink: #f4d3d3;
-      --spin-green: #d1e7dd;
-      --spin-blue: #cfe2f3;
-      --spin-yellow: #fff3cd;
-      --spin-purple: #e2e3e5; /* Lavender hue */
-      --spin-orange: #f8d7da; /* Muted peach */
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       margin: 0;
-      /* The textured background, using your uploaded moss image */
       background-color: var(--cream);
-      background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)), 
-                        url('image_0.png'); /* 🌿 Uses image_0.png here */
+      /* This is a placeholder that looks cool even if your image is missing */
+      background-image: linear-gradient(rgba(251, 251, 248, 0.9), rgba(251, 251, 248, 0.9)), 
+                        url('https://raw.githubusercontent.com/username/repository/main/1000117952.jpg'); 
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      
-      color: var(--text-main);
+      color: #333;
       text-align: center;
-      font-family: 'Montserrat', sans-serif; /* Default body font */
-      padding: 0 20px;
+      font-family: 'Montserrat', sans-serif;
     }
 
-    /* -----------------------------------------------------------
-       2. TYPOGRAPHY
-       ----------------------------------------------------------- */
     h1 {
       margin-top: 40px;
-      margin-bottom: 10px;
-      font-family: 'Playfair Display', serif; /* Elegant heading font */
-      font-weight: 600;
+      font-family: 'Playfair Display', serif;
       font-size: 32px;
-      letter-spacing: -1px;
       color: var(--deep-forest);
     }
 
-    p {
-      font-size: 16px;
-      color: #666;
-      margin-bottom: 30px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* -----------------------------------------------------------
-       3. WHEEL CONTAINER & POINTER
-       ----------------------------------------------------------- */
     .wheel-container {
       position: relative;
-      width: 90vw;
-      max-width: 340px;
-      margin: 0 auto 30px auto;
+      width: 320px;
+      margin: 30px auto;
     }
 
-    /* Modern minimalist pointer (centered above the wheel) */
+    /* Elegant Pointer */
     .pointer {
-      width: 0;
-      height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
-      border-top: 28px solid var(--deep-forest); /* Match theme color */
+      width: 0; height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 30px solid var(--deep-forest);
       position: absolute;
-      top: -8px; /* Slightly above the wheel */
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
     }
 
-    /* The wheel itself */
     canvas {
       width: 100%;
-      height: auto;
       border-radius: 50%;
-      /* Premium matte border */
       border: 8px solid var(--soft-white);
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      background: white; /* Ensures wheel is visible if script loads slowly */
     }
 
-    /* -----------------------------------------------------------
-       4. INTERACTIVE COMPONENTS
-       ----------------------------------------------------------- */
     button {
       margin-top: 20px;
-      padding: 16px 40px;
-      font-size: 14px;
-      font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      padding: 15px 45px;
+      background: var(--deep-forest);
+      color: white;
       border: none;
-      /* Sleek, solid color for premium look */
-      background-color: var(--deep-forest); 
-      color: var(--soft-white);
-      border-radius: 50px; /* Fully rounded */
+      border-radius: 50px;
       font-weight: 600;
+      letter-spacing: 1px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: 0.3s;
     }
 
-    button:hover {
-      background-color: #26594d;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
+    button:hover { transform: scale(1.05); background: #26594d; }
 
-    button:active {
-      transform: translateY(1px);
-    }
-
-    /* Result display */
     #result {
       margin-top: 25px;
-      font-size: 18px;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--deep-forest);
-    }
-
-    /* Specific result emphasis */
-    #result .highlight {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      display: block;
-      margin-bottom: 5px;
+      min-height: 50px;
     }
   </style>
 </head>
-
 <body>
 
-    <h1>AETHERIAL SPIN</h1>
-    <p>A MLBB Lucky Event. Spin and align your fortune with nature’s rhythm.</p>
+<h1>AETHERIAL SPIN</h1>
+<p>Align your fortune with nature.</p>
 
-    <div class="wheel-container">
-      <div class="pointer" title="Pointer indicates the winner"></div>
-      <canvas id="wheel" width="340" height="340"></canvas>
-    </div>
+<div class="wheel-container">
+  <div class="pointer"></div>
+  <canvas id="wheel" width="400" height="400"></canvas>
+</div>
 
-    <button id="spinBtn">Begin Spin</button>
+<button id="spinBtn">SPIN WHEEL</button>
+<div id="result"></div>
 
-    <div id="result"></div>
+<script>
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+const sections = ["Try Again", "50 💎", "Epic Fragment", "100 💎", "Rare Skin", "Epic Skin", "Lucky Gem", "JACKPOT"];
+const colors = ["#f4d3d3", "#d1e7dd", "#cfe2f3", "#fff3cd", "#e2e3e5", "#f8d7da", "#e0fbfc", "#ffefdb"];
 
-    <script>
-        const canvas = document.getElementById("wheel");
-        const ctx = canvas.getContext("2d");
+const total = sections.length;
+const arc = 2 * Math.PI / total;
 
-        // Use standard size variables for easier maintenance
-        const centerX = 170; // Half of canvas width/height (340)
-        const centerY = 170;
-        const radius = 170;
+function drawWheel() {
+  ctx.clearRect(0,0,400,400);
+  for (let i = 0; i < total; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = colors[i];
+    ctx.moveTo(200, 200);
+    ctx.arc(200, 200, 200, i * arc, (i + 1) * arc);
+    ctx.fill();
 
-        // -----------------------------------------------------------
-        // CONFIGURATION: New Muted Palette & Elegant Text
-        // -----------------------------------------------------------
-        const sections = [
-          "Try Again","50 💎","Misted Trail","100 💎",
-          "Moss Bloom","Epic Skin","Verdant Grove","JACKPOT"
-        ];
+    ctx.save();
+    ctx.translate(200, 200);
+    ctx.rotate(i * arc + arc / 2);
+    ctx.fillStyle = "#333";
+    ctx.font = "bold 14px Montserrat";
+    ctx.fillText(sections[i], 80, 5);
+    ctx.restore();
+  }
+}
 
-        // Muted, organic pastel colors for the wheel segments
-        const colors = [
-          "#f4d3d3", // Pink
-          "#d1e7dd", // Green
-          "#cfe2f3", // Blue
-          "#fff3cd", // Yellow
-          "#e2e3e5", // Purple
-          "#f8d7da", // Peach/Orange
-          "#e0fbfc", // Teal
-          "#ffefdb"  /* Cream */
-        ];
+drawWheel(); // Initial draw
 
-        const total = sections.length;
-        const arc = 2 * Math.PI / total;
+let spinning = false;
+document.getElementById("spinBtn").onclick = function() {
+  if (spinning) return;
+  spinning = true;
+  
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "Seeking your fortune...";
 
-        /* DRAW WHEEL (No change to logic, just styling) */
-        for (let i = 0; i < total; i++) {
-          ctx.beginPath();
-          ctx.fillStyle = colors[i];
-          ctx.moveTo(centerX, centerY);
-          // Draws from i*arc to (i+1)*arc
-          ctx.arc(centerX, centerY, radius, i*arc, (i+1)*arc);
-          ctx.fill();
+  let index = Math.floor(Math.random() * total);
+  let anglePer = 360 / total;
+  // Offset to make the pointer at the top (270 degrees) match the index
+  let finalAngle = 270 - (index * anglePer + anglePer / 2);
+  let spinAngle = 3600 + finalAngle;
 
-          ctx.save();
-          ctx.translate(centerX, centerY);
-          // Rotate text to the middle of the segment
-          ctx.rotate(i*arc + arc/2);
-          // Style text: Use theme text color and standard font
-          ctx.fillStyle = "#333"; 
-          ctx.font = "500 13px Montserrat, sans-serif";
-          ctx.fillText(sections[i], radius
+  canvas.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
+  canvas.style.transform = `rotate(${spinAngle}deg)`;
+
+  setTimeout(() => {
+    resultDiv.innerHTML = `✨ Result: ${sections[index]} ✨<br>Screenshot & DM to claim!`;
+    spinning = false;
+  }, 4000);
+};
+</script>
+</body>
+</html>
