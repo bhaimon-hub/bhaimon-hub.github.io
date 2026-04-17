@@ -1,302 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aetherial MLBB Spin</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --deep-forest: #1a3c34;
-      --cream: #fbfbf8;
-      --soft-white: #ffffff;
-      --gold-accent: #c4a77d;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLBB Lucky Spin</title>
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-    body {
-      margin: 0;
-      background-color: var(--cream);
-      background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)), 
-                        url('1000117952.jpg'); 
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: #333;
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      overflow-x: hidden;
-      padding: 0 20px 40px;
-    }
+<style>
+:root {
+  --deep-forest: #1a3c34;
+  --cream: #fbfbf8;
+  --soft-white: #ffffff;
+  --gold-accent: #c4a77d;
+}
 
-    h1 {
-      margin-top: 50px;
-      margin-bottom: 10px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      font-size: 36px;
-      color: var(--deep-forest);
-      letter-spacing: -1px;
-    }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    p {
-      font-size: 16px;
-      color: #666;
-      margin-bottom: 40px;
-      max-width: 450px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+body {
+  background-color: var(--cream);
+  background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)),
+                    url('1000117952.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  padding: 0 20px 40px;
+  overflow-x: hidden;
+}
 
-    .wheel-main-container {
-      position: relative;
-      width: 90vw;
-      max-width: 380px;
-      margin: 0 auto;
-    }
+h1 {
+  margin-top: 40px;
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  color: var(--deep-forest);
+}
 
-    .pointer {
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 30px solid var(--deep-forest);
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
-    }
+p {
+  margin-bottom: 30px;
+  color: #555;
+}
 
-    canvas {
-      width: 100%;
-      height: auto;
-      border-radius: 50%;
-      border: 8px solid var(--soft-white);
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      transform: rotate(0deg); 
-    }
+.wheel-main-container {
+  position: relative;
+  width: 90vw;
+  max-width: 380px;
+  margin: auto;
+}
 
-    button {
-      margin-top: 30px;
-      padding: 18px 50px;
-      font-size: 14px;
-      font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      border: none;
-      background-color: var(--deep-forest);
-      color: var(--soft-white);
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
+.pointer {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 30px solid var(--deep-forest);
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
 
-    button:hover {
-      background-color: #26594d;
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
+canvas {
+  width: 100%;
+  border-radius: 50%;
+  border: 8px solid white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
 
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-      transform: scale(1);
-    }
+button {
+  margin-top: 25px;
+  padding: 16px 45px;
+  border: none;
+  background: var(--deep-forest);
+  color: white;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 600;
+}
 
-    #result {
-      margin-top: 30px;
-      min-height: 80px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+button:disabled {
+  background: #ccc;
+}
 
-    .winner-announcement {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: var(--deep-forest);
-      animation: popIn 0.5s ease;
-    }
+#result {
+  margin-top: 25px;
+  height: 100px;
+}
 
-    .winner-prize {
-      color: var(--gold-accent);
-      font-weight: 600;
-      font-size: 32px;
-      margin-top: 5px;
-    }
+.winner-announcement {
+  font-size: 22px;
+  color: var(--deep-forest);
+}
 
-    @keyframes popIn {
-      0% { transform: scale(0); opacity: 0; }
-      80% { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
-    }
+.winner-prize {
+  font-size: 30px;
+  color: var(--gold-accent);
+}
 
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      opacity: 0.8;
-      border-radius: 2px;
-      pointer-events: none;
-      z-index: 100;
-    }
-  </style>
+/* FIXED CONFETTI */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+</style>
 </head>
 
 <body>
 
-    <h1>AETHERIAL SPIN</h1>
-    <p>Align your fortune with nature’s rhythm. Spin and claim your rare rewards.</p>
+<h1>LUCKY SPIN EVENT</h1>
+<p>Spin the wheel and win exclusive rewards!</p>
 
-    <div class="wheel-main-container">
-      <div class="pointer" title="Aligned Fortune Pointer"></div>
-      <canvas id="wheel" width="400" height="400"></canvas>
-    </div>
+<div class="wheel-main-container">
+  <div class="pointer"></div>
+  <canvas id="wheel" width="400" height="400"></canvas>
+</div>
 
-    <button id="spinBtn">Test Your Luck</button>
+<button id="spinBtn">SPIN NOW</button>
 
-    <div id="result"></div>
+<div id="result"></div>
 
-    <audio id="spinSound" loop>
-      <source src="spin_loop.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="winSound">
-      <source src="win_fanfare.mp3" type="audio/mpeg">
-    </audio>
+<!-- SOUND -->
+<audio id="spinSound" loop>
+  <source src="spin_loop.mp3" type="audio/mpeg">
+</audio>
 
-    <script>
-        const canvas = document.getElementById("wheel");
-        const ctx = canvas.getContext("2d");
-        const spinBtn = document.getElementById("spinBtn");
-        const resultDiv = document.getElementById("result");
-        const spinSound = document.getElementById("spinSound");
-        const winSound = document.getElementById("winSound");
+<audio id="winSound">
+  <source src="win_fanfare.aac" type="audio/aac">
+</audio>
 
-        const size = 400;
-        const centerX = size / 2;
-        const centerY = size / 2;
-        const radius = size / 2;
+<script>
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+const spinBtn = document.getElementById("spinBtn");
+const resultDiv = document.getElementById("result");
+const spinSound = document.getElementById("spinSound");
+const winSound = document.getElementById("winSound");
 
-        const sections = ["Try Again", "50 💎", "Trail", "100 💎", "Bloom", "Epic Skin", "Grove", "JACKPOT"];
-        const colors = ["#f4d3d3", "#d1e7dd", "#cfe2f3", "#fff3cd", "#e2e3e5", "#f8d7da", "#e0fbfc", "#ffefdb"];
+const size = 400;
+const center = size/2;
+const radius = size/2;
 
-        const total = sections.length;
-        const arc = 2 * Math.PI / total;
+const sections = [
+  "Try Again",
+  "50 Diamonds",
+  "Basic Skin",
+  "100 Diamonds",
+  "Elite Skin",
+  "Epic Skin",
+  "Recall Effect",
+  "JACKPOT"
+];
 
-        function drawWheel() {
-          ctx.clearRect(0,0,size,size);
+const colors = ["#ffd6d6","#d6f5d6","#d6e0ff","#fff0b3","#e6ccff","#ffcccc","#ccf2ff","#ffe6cc"];
 
-          for (let i = 0; i < total; i++) {
-            ctx.beginPath();
-            ctx.fillStyle = colors[i];
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, i * arc, (i + 1) * arc);
-            ctx.fill();
+const total = sections.length;
+const arc = 2 * Math.PI / total;
 
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate(i * arc + arc / 2);
-            ctx.fillStyle = "#333"; 
-            ctx.font = "600 16px Montserrat, sans-serif";
-            ctx.fillText(sections[i], radius * 0.60, 7); 
-            ctx.restore();
-          }
-        }
+function drawWheel(){
+  for(let i=0;i<total;i++){
+    ctx.beginPath();
+    ctx.fillStyle = colors[i];
+    ctx.moveTo(center,center);
+    ctx.arc(center,center,radius,i*arc,(i+1)*arc);
+    ctx.fill();
 
-        drawWheel(); 
+    ctx.save();
+    ctx.translate(center,center);
+    ctx.rotate(i*arc + arc/2);
+    ctx.fillStyle="#333";
+    ctx.fillText(sections[i],radius*0.6,5);
+    ctx.restore();
+  }
+}
+drawWheel();
 
-        let spinning = false;
+let spinning=false;
 
-        spinBtn.onclick = function () {
-          if (spinning) return;
-          spinning = true;
+spinBtn.onclick = () => {
+  if(spinning) return;
+  spinning=true;
 
-          resultDiv.innerHTML = "";
-          spinBtn.innerHTML = "Seeking...";
-          spinBtn.disabled = true;
-          
-          // --- Start Ticking Sound ---
-          spinSound.play().catch(e => console.log("Audio play blocked by browser. Click page."));
+  spinBtn.disabled=true;
+  resultDiv.innerHTML="";
 
-          const winningIndex = Math.floor(Math.random() * total);
+  spinSound.play();
 
-          // Fixed Spin Logic
-          const segmentAngleDeg = 360 / total; 
-          const baseAlignment = 270; 
-          const winnerOffset = (winningIndex * segmentAngleDeg) + (segmentAngleDeg / 2);
-          const targetFinalAngle = baseAlignment - winnerOffset;
-          const totalRotationDeg = 3600 + targetFinalAngle;
+  const winIndex = Math.floor(Math.random()*total);
 
-          canvas.style.transition = "none";
-          canvas.style.transform = "rotate(0deg)";
+  const segment = 360/total;
+  const finalDeg = 3600 + (270 - (winIndex*segment + segment/2));
 
-          setTimeout(() => {
-            canvas.style.transition = "transform 5s cubic-bezier(0.15, 0.8, 0.2, 1)";
-            canvas.style.transform = `rotate(${totalRotationDeg}deg)`;
-          }, 50);
+  canvas.style.transition="transform 5s ease-out";
+  canvas.style.transform=`rotate(${finalDeg}deg)`;
 
-          setTimeout(() => {
-            spinning = false;
-            spinBtn.disabled = false;
-            spinBtn.innerHTML = "Spin Again";
-            
-            // --- Stop Ticking Sound ---
-            spinSound.pause(); 
-            spinSound.currentTime = 0; 
+  setTimeout(()=>{
+    spinSound.pause();
+    spinSound.currentTime=0;
 
-            // --- Play Win Sound ---
-            winSound.play().catch(e => console.log("Audio play blocked.")); 
-            
-            celebrateWin(sections[winningIndex]);
+    winSound.play();
 
-          }, 5000); 
-        };
+    resultDiv.innerHTML = `
+      <div class="winner-announcement">You Won:</div>
+      <div class="winner-prize">${sections[winIndex]}</div>
+    `;
 
-        function celebrateWin(prize) {
-          resultDiv.innerHTML = `
-            <div class="winner-announcement">The Aether Has Chosen:</div>
-            <div class="winner-prize">${prize}</div>
-            <div style="font-size:14px; color:#666; margin-top:5px;">Screenshot & DM to claim!</div>
-          `;
-          createConfettiBurst();
-          createConfettiBurst();
-        }
+    confetti();
 
-        function createConfettiBurst() {
-          const confettiCount = 50;
-          const container = document.body;
-          
-          for (let i = 0; i < confettiCount; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = (Math.random() * 100) + 'vw';
-            confetti.style.top = (Math.random() * -50) + 'px';
-            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-            container.appendChild(confetti);
-            const duration = (Math.random() * 3) + 2;
-            confetti.animate([
-              { top: confetti.style.top, opacity: 1 },
-              { top: '100vh', opacity: 0 }
-            ], {
-              duration: duration * 1000,
-              easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-              fill: 'forwards'
-            });
-            setTimeout(() => confetti.remove(), duration * 1000);
-          }
-        }
-    </script>
+    spinBtn.disabled=false;
+    spinning=false;
+
+  },5000);
+};
+
+function confetti(){
+  for(let i=0;i<80;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-10px";
+    document.body.appendChild(c);
+
+    c.animate([
+      {transform:"translateY(0)"},
+      {transform:"translateY(100vh)"}
+    ],{
+      duration:2000+Math.random()*2000
+    });
+
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+</script>
+
 </body>
 </html>
