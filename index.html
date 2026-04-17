@@ -7,32 +7,24 @@
 <style>
 body {
   margin: 0;
-  background: radial-gradient(circle at top, #1e3a8a, #020617);
+  background: linear-gradient(270deg, #0f172a, #1e3a8a, #020617);
+  background-size: 600% 600%;
+  animation: bgMove 10s ease infinite;
   color: white;
   text-align: center;
   font-family: Arial;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-/* 🔥 Moving particles background */
-body::before {
-  content: "";
-  position: fixed;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(0,255,255,0.15), transparent);
-  animation: moveBg 10s linear infinite;
-  z-index: -1;
-}
-@keyframes moveBg {
-  0% { transform: translate(-20%, -20%); }
-  50% { transform: translate(0%, 0%); }
-  100% { transform: translate(-20%, -20%); }
+@keyframes bgMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 
 h1 {
   margin-top: 15px;
-  text-shadow: 0 0 15px cyan;
+  text-shadow: 0 0 20px cyan;
 }
 
 .wheel-container {
@@ -72,7 +64,7 @@ button {
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 0 15px gold;
+  box-shadow: 0 0 20px gold;
 }
 
 #result {
@@ -80,35 +72,25 @@ button {
   font-size: 18px;
 }
 
-/* 🎉 BIG CONFETTI */
-.confetti {
+/* 🎉 PARTICLES */
+.particle {
   position: fixed;
-  width: 12px;
-  height: 12px;
-  top: -10px;
-  animation: fall 3s linear forwards;
-}
-@keyframes fall {
-  to {
-    transform: translateY(100vh) rotate(1080deg);
-  }
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: explode 1.2s ease-out forwards;
 }
 
-/* 💥 FLASH EFFECT */
-.flash {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: white;
-  opacity: 0;
-  pointer-events: none;
+@keyframes explode {
+  to {
+    transform: translate(var(--x), var(--y)) scale(0);
+    opacity: 0;
+  }
 }
 </style>
 </head>
 
 <body>
-
-<div class="flash" id="flash"></div>
 
 <h1>🎡 MLBB Lucky Spin</h1>
 <p>Spin & test your luck!</p>
@@ -157,7 +139,7 @@ for (let i = 0; i < total; i++) {
 }
 
 /* 🔊 BETTER SOUND SYSTEM */
-const spinSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-spin-1935.mp3");
+const spinSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-game-wheel-spin-1539.mp3");
 const winSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3");
 
 let spinning = false;
@@ -167,7 +149,7 @@ document.getElementById("spinBtn").onclick = function () {
   spinning = true;
 
   spinSound.currentTime = 0;
-  spinSound.play().catch(()=>{});
+  spinSound.play().catch(()=>{}); // fix browser block
 
   const resultDiv = document.getElementById("result");
 
@@ -187,6 +169,7 @@ document.getElementById("spinBtn").onclick = function () {
 
   setTimeout(() => {
     let reward = sections[index];
+
     resultDiv.innerHTML =
       "🎉 Result: " + reward + "<br>📸 Screenshot & DM!";
 
@@ -194,31 +177,32 @@ document.getElementById("spinBtn").onclick = function () {
     if (!reward.includes("Try Again")) {
       winSound.currentTime = 0;
       winSound.play().catch(()=>{});
-      flashEffect();
-      launchConfetti();
+      explosion();
     }
 
     spinning = false;
   }, 4000);
 };
 
-/* 💥 FLASH */
-function flashEffect() {
-  const flash = document.getElementById("flash");
-  flash.style.opacity = "0.8";
-  setTimeout(() => flash.style.opacity = "0", 150);
-}
+/* 💥 EXPLOSION EFFECT */
+function explosion() {
+  for (let i = 0; i < 60; i++) {
+    let p = document.createElement("div");
+    p.className = "particle";
+    p.style.background = ["red","yellow","cyan","lime","pink"][Math.floor(Math.random()*5)];
 
-/* 🎉 CONFETTI */
-function launchConfetti() {
-  for (let i = 0; i < 80; i++) {
-    let div = document.createElement("div");
-    div.classList.add("confetti");
-    div.style.left = Math.random() * 100 + "vw";
-    div.style.background = ["red","yellow","blue","green","cyan","pink","orange"][Math.floor(Math.random()*7)];
-    document.body.appendChild(div);
+    let x = (Math.random() - 0.5) * 300 + "px";
+    let y = (Math.random() - 0.5) * 300 + "px";
 
-    setTimeout(() => div.remove(), 3000);
+    p.style.setProperty("--x", x);
+    p.style.setProperty("--y", y);
+
+    p.style.left = "50%";
+    p.style.top = "50%";
+
+    document.body.appendChild(p);
+
+    setTimeout(() => p.remove(), 1200);
   }
 }
 </script>
