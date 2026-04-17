@@ -1,70 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLBB Lucky Spin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLBB Lucky Spin</title>
 
-  <style>
-    body {
-      margin: 0;
-      background: radial-gradient(circle, #0f172a, #020617);
-      color: white;
-      text-align: center;
-      font-family: Arial;
-    }
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #1e3a8a, #020617);
+  color: white;
+  text-align: center;
+  font-family: Arial;
+  overflow-x: hidden;
+}
 
-    h1 {
-      margin-top: 15px;
-      font-size: 22px;
-    }
+/* 🔥 Animated background glow */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,255,255,0.1), transparent);
+  animation: moveBg 8s linear infinite;
+  z-index: -1;
+}
+@keyframes moveBg {
+  0% { transform: translate(-25%, -25%); }
+  50% { transform: translate(0%, 0%); }
+  100% { transform: translate(-25%, -25%); }
+}
 
-    .wheel-container {
-      position: relative;
-      width: 90vw;
-      max-width: 320px;
-      margin: 20px auto;
-    }
+h1 {
+  margin-top: 15px;
+  font-size: 24px;
+  text-shadow: 0 0 15px cyan;
+}
 
-    canvas {
-      width: 100%;
-      height: auto;
-      border-radius: 50%;
-      border: 5px solid white;
-      position: relative;
-  z-index: 1; /* 👈 add this */
-    }
+.wheel-container {
+  position: relative;
+  width: 90vw;
+  max-width: 320px;
+  margin: 20px auto;
+}
 
-    .pointer {
-      width: 0;
-      height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 25px solid red;  /* 👈 pointing UP */
-      position: absolute;
-      top: -5px;
-      left: 50%;
-      transform: translateX(-50%);
+/* 🎡 Wheel glow upgrade */
+canvas {
+  width: 100%;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.5),
+    0 0 40px rgba(0,255,255,0.4);
+}
 
-       z-index: 10; /* 🔥 ADD THIS */
-    }
+/* 🔺 Pointer */
+.pointer {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 25px solid red;
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  filter: drop-shadow(0 0 8px red);
+}
 
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      background: linear-gradient(45deg, gold, orange);
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* 🔥 Button animation */
+button {
+  margin-top: 15px;
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  background: linear-gradient(45deg, gold, orange);
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 15px gold;
+  transition: transform 0.1s;
+}
+button:active {
+  transform: scale(0.95);
+}
 
-    #result {
-      margin-top: 15px;
-      font-size: 16px;
-      padding: 0 10px;
-    }
-  </style>
+#result {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+/* 🎉 CONFETTI */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  animation: fall 2.5s linear forwards;
+}
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+  }
+}
+</style>
 </head>
 
 <body>
@@ -115,11 +154,18 @@ for (let i = 0; i < total; i++) {
   ctx.restore();
 }
 
+/* 🔊 SOUNDS (optimized) */
+const spinSound = new Audio("https://www.soundjay.com/misc/sounds/wheel-spin-1.mp3");
+const winSound = new Audio("https://www.soundjay.com/human/sounds/applause-8.mp3");
+
 let spinning = false;
 
 document.getElementById("spinBtn").onclick = function () {
   if (spinning) return;
   spinning = true;
+
+  spinSound.currentTime = 0;
+  spinSound.play();
 
   const resultDiv = document.getElementById("result");
 
@@ -133,16 +179,38 @@ document.getElementById("spinBtn").onclick = function () {
   canvas.style.transform = "rotate(0deg)";
 
   setTimeout(() => {
-    canvas.style.transition = "transform 4s ease-out";
+    canvas.style.transition = "transform 4s cubic-bezier(0.33,1,0.68,1)";
     canvas.style.transform = "rotate(" + spinAngle + "deg)";
   }, 50);
 
   setTimeout(() => {
+    let reward = sections[index];
     resultDiv.innerHTML =
-      "🎉 Result: " + sections[index] + "<br>📸 Screenshot & DM!";
+      "🎉 Result: " + reward + "<br>📸 Screenshot & DM!";
+
+    /* 🎉 CELEBRATION */
+    if (reward.includes("JACKPOT") || reward.includes("100")) {
+      winSound.currentTime = 0;
+      winSound.play();
+      launchConfetti();
+    }
+
     spinning = false;
   }, 4000);
 };
+
+/* 🎉 CONFETTI */
+function launchConfetti() {
+  for (let i = 0; i < 40; i++) {
+    let div = document.createElement("div");
+    div.classList.add("confetti");
+    div.style.left = Math.random() * 100 + "vw";
+    div.style.background = ["red","yellow","blue","green","cyan","pink"][Math.floor(Math.random()*6)];
+    document.body.appendChild(div);
+
+    setTimeout(() => div.remove(), 2500);
+  }
+}
 </script>
 
 </body>
