@@ -1,3 +1,4 @@
+<script>
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
@@ -48,21 +49,26 @@ function spin() {
 
   const resultDiv = document.getElementById("result");
 
+  // 🎯 pick result
   let index = Math.floor(Math.random() * total);
+
   let anglePer = 360 / total;
 
+  // 🎯 exact landing
   let finalAngle = 360 - (index * anglePer + anglePer / 2);
 
-  let spinAngle = 3600 + finalAngle;
-
-  /* 🔥 HARD RESET BEFORE SPIN (KEY FIX) */
+  // 🎯 ALWAYS RESET TRANSFORM (fix lag + reverse bug)
   canvas.style.transition = "none";
   canvas.style.transform = "rotate(0deg)";
 
-  setTimeout(() => {
-    canvas.style.transition = "transform 4s cubic-bezier(0.33, 1, 0.68, 1)";
-    canvas.style.transform = `rotate(${spinAngle}deg)`;
-  }, 50);
+  // force reflow (important)
+  canvas.offsetHeight;
+
+  // 🎯 apply smooth spin fresh every time
+  let spinAngle = 3600 + finalAngle;
+
+  canvas.style.transition = "transform 4s cubic-bezier(0.33,1,0.68,1)";
+  canvas.style.transform = `rotate(${spinAngle}deg)`;
 
   setTimeout(() => {
     resultDiv.innerHTML =
@@ -70,3 +76,4 @@ function spin() {
     spinning = false;
   }, 4000);
 }
+</script>
