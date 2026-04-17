@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MLBB Lucky Spin</title>
+  <title>Lucky Spin MLBB</title>
   <style>
     body {
-      background: #0f172a;
+      background: radial-gradient(circle, #1e293b, #020617);
       color: white;
       text-align: center;
       font-family: Arial;
@@ -16,24 +16,38 @@
 
     .wheel-container {
       position: relative;
-      width: 300px;
+      width: 320px;
       margin: 40px auto;
     }
 
     #wheel {
       width: 100%;
-      transition: transform 4s ease-out;
+      border-radius: 50%;
+      border: 6px solid white;
+      transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
     }
 
-    #spinBtn {
-      margin-top: 20px;
+    .pointer {
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 30px solid red;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    button {
       padding: 12px 25px;
       font-size: 18px;
       cursor: pointer;
       border: none;
-      background: gold;
+      background: linear-gradient(45deg, gold, orange);
       color: black;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-weight: bold;
     }
 
     #result {
@@ -45,40 +59,79 @@
 
 <body>
 
-<h1>🎡 MLBB Lucky Spin</h1>
-<p>Spin and win rewards!</p>
+<h1>🎡 Lucky Spin MLBB</h1>
+<p>Spin & test your luck!</p>
 
 <div class="wheel-container">
-  <img id="wheel" src="https://i.imgur.com/6o5V7bG.png">
+  <div class="pointer"></div>
+  <canvas id="wheel" width="320" height="320"></canvas>
 </div>
 
-<button id="spinBtn" onclick="spin()">SPIN</button>
+<button onclick="spin()">SPIN</button>
 
 <div id="result"></div>
 
 <script>
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const sections = [
+  "Try Again",
+  "50 Diamonds",
+  "Try Again",
+  "100 Diamonds",
+  "Try Again",
+  "Epic Skin",
+  "Try Again",
+  "JACKPOT"
+];
+
+const colors = [
+  "#ff4d4d","#4dff88","#4da6ff","#ffd24d",
+  "#ff66cc","#66ffff","#ffa64d","#b366ff"
+];
+
+const arc = Math.PI * 2 / sections.length;
+
+function drawWheel() {
+  for (let i = 0; i < sections.length; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = colors[i];
+    ctx.moveTo(160,160);
+    ctx.arc(160,160,160, i*arc, (i+1)*arc);
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(160,160);
+    ctx.rotate(i*arc + arc/2);
+    ctx.fillStyle = "#000";
+    ctx.font = "14px Arial";
+    ctx.fillText(sections[i], 60, 5);
+    ctx.restore();
+  }
+}
+
+drawWheel();
+
 let spinning = false;
+let currentRotation = 0;
 
 function spin() {
   if (spinning) return;
   spinning = true;
 
-  let wheel = document.getElementById("wheel");
-  let result = document.getElementById("result");
+  const resultDiv = document.getElementById("result");
 
-  let rand = Math.random();
-  let deg = 3600 + Math.floor(Math.random() * 360);
+  let randomIndex = Math.floor(Math.random() * sections.length);
+  let angle = (360 / sections.length) * randomIndex;
+  let spinAngle = 3600 + angle;
 
-  wheel.style.transform = "rotate(" + deg + "deg)";
+  currentRotation += spinAngle;
+
+  canvas.style.transform = `rotate(${currentRotation}deg)`;
 
   setTimeout(() => {
-    if (rand < 0.7) {
-      result.innerHTML = "❌ Try Again";
-    } else if (rand < 0.95) {
-      result.innerHTML = "⭐ Small Reward! Screenshot & DM";
-    } else {
-      result.innerHTML = "💎 JACKPOT! Screenshot & DM NOW!";
-    }
+    resultDiv.innerHTML = "🎉 Result: " + sections[randomIndex] + "<br>Screenshot & DM!";
     spinning = false;
   }, 4000);
 }
