@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lucky Spin MLBB</title>
+  <title>MLBB Lucky Spin</title>
+
   <style>
     body {
-      background: radial-gradient(circle, #1e293b, #020617);
+      background: radial-gradient(circle, #0f172a, #020617);
       color: white;
       text-align: center;
       font-family: Arial;
@@ -20,13 +21,14 @@
       margin: 40px auto;
     }
 
-    #wheel {
+    canvas {
       width: 100%;
       border-radius: 50%;
       border: 6px solid white;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
     }
 
+    /* ✅ FIXED POINTER (correct direction) */
     .pointer {
       width: 0;
       height: 0;
@@ -37,6 +39,7 @@
       top: -30px;
       left: 50%;
       transform: translateX(-50%);
+      filter: drop-shadow(0 0 6px red);
     }
 
     button {
@@ -59,7 +62,7 @@
 
 <body>
 
-<h1>🎡 Lucky Spin MLBB</h1>
+<h1>🎡 MLBB Lucky Spin</h1>
 <p>Spin & test your luck!</p>
 
 <div class="wheel-container">
@@ -75,11 +78,12 @@
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
+/* 🎯 EDIT YOUR PRIZES HERE */
 const sections = [
   "Try Again",
-  "50 Diamonds",
+  "50 💎",
   "Try Again",
-  "100 Diamonds",
+  "100 💎",
   "Try Again",
   "Epic Skin",
   "Try Again",
@@ -91,7 +95,7 @@ const colors = [
   "#ff66cc","#66ffff","#ffa64d","#b366ff"
 ];
 
-const arc = Math.PI * 2 / sections.length;
+const arc = 2 * Math.PI / sections.length;
 
 function drawWheel() {
   for (let i = 0; i < sections.length; i++) {
@@ -105,7 +109,7 @@ function drawWheel() {
     ctx.translate(160,160);
     ctx.rotate(i*arc + arc/2);
     ctx.fillStyle = "#000";
-    ctx.font = "14px Arial";
+    ctx.font = "bold 14px Arial";
     ctx.fillText(sections[i], 60, 5);
     ctx.restore();
   }
@@ -113,25 +117,29 @@ function drawWheel() {
 
 drawWheel();
 
+let rotation = 0;
 let spinning = false;
-let currentRotation = 0;
 
 function spin() {
   if (spinning) return;
   spinning = true;
 
-  const resultDiv = document.getElementById("result");
+  let index = Math.floor(Math.random() * sections.length);
 
-  let randomIndex = Math.floor(Math.random() * sections.length);
-  let angle = (360 / sections.length) * randomIndex;
-  let spinAngle = 3600 + angle;
+  let anglePerSection = 360 / sections.length;
 
-  currentRotation += spinAngle;
+  /* ✅ PERFECT ALIGNMENT FIX */
+  let targetAngle = (index * anglePerSection) + (anglePerSection / 2);
 
-  canvas.style.transform = `rotate(${currentRotation}deg)`;
+  let spinAngle = 3600 + (360 - targetAngle);
+
+  rotation += spinAngle;
+
+  canvas.style.transform = `rotate(${rotation}deg)`;
 
   setTimeout(() => {
-    resultDiv.innerHTML = "🎉 Result: " + sections[randomIndex] + "<br>Screenshot & DM!";
+    document.getElementById("result").innerHTML =
+      "🎉 Result: " + sections[index] + "<br>📸 Screenshot & DM to claim!";
     spinning = false;
   }, 4000);
 }
