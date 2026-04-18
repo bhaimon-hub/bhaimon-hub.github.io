@@ -3,243 +3,285 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLBB Lucky Spin</title>
-  
+  <title>MLBB Lucky Spin - Premium</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  
   <style>
     :root {
       --deep-forest: #1a3c34;
       --cream: #fbfbf8;
       --soft-white: #ffffff;
       --gold-accent: #c4a77d;
+      --dark-text: #2c3e50;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      margin: 0;
       background-color: var(--cream);
-      background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)), 
-                        url('1000117952.jpg'); 
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: #333;
+      color: var(--dark-text);
       text-align: center;
       font-family: 'Montserrat', sans-serif;
-      overflow: hidden; /* FIXED UI SHAKE */
-      padding: 0 20px 40px;
+      overflow-x: hidden;
+      padding-bottom: 50px;
     }
 
     h1 {
-      margin-top: 50px;
-      margin-bottom: 10px;
+      margin-top: 40px;
       font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      font-size: 36px;
+      font-size: clamp(28px, 5vw, 42px);
       color: var(--deep-forest);
-      letter-spacing: -1px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
-    p {
-      font-size: 16px;
-      color: #666;
-      margin-bottom: 40px;
-      max-width: 450px;
-      margin-left: auto;
-      margin-right: auto;
+    .subtitle {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
     }
 
-    .wheel-main-container {
+    .wheel-container {
       position: relative;
       width: 90vw;
-      max-width: 380px;
+      max-width: 420px;
       margin: 0 auto;
+      perspective: 1000px;
     }
 
+    /* Professional Pointer */
     .pointer {
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 30px solid var(--deep-forest);
       position: absolute;
-      top: -10px;
+      top: -15px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 10;
+      width: 40px;
+      height: 40px;
+      background: var(--deep-forest);
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
+      z-index: 20;
+      filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
     }
 
     canvas {
       width: 100%;
+      height: auto;
       border-radius: 50%;
-      border: 8px solid var(--soft-white);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      border: 12px solid var(--soft-white);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
     }
 
     button {
-      margin-top: 30px;
-      padding: 18px 50px;
+      margin-top: 40px;
+      padding: 18px 60px;
       font-size: 14px;
-      font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       border: none;
-      background-color: var(--deep-forest);
-      color: var(--soft-white);
-      border-radius: 50px;
+      background: var(--deep-forest);
+      color: white;
+      border-radius: 4px;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(26, 60, 52, 0.2);
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px rgba(26, 60, 52, 0.3);
+      background: #245247;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
     }
 
     #result {
       margin-top: 30px;
-      min-height: 80px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .winner-announcement {
       font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: var(--deep-forest);
+      font-size: 18px;
+      opacity: 0.8;
     }
 
     .winner-prize {
       color: var(--gold-accent);
       font-weight: 600;
-      font-size: 32px;
+      font-size: 36px;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .confetti {
-      position: fixed; /* FIXED */
-      width: 10px;
-      height: 10px;
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Celebration Particle Styling */
+    .particle {
+      position: fixed;
       pointer-events: none;
-      z-index: 100;
+      border-radius: 50%;
+      z-index: 1000;
     }
   </style>
 </head>
-
 <body>
 
-<h1>🎯 MLBB LUCKY SPIN</h1>
-<p>Spin the wheel and test your luck. Unlock rare rewards and epic prizes!</p>
+<h1>🎯 MLBB Lucky Spin</h1>
+<p class="subtitle">PREMIUM REWARDS SYSTEM</p>
 
-<div class="wheel-main-container">
+<div class="wheel-container">
   <div class="pointer"></div>
-  <canvas id="wheel" width="400" height="400"></canvas>
+  <canvas id="wheel" width="500" height="500"></canvas>
 </div>
 
-<button id="spinBtn">Spin Now</button>
+<button id="spinBtn">SPIN WHEEL</button>
 
 <div id="result"></div>
 
-<audio id="spinSound" loop>
-  <source src="spin_loop.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="winSound">
-  <source src="win_fanfare.mp3" type="audio/mpeg">
-</audio>
+<audio id="spinSound" loop><source src="spin_loop.mp3" type="audio/mpeg"></audio>
+<audio id="winSound"><source src="win_fanfare.mp3" type="audio/mpeg"></audio>
 
 <script>
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 const spinBtn = document.getElementById("spinBtn");
 const resultDiv = document.getElementById("result");
-const spinSound = document.getElementById("spinSound");
-const winSound = document.getElementById("winSound");
 
-const sections = [
-  "Try Again",
-  "50 Diamonds",
-  "Basic Skin",
-  "100 Diamonds",
-  "Elite Skin",
-  "Epic Skin",
-  "Special Reward",
-  "JACKPOT"
-];
-
-const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0fbfc","#ffefdb"];
+const sections = ["Try Again", "50 Diamonds", "Basic Skin", "100 Diamonds", "Elite Skin", "Epic Skin", "Special Reward", "JACKPOT"];
+const colors = ["#ffffff", "#f8f9fa", "#ffffff", "#f8f9fa", "#ffffff", "#f8f9fa", "#ffffff", "#c4a77d"]; // Elegant minimal palette
 
 const total = sections.length;
-const arc = 2 * Math.PI / total;
+const arc = (2 * Math.PI) / total;
+let currentRotation = 0;
 
 function drawWheel() {
+  ctx.clearRect(0, 0, 500, 500);
   for (let i = 0; i < total; i++) {
+    const angle = i * arc;
+    
+    // Draw slice
     ctx.beginPath();
     ctx.fillStyle = colors[i];
-    ctx.moveTo(200,200);
-    ctx.arc(200,200,200,i*arc,(i+1)*arc);
+    ctx.moveTo(250, 250);
+    ctx.arc(250, 250, 240, angle, angle + arc);
     ctx.fill();
+    ctx.strokeStyle = "rgba(0,0,0,0.05)";
+    ctx.stroke();
 
+    // Draw text
     ctx.save();
-    ctx.translate(200,200);
-    ctx.rotate(i*arc + arc/2);
-    ctx.fillStyle="#333";
-    ctx.fillText(sections[i],120,10);
+    ctx.translate(250, 250);
+    ctx.rotate(angle + arc / 2);
+    ctx.textAlign = "right";
+    ctx.fillStyle = i === 7 ? "#fff" : "#1a3c34";
+    ctx.font = "bold 16px Montserrat";
+    ctx.fillText(sections[i], 210, 10);
     ctx.restore();
   }
+  
+  // Center Decoration
+  ctx.beginPath();
+  ctx.arc(250, 250, 20, 0, Math.PI * 2);
+  ctx.fillStyle = "#1a3c34";
+  ctx.fill();
 }
 
 drawWheel();
 
-let spinning=false;
+let spinning = false;
 
 spinBtn.onclick = function () {
   if (spinning) return;
   spinning = true;
 
   resultDiv.innerHTML = "";
-  spinBtn.innerHTML = "Spinning...";
   spinBtn.disabled = true;
+  spinBtn.innerHTML = "SPINNING...";
 
-  spinSound.play();
-
+  // 1. Calculate random winning index
   const winningIndex = Math.floor(Math.random() * total);
-  const rotateDeg = 3600 + (360 - (winningIndex * 360 / total));
+  
+  // 2. Logic fix: Calculate total degrees
+  // We add 5 full rotations (1800 deg) + the offset for the winning slice
+  // The wheel rotates clockwise, so we subtract the winning slice position from 360
+  const sliceDegrees = 360 / total;
+  const rotationTarget = 1800 + (360 - (winningIndex * sliceDegrees));
+  
+  currentRotation += rotationTarget;
 
-  canvas.style.transition = "5s";
-  canvas.style.transform = `rotate(${rotateDeg}deg)`;
+  canvas.style.transform = `rotate(${currentRotation}deg)`;
 
   setTimeout(() => {
-    spinSound.pause();
-    spinSound.currentTime = 0;
-
-    winSound.play();
-
+    const prize = sections[winningIndex];
     resultDiv.innerHTML = `
-      <div class="winner-announcement">🎉 You Won:</div>
-      <div class="winner-prize">${sections[winningIndex]}</div>
-      <div style="font-size:14px;">Claim your reward now!</div>
+      <div class="winner-announcement">CONGRATULATIONS</div>
+      <div class="winner-prize">${prize}</div>
     `;
-
-    createConfetti();
-
+    
+    professionalCelebration();
+    
     spinBtn.disabled = false;
-    spinBtn.innerHTML = "Spin Again";
+    spinBtn.innerHTML = "SPIN AGAIN";
     spinning = false;
-
   }, 5000);
 };
 
-function createConfetti(){
-  for(let i=0;i<80;i++){
-    let c=document.createElement("div");
-    c.className="confetti";
-    c.style.background = colors[Math.floor(Math.random()*colors.length)];
-    c.style.left = Math.random()*100+"vw";
-    c.style.top = "-10px";
-    document.body.appendChild(c);
+// PROFESSIONAL EFFECTS: Particle Burst
+function professionalCelebration() {
+  const count = 100;
+  const defaults = { origin: { y: 0.7 } };
 
-    c.animate([
-      {transform:"translateY(0)"},
-      {transform:"translateY(100vh)"}
-    ],{duration:3000});
-
-    setTimeout(()=>c.remove(),3000);
+  for (let i = 0; i < count; i++) {
+    createParticle();
   }
+}
+
+function createParticle() {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  
+  const size = Math.random() * 8 + 4;
+  const color = ['#c4a77d', '#1a3c34', '#2c3e50', '#ffffff'][Math.floor(Math.random() * 4)];
+  
+  particle.style.width = `${size}px`;
+  particle.style.height = `${size}px`;
+  particle.style.backgroundColor = color;
+  
+  const destinationX = (Math.random() - 0.5) * 600;
+  const destinationY = (Math.random() - 0.5) * 600;
+  
+  document.body.appendChild(particle);
+  
+  // Center of the screen
+  const midX = window.innerWidth / 2;
+  const midY = window.innerHeight / 2;
+  
+  const animation = particle.animate([
+    { 
+      transform: `translate(${midX}px, ${midY}px) scale(1)`, 
+      opacity: 1 
+    },
+    { 
+      transform: `translate(${midX + destinationX}px, ${midY + destinationY}px) scale(0)`, 
+      opacity: 0 
+    }
+  ], {
+    duration: 1000 + Math.random() * 1000,
+    easing: 'cubic-bezier(0, .9, .57, 1)',
+    delay: Math.random() * 200
+  });
+
+  animation.onfinish = () => particle.remove();
 }
 </script>
 
