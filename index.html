@@ -1,339 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>LUCKY SPIN (MLBB) | PRO EDITION</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Russo+One&display=swap" rel="stylesheet">
-  
-  <style>
-    /* --- 1. PRO THEME & BACKGROUND --- */
-    :root {
-      --deep-forest: #1a3c34;
-      --cream: #fbfbf8;
-      --soft-white: #ffffff;
-      --gold-accent: #c4a77d;
-      --metallic-gold: #d4af37;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLBB Spin Pro</title>
 
-    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+<style>
+body {
+  background: radial-gradient(circle, #0f172a, #020617);
+  color: white;
+  text-align: center;
+  font-family: Arial;
+}
 
-    /* FIX: Locks the page. No scrolling, no zooming. */
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      touch-action: none; /* Disables all touch gestures (zoom, pan, etc) */
-      position: fixed;
-    }
+canvas {
+  margin-top: 30px;
+  border-radius: 50%;
+}
 
-    body {
-      background-color: var(--cream);
-      /* 🌿 Live Background Image 🌿 */
-      background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)), 
-                        url('https://raw.githubusercontent.com/username/repository/main/1000117952.jpg'); /* Replace username/repository for your image to make this work */
-      
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      
-      color: #333;
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+button {
+  margin-top: 20px;
+  padding: 15px 40px;
+  font-size: 18px;
+  border: none;
+  background: gold;
+  color: black;
+  cursor: pointer;
+  border-radius: 10px;
+}
 
-    /* --- 2. TYPOGRAPHY (Exactly like image) --- */
-    h1 { 
-      margin-bottom: 5px; 
-      font-family: 'Russo One', sans-serif; /* Bold, "gamer" font for heading */
-      font-size: 34px; 
-      color: var(--deep-forest); 
-      text-transform: uppercase;
-      letter-spacing: -1.5px;
-      line-height: 1;
-    }
-    
-    .subtitle {
-      font-size: 15px; 
-      color: #666; 
-      margin-bottom: 15px; 
-      max-width: 400px;
-      line-height: 1.4;
-    }
-    
-    /* NEW: Rule text styling */
-    .rule-text {
-      color: #777;
-      font-size: 12px;
-      margin-bottom: 30px;
-      font-style: italic;
-    }
-
-    /* --- 3. WHEEL CONTAINER & POINTER --- */
-    .wheel-main-container {
-      position: relative;
-      width: 85vw;
-      max-width: 380px;
-      aspect-ratio: 1/1; /* Keeps it perfectly square */
-      margin: 0 auto;
-    }
-
-    .pointer {
-      width: 0; height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 30px solid var(--deep-forest);
-      position: absolute; top: -10px; left: 50%;
-      transform: translateX(-50%); z-index: 10;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
-    }
-
-    canvas {
-      width: 100%; height: auto;
-      border-radius: 50%; border: 8px solid var(--soft-white);
-      position: relative; z-index: 1;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      transform: rotate(0deg); 
-    }
-
-    /* --- 4. BUTTONS & RESULTS --- */
-    button {
-      margin-top: 30px; padding: 18px 50px; font-size: 14px;
-      font-family: 'Montserrat', sans-serif; text-transform: uppercase;
-      letter-spacing: 2px; border: none; background-color: var(--deep-forest);
-      color: var(--soft-white); border-radius: 50px; font-weight: 600;
-      cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    button:hover { background-color: #26594d; transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-    button:disabled { background-color: #ccc; cursor: not-allowed; transform: scale(1); }
-
-    #result { margin-top: 30px; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-
-    .winner-announcement { font-family: 'Russo One', sans-serif; font-size: 26px; color: var(--deep-forest); animation: popIn 0.5s ease; letter-spacing: -1px; }
-    .winner-prize { color: var(--gold-accent); font-weight: 600; font-size: 36px; margin-top: -5px; }
-
-    /* --- 5. HIGH-LEVEL ANIMATIONS --- */
-    @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 80% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
-    
-    /* Metallic shimmer for gold accents */
-    @keyframes shimmer {
-      0% { opacity: 0.7; }
-      50% { opacity: 1; filter: brightness(1.2); }
-      100% { opacity: 0.7; }
-    }
-
-    /* Professional Confetti (Dynamic and multi-shaped) */
-    .pro-confetti {
-      position: absolute;
-      pointer-events: none;
-      z-index: 100;
-    }
-    
-    /* Glow effect for the wheel itself when winning */
-    .winner-glow {
-      box-shadow: 0 0 50px var(--metallic-gold);
-      animation: winnerPulse 1s ease infinite;
-    }
-
-    @keyframes winnerPulse {
-      0% { box-shadow: 0 0 50px var(--metallic-gold); }
-      50% { box-shadow: 0 0 80px var(--metallic-gold); }
-      100% { box-shadow: 0 0 50px var(--metallic-gold); }
-    }
-
-    /* Background Flash effect on win */
-    .win-flash {
-      background-color: white;
-      transition: background-color 0.1s ease;
-    }
-  </style>
+#winner {
+  font-size: 28px;
+  margin-top: 20px;
+}
+</style>
 </head>
 
 <body>
 
-    <h1>LUCKY SPIN (MLBB)</h1>
-    <p class="subtitle">Aetherial alignment is true. Spin to claim rare rewards from the land of dawn.</p>
-    <p class="rule-text">No screenshots accepted - strictly following only.</p>
+<h1>🔥 MLBB LUCKY SPIN 🔥</h1>
 
-    <div class="wheel-main-container">
-      <div class="pointer" title="Aligned Fortune Pointer"></div>
-      <canvas id="wheel" width="400" height="400"></canvas>
-    </div>
+<canvas id="wheel" width="400" height="400"></canvas>
+<br>
+<button id="spinBtn">SPIN</button>
 
-    <button id="spinBtn">Test Your Luck</button>
-    <div id="result"></div>
+<div id="winner"></div>
 
-    <audio id="spinSound" loop preload="auto">
-      <source src="https://raw.githubusercontent.com/username/repository/main/spin_loop.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="winSound" preload="auto">
-      <source src="https://raw.githubusercontent.com/username/repository/main/win_fanfare.mp3" type="audio/mpeg">
-    </audio>
+<!-- SOUND -->
+<audio id="spinSound" loop>
+  <source src="spin_loop.mp3" type="audio/mpeg">
+</audio>
 
-    <script>
-        const canvas = document.getElementById("wheel");
-        const ctx = canvas.getContext("2d");
-        const spinBtn = document.getElementById("spinBtn");
-        const resultDiv = document.getElementById("result");
-        const spinSound = document.getElementById("spinSound");
-        const winSound = document.getElementById("winSound");
-        const body = document.body;
+<audio id="winSound">
+  <source src="win_fanfare.aac" type="audio/aac">
+</audio>
 
-        const size = 400; const centerX = size/2; const centerY = size/2; const radius = size/2;
+<script>
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
 
-        // --- UPDATED: Prize Pool from your image ---
-        const sections = [
-          "Try Again",    // Index 0
-          "50 💎",        // Index 1
-          "Try Again",    // Index 2
-          "Epic Fragment",// Index 3
-          "Try Again",    // Index 4
-          "100 💎",       // Index 5
-          "Verdant Grove",// Index 6
-          "JACKPOT"       // Index 7
-        ];
+const spinBtn = document.getElementById("spinBtn");
+const spinSound = document.getElementById("spinSound");
+const winSound = document.getElementById("winSound");
 
-        // Muted pastels
-        const colors = ["#f4d3d3", "#d1e7dd", "#cfe2f3", "#fff3cd", "#e2e3e5", "#f8d7da", "#e0fbfc", "#ffefdb"];
-        const total = sections.length; const arc = 2 * Math.PI / total;
+const sections = ["Try Again","50💎","100💎","Epic","Legend","Jackpot"];
+const colors = ["red","blue","green","yellow","purple","orange"];
 
-        function drawWheel() {
-          ctx.clearRect(0,0,size,size);
-          for (let i = 0; i < total; i++) {
-            ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, i * arc, (i + 1) * arc); ctx.fill();
-            ctx.save(); ctx.translate(centerX, centerY); ctx.rotate(i * arc + arc / 2);
-            ctx.fillStyle = "#333"; ctx.font = "600 16px Montserrat, sans-serif";
-            ctx.fillText(sections[i], radius * 0.60, 7); ctx.restore();
-          }
-        }
-        drawWheel(); 
+const arc = 2 * Math.PI / sections.length;
 
-        let spinning = false;
-        spinBtn.onclick = function () {
-          if (spinning) return;
-          spinning = true;
-          resultDiv.innerHTML = ""; spinBtn.innerHTML = "Seeking..."; spinBtn.disabled = true;
-          canvas.classList.remove('winner-glow'); // Remove previous win glow
+function drawWheel(){
+  for(let i=0;i<sections.length;i++){
+    ctx.beginPath();
+    ctx.fillStyle = colors[i];
+    ctx.moveTo(200,200);
+    ctx.arc(200,200,200,i*arc,(i+1)*arc);
+    ctx.fill();
 
-          // Sound Fix: Starts on click
-          spinSound.play().catch(e => console.log("Sound error: Browser blocked autoplay. Click again."));
+    ctx.save();
+    ctx.translate(200,200);
+    ctx.rotate(i*arc + arc/2);
+    ctx.fillStyle="white";
+    ctx.fillText(sections[i],120,10);
+    ctx.restore();
+  }
+}
 
-          const winningIndex = Math.floor(Math.random() * total);
+drawWheel();
 
-          const segmentAngleDeg = 360/total; const baseAlignment = 270; 
-          const winnerOffset = (winningIndex * segmentAngleDeg) + (segmentAngleDeg / 2);
-          const targetFinalAngle = baseAlignment - winnerOffset;
-          const totalRotationDeg = 3600 + targetFinalAngle;
+let spinning=false;
 
-          canvas.style.transition = "none"; canvas.style.transform = "rotate(0deg)";
-          setTimeout(() => {
-            canvas.style.transition = "transform 5s cubic-bezier(0.15, 0.8, 0.2, 1)";
-            canvas.style.transform = `rotate(${totalRotationDeg}deg)`;
-          }, 50);
+spinBtn.onclick = () => {
+  if(spinning) return;
+  spinning=true;
 
-          setTimeout(() => {
-            spinning = false; spinBtn.disabled = false; spinBtn.innerHTML = "Spin Again";
-            spinSound.pause(); spinSound.currentTime = 0; // Stop loop
+  // START SOUND
+  spinSound.currentTime = 0;
+  spinSound.volume = 1;
+  spinSound.play();
 
-            winSound.play().catch(e => console.log("Sound fanfare failed.")); // Play win fanfare
-            celebrateWin(sections[winningIndex]);
-          }, 5000); 
-        };
+  let winIndex = Math.floor(Math.random()*sections.length);
 
-        function celebrateWin(prize) {
-          resultDiv.innerHTML = `<div class="winner-announcement">The Aether Has Chosen:</div><div class="winner-prize">${prize}</div><div style="font-size:14px; color:#666; margin-top:5px;">Follow to claim!</div>`;
-          
-          // NEW: High-Level Celebration
-          // 1. Flash Background
-          body.classList.add('win-flash');
-          setTimeout(() => body.classList.remove('win-flash'), 100);
+  let rotateDeg = 3600 + (360 - (winIndex * 360 / sections.length));
 
-          // 2. Add glow to the winning wheel
-          canvas.classList.add('winner-glow');
+  canvas.style.transition = "5s";
+  canvas.style.transform = `rotate(${rotateDeg}deg)`;
 
-          // 3. Multi-shape, metallic confetti burst
-          createProConfettiBurst();
-        }
+  setTimeout(()=>{
 
-        // --- Professional Confetti Generation ---
-        function createProConfettiBurst() {
-          const confettiCount = 150;
-          const container = body;
-          const metallicColors = [
-            "#d4af37", // Metallic Gold
-            "#C0C0C0", // Metallic Silver
-            "#B87333", // Metallic Copper
-            "#E6E6FA", // Metallic Lavender
-            "rgba(26, 60, 52, 0.8)", // Deep Forest Green (matching theme)
-            "#ffefdb"  // Wheel segment color
-          ];
+    // STOP SOUND SMOOTH
+    let fade = setInterval(()=>{
+      if(spinSound.volume > 0.05){
+        spinSound.volume -= 0.05;
+      } else {
+        spinSound.pause();
+        spinSound.currentTime = 0;
+        spinSound.volume = 1;
+        clearInterval(fade);
+      }
+    },100);
 
-          for (let i = 0; i < confettiCount; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('pro-confetti');
-            
-            // Randomly choose shape: circle, rectangle, square
-            const shapes = ['circle', 'rectangle', 'square'];
-            const shape = shapes[Math.floor(Math.random() * shapes.length)];
-            
-            // Styling and randomized properties
-            confetti.style.backgroundColor = metallicColors[Math.floor(Math.random() * metallicColors.length)];
-            
-            // Shape specific sizes
-            if (shape === 'circle') {
-              const size = (Math.random() * 8) + 6 + 'px';
-              confetti.style.width = size;
-              confetti.style.height = size;
-              confetti.style.borderRadius = '50%';
-            } else if (shape === 'rectangle') {
-              confetti.style.width = (Math.random() * 12) + 8 + 'px';
-              confetti.style.height = (Math.random() * 4) + 3 + 'px';
-            } else {
-              const size = (Math.random() * 10) + 6 + 'px';
-              confetti.style.width = size;
-              confetti.style.height = size;
-              confetti.style.borderRadius = '2px';
-            }
+    // WIN SOUND
+    winSound.play();
 
-            // Burst origin: center of the screen
-            confetti.style.left = '50%';
-            confetti.style.top = '40%'; // Focus burst around the wheel/result
-            confetti.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
-            
-            container.appendChild(confetti);
+    document.getElementById("winner").innerHTML =
+      "🎉 YOU WON: " + sections[winIndex];
 
-            // NEW: Physics-like burst animation
-            const angle = (Math.random() * Math.PI * 2); // Random angle in radians (full circle)
-            const velocity = (Math.random() * 200) + 150; // Random velocity
-            const travelDuration = (Math.random() * 3000) + 1500; // Duration 1.5-4.5s
-            
-            const dx = Math.cos(angle) * velocity;
-            const dy = Math.sin(angle) * velocity;
-            const rotation = (Math.random() * 720) - 360; // Final rotation
-            
-            // Final Keyframes: Burst out and fall down
-            confetti.animate([
-              { transform: `translate(-50%, -50%) rotate(0deg)`, top: '40%', opacity: 1 },
-              { transform: `translate(${dx}px, ${dy}px) rotate(${rotation}deg)`, top: '100vh', opacity: 0 }
-            ], {
-              duration: travelDuration,
-              easing: 'cubic-bezier(0.1, 0.6, 0.2, 1)', // Smooth initial burst slowing into fall
-              fill: 'forwards'
-            });
+    spinning=false;
 
-            // Cleanup
-            setTimeout(() => confetti.remove(), travelDuration);
-          }
-        }
-    </script>
+  },5000);
+};
+</script>
+
 </body>
 </html>
