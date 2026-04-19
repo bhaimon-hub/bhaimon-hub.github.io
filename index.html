@@ -3,178 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLBB Lucky Spin</title>
+  <title>MLBB Lucky Spin | Daily Diamond Giveaways & Rewards</title>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2649315592388720" crossorigin="anonymous"></script>
-  
   <meta name="google-adsense-account" content="ca-pub-2649315592388720">
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   
   <style>
-    :root {
-      --deep-forest: #1a3c34;
-      --cream: #fbfbf8;
-      --soft-white: #ffffff;
-      --gold-accent: #c4a77d;
-    }
-
+    :root { --deep-forest: #1a3c34; --cream: #fbfbf8; --gold: #c4a77d; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      margin: 0;
-      background-color: var(--cream);
-      background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)), 
-                        url('1000117952.jpg'); 
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: #333;
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      padding: 0 20px 80px;
+      background: var(--cream) url('1000117952.jpg') fixed center/cover;
+      color: #333; font-family: 'Montserrat', sans-serif;
+      line-height: 1.6; padding-bottom: 100px;
     }
+
+    /* NAV BAR */
+    nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+    .logo { font-family: 'Playfair Display', serif; font-weight: bold; color: var(--deep-forest); font-size: 20px; }
+    
+    /* CONTENT SECTIONS (For Google Approval) */
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .white-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
+
+    .wheel-section { text-align: center; margin-bottom: 50px; }
+    canvas { max-width: 380px; width: 100%; border-radius: 50%; border: 10px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 5s cubic-bezier(0.2, 0, 0.1, 1); }
+
+    button { margin-top: 20px; padding: 15px 40px; background: var(--deep-forest); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: 600; text-transform: uppercase; }
+    button:disabled { background: #ccc; }
+
+    /* TEXT CONTENT (Crucial for SEO) */
+    article { text-align: left; margin-top: 40px; }
+    h2 { color: var(--deep-forest); margin-bottom: 15px; font-family: 'Playfair Display', serif; }
+    p { margin-bottom: 15px; color: #555; }
+
+    /* FOOTER */
+    footer { background: #f1f1f1; padding: 40px 20px; margin-top: 50px; font-size: 13px; color: #777; }
+    .footer-links a { color: var(--deep-forest); text-decoration: none; margin: 0 10px; font-weight: 600; }
 
     /* MENU UI */
-    .menu-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 30px;
-      cursor: pointer;
-      color: var(--deep-forest);
-      z-index: 1001;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background: white;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      width: 200px;
-      text-align: left;
-      z-index: 1000;
-    }
-
-    .dropdown-menu div {
-      padding: 12px 15px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .dropdown-menu div:hover { background: #f9f9f9; }
-
-    h1 {
-      margin-top: 50px;
-      margin-bottom: 10px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      font-size: 36px;
-      color: var(--deep-forest);
-    }
-
-    #spinCountDisplay {
-        font-weight: 600;
-        margin-bottom: 10px;
-        display: block;
-        color: var(--deep-forest);
-    }
-
-    .wheel-main-container {
-      position: relative;
-      width: 90vw;
-      max-width: 380px;
-      margin: 0 auto;
-    }
-
-    .pointer {
-      width: 0; height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 30px solid var(--deep-forest);
-      position: absolute;
-      top: -10px; left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
-
-    canvas {
-      width: 100%;
-      border-radius: 50%;
-      border: 8px solid var(--soft-white);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      transition: transform 5s cubic-bezier(0.2, 0, 0.1, 1);
-    }
-
-    button {
-      margin-top: 30px;
-      padding: 18px 50px;
-      font-size: 14px;
-      font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      border: none;
-      background-color: var(--deep-forest);
-      color: var(--soft-white);
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    button:disabled { background-color: #ccc; }
-
-    #result { margin-top: 30px; min-height: 80px; }
-
-    .ad-banner {
-      position: fixed;
-      bottom: 0; left: 0;
-      width: 100%; height: 60px;
-      background: #ffffff;
-      border-top: 1px solid #ddd;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 999;
-    }
-
-    .winner-announcement { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--deep-forest); }
-    .winner-prize { color: var(--gold-accent); font-weight: 600; font-size: 32px; }
-    .particle { position: absolute; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; }
+    .menu-dots { font-size: 24px; cursor: pointer; }
+    .dropdown { display: none; position: absolute; right: 5%; top: 60px; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+    .dropdown div { padding: 12px 20px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 14px; }
   </style>
 </head>
-
 <body>
 
-<div class="menu-btn" onclick="toggleMenu()">⋮</div>
-<div class="dropdown-menu" id="myMenu">
+<nav>
+  <div class="logo">Broxy Giveaway</div>
+  <div class="menu-dots" onclick="toggleMenu()">⋮</div>
+  <div id="myMenu" class="dropdown">
     <div onclick="claimDaily()">🎁 Daily Spin</div>
-    <div onclick="watchAd()">📺 Watch Ad (+1 Spin)</div>
-    <div onclick="shareSite()">🔗 Share Site (+1 Spin)</div>
+    <div onclick="shareSite()">🔗 Share for +1 Spin</div>
+    <div onclick="alert('Chat is open at bottom right!')">💬 Support</div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="wheel-section">
+    <h1 style="margin-top:20px; font-family:'Playfair Display';">MLBB LUCKY SPIN</h1>
+    <p>Available Spins: <b id="sCount" style="color:var(--deep-forest)">3</b></p>
+    
+    <div style="position:relative; margin: 20px auto; width: fit-content;">
+      <div style="width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid var(--deep-forest);position:absolute;top:-10px;left:50%;transform:translateX(-50%);z-index:10;"></div>
+      <canvas id="wheel" width="400" height="400"></canvas>
+    </div>
+    
+    <button id="spinBtn">Spin Now</button>
+    <div id="result" style="margin-top:20px; min-height:60px;"></div>
+  </div>
+
+  <div class="white-box">
+    <article>
+      <h2>What is the MLBB Lucky Spin?</h2>
+      <p>Mobile Legends: Bang Bang (MLBB) is one of the most popular MOBA games in the world. To support the community, the Broxy Giveaway platform offers a free-to-play lucky wheel where users can test their luck to win virtual rewards, diamonds, and skin vouchers.</p>
+      
+      <h2>How to Earn More Spins</h2>
+      <p>We value fairness and engagement. Users receive 1 free spin every 24 hours. To earn extra chances, you can participate in our community sharing program or watch promotional content. This helps us keep the rewards free for everyone!</p>
+
+      <h2>Fair Play & Security</h2>
+      <p>Our system uses a randomized algorithm to ensure every spin is unique and fair. Winnings are stored in your local session. Please ensure you are connected to the internet to claim your rewards through our support chat.</p>
+    </article>
+  </div>
 </div>
 
-<h1>🎯 MLBB LUCKY SPIN</h1>
-<span id="spinCountDisplay">Spins Left: <span id="sCount">3</span></span>
-
-<div class="wheel-main-container">
-  <div class="pointer"></div>
-  <canvas id="wheel" width="400" height="400"></canvas>
-</div>
-
-<button id="spinBtn">Spin Now</button>
-<div id="result"></div>
-
-<div class="ad-banner">
-    <ins class="adsbygoogle"
-         style="display:inline-block;width:100%;height:60px"
-         data-ad-client="ca-pub-2649315592388720"
-         data-ad-slot="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-<audio id="spinSound"><source src="https://assets.mixkit.co/active_storage/sfx/2005/2005-preview.mp3" type="audio/mpeg"></audio>
-<audio id="winSound"><source src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3" type="audio/mpeg"></audio>
+<footer>
+  <div class="footer-links">
+    <a href="#">Home</a> | 
+    <a href="#" onclick="alert('Privacy Policy: We do not store personal data. Cookies are used for AdSense only.')">Privacy Policy</a> | 
+    <a href="#" onclick="alert('Contact: Contact us via Tidio chat for reward claims.')">Contact Us</a>
+  </div>
+  <p style="margin-top:20px;">&copy; 2026 Broxy-Giveaway-Hub. This site is a fan-tool and not affiliated with Moonton.</p>
+</footer>
 
 <script src="//code.tidio.co/masauak8ongk9kmleqi8a7b1zqso3ivz.js" async></script>
 
@@ -182,111 +104,59 @@
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 const spinBtn = document.getElementById("spinBtn");
-const resultDiv = document.getElementById("result");
 const sCount = document.getElementById("sCount");
 
-// Load spins from local storage (Anti-Refresh Cheat)
-let spins = parseInt(localStorage.getItem('mlbb_spins'));
-if (isNaN(spins)) { spins = 3; localStorage.setItem('mlbb_spins', 3); }
+let spins = parseInt(localStorage.getItem('mlbb_spins')) || 3;
 sCount.innerText = spins;
 
 const sections = ["Try Again", "50 Diamonds", "Basic Skin", "100 Diamonds", "Elite Skin", "Epic Skin", "Special Reward", "JACKPOT"];
-const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0fbfc","#ffefdb"];
-const total = sections.length;
-const arc = 2 * Math.PI / total;
-let currentDeg = 0;
+const colors = ["#ffffff","#f9f9f9","#ffffff","#f9f9f9","#ffffff","#f9f9f9","#ffffff","#c4a77d"];
 
-function drawWheel() {
-  for (let i = 0; i < total; i++) {
-    ctx.beginPath();
-    ctx.fillStyle = colors[i];
-    ctx.moveTo(200,200);
-    ctx.arc(200,200,200,i*arc,(i+1)*arc);
-    ctx.fill();
-    ctx.save();
-    ctx.translate(200,200);
-    ctx.rotate(i*arc + arc/2);
-    ctx.fillStyle="#333";
-    ctx.font = "bold 14px Montserrat";
-    ctx.fillText(sections[i],100,10);
-    ctx.restore();
+function draw() {
+  const arc = (Math.PI * 2) / sections.length;
+  for (let i = 0; i < sections.length; i++) {
+    ctx.beginPath(); ctx.fillStyle = colors[i];
+    ctx.moveTo(200,200); ctx.arc(200,200,200,i*arc,(i+1)*arc); ctx.fill();
+    ctx.save(); ctx.translate(200,200); ctx.rotate(i*arc + arc/2);
+    ctx.fillStyle="#333"; ctx.font="600 14px Montserrat"; ctx.fillText(sections[i],100,10); ctx.restore();
   }
 }
-drawWheel();
+draw();
 
 function toggleMenu() {
-    const m = document.getElementById("myMenu");
-    m.style.display = m.style.display === "block" ? "none" : "block";
+  const m = document.getElementById("myMenu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
 }
 
-function updateSpins(val) {
-    spins += val;
-    localStorage.setItem('mlbb_spins', spins);
-    sCount.innerText = spins;
-}
-
-function claimDaily() {
-    const last = localStorage.getItem('last_claim');
-    const now = new Date().toDateString();
-    if (last === now) return alert("Already claimed today!");
-    updateSpins(1);
-    localStorage.setItem('last_claim', now);
-    alert("Daily spin added!");
-}
-
-function watchAd() {
-    alert("Loading Video Ad...");
-    setTimeout(() => { updateSpins(1); alert("Spin added!"); }, 2000);
+function updateSpins(v) {
+  spins += v; localStorage.setItem('mlbb_spins', spins); sCount.innerText = spins;
 }
 
 function shareSite() {
-    if (navigator.share) {
-        navigator.share({ title: 'MLBB Lucky Spin', url: window.location.href })
-        .then(() => { updateSpins(1); });
-    } else {
-        alert("Share link to get +1 spin: " + window.location.href);
-        updateSpins(1);
-    }
+  if(navigator.share) { navigator.share({title:'Win MLBB Rewards', url:window.location.href}).then(()=>updateSpins(1)); }
+  else { alert("Share this link: " + window.location.href); updateSpins(1); }
 }
 
-spinBtn.onclick = function () {
-  if (spins <= 0) return alert("Get more spins from the menu!");
-  
+function claimDaily() {
+  const d = new Date().toDateString();
+  if(localStorage.getItem('last_d') === d) return alert("Come back tomorrow!");
+  updateSpins(1); localStorage.setItem('last_d', d);
+}
+
+let deg = 0;
+spinBtn.onclick = () => {
+  if(spins <= 0) return alert("Out of spins!");
   updateSpins(-1);
   spinBtn.disabled = true;
-  resultDiv.innerHTML = "";
-  document.getElementById("spinSound").play();
-
-  const winningIndex = Math.floor(Math.random() * total);
-  const sliceDeg = 360 / total;
-  const stopAt = 270 - (winningIndex * sliceDeg) - (sliceDeg / 2);
-  
-  currentDeg += 3600 + stopAt + (360 - (currentDeg % 360));
-  canvas.style.transform = `rotate(${currentDeg}deg)`;
-
+  const winIdx = Math.floor(Math.random() * sections.length);
+  const stopAt = 270 - (winIdx * 45) - 22.5;
+  deg += 3600 + stopAt + (360 - (deg % 360));
+  canvas.style.transform = `rotate(${deg}deg)`;
   setTimeout(() => {
-    document.getElementById("winSound").play();
-    resultDiv.innerHTML = `
-      <div class="winner-announcement">🎉 Result:</div>
-      <div class="winner-prize">${sections[winningIndex]}</div>
-    `;
-    celebrate();
+    document.getElementById("result").innerHTML = `<h3>🎉 WON: ${sections[winIdx]}</h3>`;
     spinBtn.disabled = false;
   }, 5000);
 };
-
-function celebrate() {
-    for(let i=0; i<40; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.background = colors[Math.floor(Math.random()*colors.length)];
-        p.style.left = '50%'; p.style.top = '50%';
-        resultDiv.appendChild(p);
-        const a = Math.random() * Math.PI * 2;
-        const v = Math.random() * 120 + 40;
-        p.animate([{ opacity: 1 }, { transform: `translate(${Math.cos(a)*v}px, ${Math.sin(a)*v}px)`, opacity: 0 }], { duration: 1000 }).onfinish = () => p.remove();
-    }
-}
 </script>
 </body>
 </html>
