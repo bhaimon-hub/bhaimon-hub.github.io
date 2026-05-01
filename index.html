@@ -19,16 +19,13 @@
         .bento-card:hover { transform: translateY(-8px); border-color: #ff8c00; box-shadow: 0 15px 40px rgba(255, 140, 0, 0.15); }
         .orange-glow { text-shadow: 0 0 20px rgba(255, 140, 0, 0.6); }
         
-        /* Mobile Menu Transitions */
         #mobile-menu { transition: transform 0.3s ease-in-out; transform: translateX(100%); }
         #mobile-menu.open { transform: translateX(0); }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #ff8c00; border-radius: 10px; }
 
-        /* Animation for Chat */
-        .msg-fade { animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .counter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
     </style>
 </head>
 <body>
@@ -42,102 +39,92 @@
         
         <div class="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">
             <a href="#home" class="hover:text-orange-500 transition">Home</a>
-            <a href="videos.html" class="hover:text-orange-500 transition">All Videos</a>
-            <a href="live.html" class="hover:text-orange-500 transition">Live Hub</a>
-            <a href="#counter" class="hover:text-orange-500 transition">Hero Counters</a>
-            <a href="#chat" class="hover:text-orange-500 transition">Community Lounge</a>
+            <a href="videos.html" class="hover:text-orange-500 transition">Videos</a>
+            <a href="live.html" class="hover:text-orange-500 transition">Live</a>
+            <a href="#counter" class="hover:text-orange-500 transition">Counters</a>
+            <a href="#chat" class="hover:text-orange-500 transition">Lounge</a>
         </div>
 
         <div class="flex items-center gap-4">
             <a href="https://www.youtube.com/channel/UCHuhBLFe1uxLgESiYpDfQgQ?sub_confirmation=1" target="_blank" class="hidden sm:block bg-orange-500 text-black px-7 py-3 rounded-2xl font-black text-xs hover:scale-105 transition uppercase tracking-wider">SUBSCRIBE</a>
-            <!-- Mobile Menu Toggle -->
             <button onclick="toggleMenu()" class="md:hidden text-2xl text-orange-500 focus:outline-none"><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </div>
     </nav>
 
-    <!-- Mobile Side Menu -->
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed inset-0 bg-[#0b0e14] z-[150] flex flex-col p-8 space-y-8 md:hidden">
         <div class="flex justify-end"><button onclick="toggleMenu()" class="text-3xl text-orange-500"><i class="fa-solid fa-xmark"></i></button></div>
         <div class="flex flex-col space-y-6 text-xl font-black uppercase italic tracking-widest text-center">
             <a href="#home" onclick="toggleMenu()" class="hover:text-orange-500">Home</a>
             <a href="videos.html" onclick="toggleMenu()" class="hover:text-orange-500">Videos</a>
-            <a href="live.html" onclick="toggleMenu()" class="hover:text-orange-500">Live Stream</a>
-            <a href="#counter" onclick="toggleMenu()" class="hover:text-orange-500">Hero Counters</a>
-            <a href="#chat" onclick="toggleMenu()" class="hover:text-orange-500">Community Lounge</a>
+            <a href="live.html" onclick="toggleMenu()" class="hover:text-orange-500">Live</a>
+            <a href="#counter" onclick="toggleMenu()" class="hover:text-orange-500">Counters</a>
+            <a href="#chat" onclick="toggleMenu()" class="hover:text-orange-500">Lounge</a>
         </div>
     </div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-12" id="home">
         
-        <!-- BENTO HERO -->
+        <!-- AUTO-DETECTED LATEST VIDEO -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div id="latest-video-container" class="lg:col-span-8 bento-card !p-0 overflow-hidden relative border-none min-h-[300px] flex items-center justify-center">
-                <p class="animate-pulse text-gray-700 uppercase tracking-widest">Detecting latest upload...</p>
+            <div id="latest-video-container" class="lg:col-span-8 bento-card !p-0 overflow-hidden relative border-none min-h-[350px] flex items-center justify-center">
+                <p class="animate-pulse text-gray-700 uppercase tracking-widest italic">Detecting latest upload...</p>
             </div>
             <div class="lg:col-span-4 bento-card bg-gradient-to-br from-orange-600 to-red-600 border-none text-white flex flex-col justify-between items-center text-center">
                 <img src="channels4_profile.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-2xl mb-4">
                 <h3 class="text-xl md:text-2xl font-black uppercase italic">Monthly Skin Giveaway</h3>
-                <p class="text-[10px] md:text-xs opacity-90 leading-relaxed mb-4">Broxy is giving away Starlight and Diamonds. Chat in the community lounge below to earn entries!</p>
                 <button onclick="window.location.href='#chat'" class="w-full bg-white text-orange-600 font-black py-3 rounded-2xl shadow-xl">ENTER NOW</button>
             </div>
         </div>
 
-        <!-- RESTORED: HERO COUNTER DATABASE -->
+        <!-- HERO COUNTER LIST (FULLY ADDED) -->
         <section id="counter" class="space-y-6">
             <h3 class="text-xl font-black tracking-tight uppercase italic text-center md:text-left underline decoration-orange-500 underline-offset-8">Hero Counter Database</h3>
-            <div class="counter-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Counters remain cleaned: Hero Name + Counters -->
-                <div class="p-5 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
-                    <span class="text-sm font-bold uppercase tracking-wider">Fredrinn</span>
-                    <span class="text-right text-green-400 font-bold text-xs uppercase">Karrie, Dyrroth, X.Borg</span>
-                </div>
-                <!-- ... other counters remain the same ... -->
+            <div class="counter-grid">
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🪨 Fredrinn</span><span class="text-right text-green-400 font-bold text-xs uppercase">Karrie, Dyrroth, X.Borg</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🐢 Uranus</span><span class="text-right text-green-400 font-bold text-xs uppercase">Esmeralda, Karrie, X.Borg</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🐉 Yu Zhong</span><span class="text-right text-green-400 font-bold text-xs uppercase">Valir, Dyrroth, X.Borg</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🪓 Arlott</span><span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Franco, Chou</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🌀 Wanwan</span><span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Phoveus, Franco</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🔫 Brody</span><span class="text-right text-green-400 font-bold text-xs uppercase">Lancelot, Hayabusa, Natalia</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">⚡ Xavier</span><span class="text-right text-green-400 font-bold text-xs uppercase">Natalia, Helcurt, Saber</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🧬 Valentina</span><span class="text-right text-green-400 font-bold text-xs uppercase">Saber, Franco, Kaja</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🐺 Lancelot</span><span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Ruby, Franco</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🎧 Joy</span><span class="text-right text-green-400 font-bold text-xs uppercase">Franco, Kaja, Khufra</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🗡️ Gusion</span><span class="text-right text-green-400 font-bold text-xs uppercase">Helcurt, Franco, Saber</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">👤 Natalia</span><span class="text-right text-green-400 font-bold text-xs uppercase">Rafaela, Kaja, Khufra</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🛡️ Khufra</span><span class="text-right text-green-400 font-bold text-xs uppercase">Diggie, Valir, Akai</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🪝 Franco</span><span class="text-right text-green-400 font-bold text-xs uppercase">Diggie, Valir, Lolita</span></div>
             </div>
         </section>
 
-        <!-- RESTORED: LUCKY SPIN WHEEL -->
+        <!-- SPIN WHEEL -->
         <section id="spin" class="bento-card flex flex-col items-center justify-center text-center">
-            <h3 class="broxy-logo text-xl font-black text-orange-500 mb-6 italic orange-glow">BROXY LUCKY SPIN</h3>
+            <h3 class="broxy-logo text-xl font-black text-orange-500 mb-6 italic">BROXY LUCKY SPIN</h3>
             <div class="relative w-40 h-40 md:w-56 md:h-56 mb-6">
                 <img id="wheel" src="https://i.imgur.com/8mR1nZ0.png" class="w-full h-full object-contain">
                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 text-orange-500 text-3xl">▼</div>
             </div>
-            <button onclick="spinWheel()" class="w-full md:w-64 bg-orange-500 text-black font-black py-4 rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition">SPIN NOW</button>
+            <button onclick="spinWheel()" class="w-full md:w-64 bg-orange-500 text-black font-black py-4 rounded-2xl shadow-xl hover:scale-105 transition uppercase">SPIN NOW</button>
         </section>
 
-        <!-- RESTORED: REAL-TIME GLOBAL CHAT -->
-        <section id="chat" class="bento-card flex flex-col h-[450px] md:h-[500px]">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg md:text-xl font-black italic uppercase tracking-widest">Community Lounge</h3>
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e]"></span>
-                    <span class="text-[10px] font-bold text-gray-400 uppercase">Live Chat</span>
-                </div>
-            </div>
-            
-            <div id="chat-messages" class="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 text-xs md:text-sm"></div>
-
+        <!-- COMMUNITY CHAT -->
+        <section id="chat" class="bento-card flex flex-col h-[500px]">
+            <h3 class="text-xl font-black italic uppercase tracking-widest mb-4 underline decoration-orange-500 decoration-4">Community Lounge</h3>
+            <div id="chat-messages" class="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 text-sm"></div>
             <div class="flex gap-2 bg-[#0b0e14] p-2 rounded-2xl border border-white/10">
-                <input type="text" id="chat-input" placeholder="Discuss the meta..." class="flex-1 bg-transparent px-3 py-2 focus:outline-none text-xs text-gray-200">
-                <button onclick="sendMessage()" class="bg-orange-500 text-black px-4 py-2 rounded-xl font-bold">SEND</button>
+                <input type="text" id="chat-input" placeholder="Type message..." class="flex-1 bg-transparent px-3 py-2 focus:outline-none text-xs text-gray-200">
+                <button onclick="sendMessage()" class="bg-orange-500 text-black px-4 py-2 rounded-xl font-bold uppercase text-[10px]">SEND</button>
             </div>
         </section>
 
     </main>
 
-    <footer class="p-8 md:p-16 text-center border-t border-gray-900 mt-12 bg-[#080a0f]">
-        <h2 class="broxy-logo text-xl md:text-2xl font-black mb-4 uppercase italic">BROXY<span class="text-orange-500">.</span></h2>
-        <p class="text-[10px] font-black tracking-[0.5em] text-gray-700 uppercase">© 2026 BROXY GAMING HUB</p>
-    </footer>
-
     <script>
-        // Use your working API Key
+        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
         const API_KEY = 'AIzaSyD-aZcMCuAFtnCKUd0wu7uv4Dp9UYtfkyc'; 
         const CHANNEL_ID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
 
-        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-
-        // --- AUTOMATED LATEST VIDEO ---
         async function loadLatest() {
             try {
                 const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=1&type=video`);
@@ -150,17 +137,14 @@
         }
         loadLatest();
 
-        // --- SPIN WHEEL ---
         function spinWheel() {
             const wheel = document.getElementById('wheel');
             const randomRotate = Math.floor(Math.random() * 3600) + 1440;
             wheel.style.transform = `rotate(${randomRotate}deg)`;
-            setTimeout(() => { alert("Spin Complete! Check chat for giveaway results."); }, 4500);
+            setTimeout(() => { alert("Spin Complete! Connect to Lounge for rewards."); }, 4500);
         }
 
-        // --- FIREBASE REAL-TIME CHAT ---
-        // Setup Firebase Realtime Database
-        const firebaseConfig = { databaseURL: "https://YOUR-DATABASE.firebaseio.com/" }; // REPLACE THIS
+        const firebaseConfig = { databaseURL: "https://YOUR-DATABASE.firebaseio.com/" }; // Add your URL
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
@@ -173,10 +157,10 @@
             }
         }
 
-        database.ref('messages').limitToLast(50).on('child_added', (snapshot) => {
+        database.ref('messages').limitToLast(30).on('child_added', (snapshot) => {
             const data = snapshot.val();
             const msgBox = document.getElementById('chat-messages');
-            msgBox.innerHTML += `<div class="bg-white/5 p-3 rounded-2xl border border-white/5"><span class="text-[10px] font-black text-orange-500 block uppercase">${data.username}</span><p class="text-gray-300">${data.message}</p></div>`;
+            msgBox.innerHTML += `<div class="bg-white/5 p-3 rounded-2xl border border-white/5"><span class="text-[10px] font-black text-orange-500 block uppercase italic">${data.username}</span><p class="text-gray-300">${data.message}</p></div>`;
             msgBox.scrollTop = msgBox.scrollHeight;
         });
     </script>
