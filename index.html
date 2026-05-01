@@ -3,159 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PaqutoSito | Professional MLBB Hub</title>
+    <title>BROXY | Official Gaming Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Firebase SDK for Real-time Chat -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
     <style>
-        body { background-color: #0d1117; color: white; font-family: 'Inter', sans-serif; }
-        .neon-border { border: 1px solid rgba(255, 140, 0, 0.3); box-shadow: 0 0 15px rgba(255, 140, 0, 0.1); }
-        .orange-glow { text-shadow: 0 0 10px rgba(255, 140, 0, 0.6); }
-        .bento-card { background: #161b22; border-radius: 24px; padding: 24px; transition: transform 0.3s ease; border: 1px solid #30363d; }
-        .bento-card:hover { transform: translateY(-5px); border-color: #ff8c00; }
-        #wheel { border-radius: 50%; border: 5px solid #ff8c00; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;600&display=swap');
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .font-brand { font-family: 'Orbitron', sans-serif; }
+        .neon-text { color: #ff8c00; text-shadow: 0 0 10px rgba(255,140,0,0.5); }
+        .bento-card { background: #0f0f0f; border-radius: 20px; border: 1px solid #1f1f1f; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .bento-card:hover { border-color: #ff8c00; transform: scale(1.02); box-shadow: 0 10px 30px -10px rgba(255,140,0,0.2); }
+        .gradient-bg { background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%); }
+        #wheel { border-radius: 50%; border: 8px solid #1a1a1a; transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); }
+        .chat-bubble { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 10px; border-left: 3px solid #ff8c00; }
     </style>
 </head>
 <body>
 
-    <!-- NAV BAR -->
-    <nav class="flex justify-between items-center p-6 border-b border-gray-800 sticky top-0 bg-[#0d1117]/95 backdrop-blur z-50">
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center font-bold text-black shadow-[0_0_15px_#ff8c00]">P</div>
-            <h1 class="text-xl font-black tracking-tighter">PAQUTO<span class="text-orange-500">SITO</span></h1>
+    <!-- NAVBAR -->
+    <nav class="flex justify-between items-center p-6 border-b border-white/5 sticky top-0 bg-[#050505]/80 backdrop-blur-xl z-[100]">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center font-black text-black text-xl font-brand rotate-3">B</div>
+            <h1 class="text-2xl font-brand font-black tracking-tighter uppercase">BROXY<span class="neon-text font-black">.</span></h1>
         </div>
-        <div class="hidden md:flex gap-6 text-sm font-semibold uppercase tracking-widest text-gray-400">
-            <a href="#home" class="hover:text-orange-500 transition">Home</a>
-            <a href="#counter" class="hover:text-orange-500 transition">Counter-Picks</a>
-            <a href="#spin" class="hover:text-orange-500 transition">Giveaway</a>
-            <a href="#chat" class="hover:text-orange-500 transition">Global Chat</a>
+        <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+            <a href="#home" class="hover:text-white transition">Home</a>
+            <a href="#tools" class="hover:text-white transition">ML Tools</a>
+            <a href="#giveaway" class="hover:text-white transition">Giveaway</a>
+            <a href="#chat" class="hover:text-white transition">Community</a>
         </div>
-        <a href="https://www.youtube.com/@PaqutoSito" target="_blank" class="bg-orange-500 text-black px-5 py-2 rounded-full text-xs font-bold hover:bg-orange-400 transition">SUBSCRIBE</a>
+        <a href="https://www.youtube.com/@Broxy_" target="_blank" class="bg-white text-black px-6 py-2 rounded-full font-bold text-xs hover:bg-orange-500 transition-all">SUBSCRIBE</a>
     </nav>
 
     <main class="max-w-7xl mx-auto p-6 space-y-8">
         
-        <!-- HERO SECTION: YOUTUBE & STATS -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bento-card overflow-hidden !p-0 border-none relative group">
+        <!-- TOP SECTION -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- LATEST VIDEO -->
+            <div class="lg:col-span-3 bento-card p-0 group">
                 <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/videoseries?list=UUHuhBLFe1uxLgESiYpDfQgQ" frameborder="0" allowfullscreen></iframe>
-                <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md p-3 rounded-xl border border-white/10">
-                    <p class="text-xs text-orange-400 font-bold uppercase">Latest Upload</p>
-                    <h3 class="font-bold">Watch My Professional MLBB Guides</h3>
+                <div class="p-6 bg-gradient-to-t from-black to-transparent mt-[-80px] relative">
+                    <span class="bg-orange-500 text-black text-[10px] px-2 py-1 rounded font-bold mb-2 inline-block uppercase">New Content</span>
+                    <h2 class="text-2xl font-brand font-bold">LATEST FROM BROXY GAMING</h2>
                 </div>
             </div>
-            
-            <div class="flex flex-col gap-6">
-                <div class="bento-card flex items-center gap-4">
-                    <i class="fa-brands fa-youtube text-4xl text-red-500"></i>
-                    <div>
-                        <h4 class="text-2xl font-bold">50K+</h4>
-                        <p class="text-gray-400 text-xs uppercase tracking-widest">Total Views</p>
-                    </div>
-                </div>
-                <div class="bento-card bg-gradient-to-br from-orange-600 to-red-600 border-none text-white">
-                    <h3 class="text-xl font-bold mb-2">Weekly Giveaway</h3>
-                    <p class="text-sm opacity-80 mb-4">Win Skin Diamonds every Sunday! Be active in the chat below.</p>
-                    <button class="w-full bg-white text-orange-600 font-bold py-2 rounded-lg">JOIN NOW</button>
-                </div>
+
+            <!-- GIVEAWAY BOX -->
+            <div id="giveaway" class="bento-card gradient-bg border-none flex flex-col justify-center p-8 text-black">
+                <i class="fa-solid fa-gift text-4xl mb-4"></i>
+                <h3 class="text-3xl font-brand font-black leading-none mb-2 uppercase">Weekly Giveaway</h3>
+                <p class="text-sm font-bold opacity-80 mb-6 uppercase tracking-wider italic">Skin Diamonds & More</p>
+                <button class="bg-black text-white py-3 rounded-xl font-bold uppercase text-xs tracking-widest hover:scale-105 transition">Check Status</button>
             </div>
         </div>
 
-        <!-- HERO COUNTER & TIER LIST -->
-        <section id="counter" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bento-card">
-                <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-bolt text-orange-500"></i> Meta Counter-Picks</h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-                        <span class="font-bold text-blue-400">Enemy: Lancelot</span>
-                        <span class="text-orange-400 font-bold">Counter: Khufra / Phoveus</span>
+        <!-- MLBB TOOLS SECTION -->
+        <section id="tools" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bento-card md:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-brand font-bold uppercase"><i class="fa-solid fa-shield-halved mr-2 text-orange-500"></i> Meta Counter-Picks</h3>
+                    <span class="text-[10px] text-gray-500 font-bold uppercase italic">Updated: Season 2026</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 bg-white/5 rounded-2xl border border-white/5 hover:bg-white/10 transition">
+                        <p class="text-gray-400 text-[10px] font-bold uppercase mb-1">Target Hero</p>
+                        <p class="font-bold text-white mb-2">Lancelot / Ling</p>
+                        <p class="text-orange-500 text-xs font-bold uppercase tracking-widest">Counter: Khufra, Minsitthar</p>
                     </div>
-                    <div class="flex justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-                        <span class="font-bold text-blue-400">Enemy: Fanny</span>
-                        <span class="text-orange-400 font-bold">Counter: Minsitthar / Franco</span>
-                    </div>
-                    <div class="flex justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-                        <span class="font-bold text-blue-400">Enemy: Paquito</span>
-                        <span class="text-orange-400 font-bold">Counter: Baxia / Terizla</span>
+                    <div class="p-4 bg-white/5 rounded-2xl border border-white/5 hover:bg-white/10 transition">
+                        <p class="text-gray-400 text-[10px] font-bold uppercase mb-1">Target Hero</p>
+                        <p class="font-bold text-white mb-2">Fanny / Nolan</p>
+                        <p class="text-orange-500 text-xs font-bold uppercase tracking-widest">Counter: Franco, Saber</p>
                     </div>
                 </div>
             </div>
 
-            <div id="spin" class="bento-card flex flex-col items-center justify-center text-center">
-                <h3 class="text-xl font-bold mb-4 italic">Lucky Spin Wheel</h3>
-                <div class="relative w-48 h-48 mb-4">
-                    <img id="wheel" src="https://i.imgur.com/8mR1nZ0.png" class="w-full h-full object-contain" style="transform: rotate(0deg);">
-                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -mt-2 text-white text-2xl">▼</div>
+            <div class="bento-card bg-[#151515] flex flex-col items-center">
+                <h3 class="text-sm font-brand font-bold uppercase mb-6 text-gray-400 italic">Lucky Spin</h3>
+                <div class="relative w-40 h-40 mb-6">
+                    <img id="wheel" src="https://i.imgur.com/8mR1nZ0.png" class="w-full h-full object-contain">
+                    <div class="absolute -top-2 left-1/2 -translate-x-1/2 text-orange-500 text-2xl">▼</div>
                 </div>
-                <button onclick="spinWheel()" id="spinBtn" class="bg-orange-500 px-8 py-2 rounded-full font-bold shadow-lg hover:scale-105 active:scale-95 transition">SPIN NOW</button>
+                <button onclick="spinWheel()" class="w-full bg-white text-black py-3 rounded-xl font-black uppercase text-[10px] tracking-widest">Spin for Tickets</button>
             </div>
         </section>
 
-        <!-- REAL TIME CHAT -->
+        <!-- COMMUNITY CHAT -->
         <section id="chat" class="bento-card">
-            <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-comments text-orange-500"></i> Global Player Chat</h3>
-            <div id="chat-messages" class="h-64 overflow-y-auto bg-black/30 p-4 rounded-xl border border-white/5 mb-4 text-sm space-y-2">
-                <!-- Messages will appear here -->
-                <div class="text-gray-500 italic">Welcome to PaqutoSito Global Chat! Start discussing...</div>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <h3 class="text-xl font-brand font-bold uppercase tracking-widest">Global Lounge</h3>
             </div>
-            <div class="flex gap-2">
-                <input type="text" id="chat-input" placeholder="Say something..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 focus:outline-none focus:border-orange-500">
-                <button onclick="sendMessage()" class="bg-orange-500 px-6 py-2 rounded-xl font-bold">SEND</button>
+            <div id="chat-messages" class="h-80 overflow-y-auto pr-4 mb-6 space-y-4 text-sm">
+                <!-- Chat is live -->
+                <div class="text-gray-600 italic">System: Connecting to Broxy Global Server...</div>
+            </div>
+            <div class="flex gap-4">
+                <input type="text" id="chat-input" placeholder="Discuss the Meta..." class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 transition">
+                <button onclick="sendMessage()" class="bg-orange-500 text-black px-8 rounded-2xl font-black uppercase text-xs tracking-widest hover:shadow-[0_0_20px_rgba(255,140,0,0.4)]">Send</button>
             </div>
         </section>
 
     </main>
 
-    <footer class="p-12 text-center text-gray-500 text-sm">
-        <p>&copy; 2026 PAQUTOSITO GAMING. All rights reserved.</p>
-        <p class="mt-2">Created for the MLBB Community</p>
+    <footer class="p-20 text-center">
+        <h2 class="text-5xl font-brand font-black opacity-10 mb-4 uppercase">BROXY GAMING</h2>
+        <p class="text-gray-600 text-[10px] font-bold uppercase tracking-[0.5em]">Powered by GitHub & Firebase &copy; 2026</p>
     </footer>
 
     <script>
-        // --- SPIN WHEEL LOGIC ---
-        let canSpin = true;
+        // --- SPIN LOGIC ---
         function spinWheel() {
-            if (!canSpin) return;
-            canSpin = false;
             const wheel = document.getElementById('wheel');
-            const randomDegree = Math.floor(Math.random() * 3600) + 720;
-            wheel.style.transform = `rotate(${randomDegree}deg)`;
-            
-            setTimeout(() => {
-                alert("Congratulations! You won a Digital Ticket. Join the chat to redeem!");
-                canSpin = true;
-            }, 4000);
+            const deg = Math.floor(Math.random() * 5000) + 1000;
+            wheel.style.transform = `rotate(${deg}deg)`;
+            setTimeout(() => alert("Entry Confirmed! Post 'WIN' in the Global Lounge."), 5200);
         }
 
-        // --- FIREBASE CHAT SETUP ---
-        // REPLACE THESE WITH YOUR OWN FIREBASE CONFIG LATER
+        // --- FIREBASE CHAT ---
+        // ADD YOUR FIREBASE CONFIG HERE
         const firebaseConfig = {
-            databaseURL: "https://YOUR-DATABASE-NAME.firebaseio.com/",
+            databaseURL: "https://YOUR-DB.firebaseio.com/",
         };
         firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        const db = firebase.database();
 
         function sendMessage() {
             const input = document.getElementById('chat-input');
-            const msg = input.value.trim();
-            if (msg) {
-                database.ref('messages').push().set({
-                    username: "Guest" + Math.floor(Math.random() * 100),
-                    text: msg,
-                    timestamp: Date.now()
+            if (input.value.trim()) {
+                db.ref('chats').push({
+                    user: "BroxyFan_" + Math.floor(Math.random()*999),
+                    msg: input.value,
+                    time: Date.now()
                 });
                 input.value = "";
             }
         }
 
-        database.ref('messages').limitToLast(20).on('child_added', (snapshot) => {
-            const data = snapshot.val();
-            const chatBox = document.getElementById('chat-messages');
-            chatBox.innerHTML += `<div><span class="text-orange-500 font-bold">${data.username}:</span> <span class="text-gray-200">${data.text}</span></div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
+        db.ref('chats').limitToLast(15).on('child_added', (snap) => {
+            const data = snap.val();
+            const box = document.getElementById('chat-messages');
+            box.innerHTML += `<div class="chat-bubble">
+                <span class="text-orange-500 font-black text-[10px] uppercase mr-2 tracking-tighter">${data.user}</span>
+                <span class="text-gray-300">${data.msg}</span>
+            </div>`;
+            box.scrollTop = box.scrollHeight;
         });
     </script>
 </body>
