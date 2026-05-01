@@ -3,121 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BROXY | Official MLBB Gaming Hub</title>
+    <title>BROXY | Official Gaming Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Firebase SDK for Real-time Chat -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-
     <style>
         body { background-color: #0b0e14; color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
         .broxy-logo { font-family: 'Rajdhani', sans-serif; letter-spacing: -1px; text-transform: uppercase; }
-        .bento-card { background: #151921; border-radius: 28px; padding: 24px; transition: 0.3s ease; border: 1px solid #232a35; }
-        .bento-card:hover { transform: translateY(-8px); border-color: #ff8c00; box-shadow: 0 15px 40px rgba(255, 140, 0, 0.15); }
-        .orange-glow { text-shadow: 0 0 20px rgba(255, 140, 0, 0.6); }
-        
+        .bento-card { background: #151921; border-radius: 28px; padding: 24px; border: 1px solid #232a35; }
         #mobile-menu { transition: transform 0.3s ease-in-out; transform: translateX(100%); }
         #mobile-menu.open { transform: translateX(0); }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: #ff8c00; border-radius: 10px; }
-
         .counter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+        #wheel { border-radius: 50%; border: 8px solid #1c222d; transition: transform 4.5s cubic-bezier(0.1, 0.8, 0.1, 1); }
     </style>
 </head>
 <body>
-
-    <!-- NAV BAR -->
     <nav class="flex justify-between items-center p-4 md:p-6 border-b border-gray-800 sticky top-0 bg-[#0b0e14]/95 backdrop-blur-xl z-[100]">
         <div class="flex items-center gap-3">
-            <img src="channels4_profile.jpg" alt="Broxy Logo" class="w-10 h-10 md:w-12 md:h-12 rounded-xl border-2 border-orange-500 shadow-[0_0_15px_rgba(255,140,0,0.5)] object-cover">
-            <h1 class="broxy-logo text-2xl md:text-3xl font-black italic uppercase tracking-tighter">BROXY<span class="text-orange-500">.</span></h1>
+            <img src="channels4_profile.jpg" class="w-10 h-10 rounded-xl border-2 border-orange-500 object-cover">
+            <h1 class="broxy-logo text-2xl font-black italic">BROXY<span class="text-orange-500">.</span></h1>
         </div>
-        
-        <div class="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">
-            <a href="#home" class="hover:text-orange-500 transition">Home</a>
-            <a href="videos.html" class="hover:text-orange-500 transition">Videos</a>
-            <a href="live.html" class="hover:text-orange-500 transition">Live</a>
-            <a href="#counter" class="hover:text-orange-500 transition">Counters</a>
-            <a href="#chat" class="hover:text-orange-500 transition">Lounge</a>
+        <div class="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+            <a href="index.html">Home</a>
+            <a href="videos.html">Videos</a>
+            <a href="live.html">Live</a>
+            <a href="#counter">Counters</a>
+            <a href="#chat">Lounge</a>
         </div>
-
-        <div class="flex items-center gap-4">
-            <a href="https://www.youtube.com/channel/UCHuhBLFe1uxLgESiYpDfQgQ?sub_confirmation=1" target="_blank" class="hidden sm:block bg-orange-500 text-black px-7 py-3 rounded-2xl font-black text-xs hover:scale-105 transition uppercase tracking-wider">SUBSCRIBE</a>
-            <button onclick="toggleMenu()" class="md:hidden text-2xl text-orange-500 focus:outline-none"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-        </div>
+        <button onclick="toggleMenu()" class="md:hidden text-2xl text-orange-500"><i class="fa-solid fa-ellipsis-vertical"></i></button>
     </nav>
 
-    <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed inset-0 bg-[#0b0e14] z-[150] flex flex-col p-8 space-y-8 md:hidden">
         <div class="flex justify-end"><button onclick="toggleMenu()" class="text-3xl text-orange-500"><i class="fa-solid fa-xmark"></i></button></div>
-        <div class="flex flex-col space-y-6 text-xl font-black uppercase italic tracking-widest text-center">
-            <a href="#home" onclick="toggleMenu()" class="hover:text-orange-500">Home</a>
-            <a href="videos.html" onclick="toggleMenu()" class="hover:text-orange-500">Videos</a>
-            <a href="live.html" onclick="toggleMenu()" class="hover:text-orange-500">Live</a>
-            <a href="#counter" onclick="toggleMenu()" class="hover:text-orange-500">Counters</a>
-            <a href="#chat" onclick="toggleMenu()" class="hover:text-orange-500">Lounge</a>
+        <div class="flex flex-col space-y-6 text-xl font-black uppercase italic text-center">
+            <a href="index.html" onclick="toggleMenu()">Home</a>
+            <a href="videos.html" onclick="toggleMenu()">Videos</a>
+            <a href="live.html" onclick="toggleMenu()">Live Now</a>
+            <a href="#counter" onclick="toggleMenu()">Hero Counters</a>
         </div>
     </div>
 
-    <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-12" id="home">
-        
-        <!-- AUTO-DETECTED LATEST VIDEO -->
+    <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-12">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div id="latest-video-container" class="lg:col-span-8 bento-card !p-0 overflow-hidden relative border-none min-h-[350px] flex items-center justify-center">
-                <p class="animate-pulse text-gray-700 uppercase tracking-widest italic">Detecting latest upload...</p>
+            <div id="latest-vid" class="lg:col-span-8 bento-card !p-0 overflow-hidden min-h-[350px] flex items-center justify-center">
+                <p class="animate-pulse text-gray-500 uppercase italic">Updating latest feed...</p>
             </div>
-            <div class="lg:col-span-4 bento-card bg-gradient-to-br from-orange-600 to-red-600 border-none text-white flex flex-col justify-between items-center text-center">
-                <img src="channels4_profile.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-2xl mb-4">
-                <h3 class="text-xl md:text-2xl font-black uppercase italic">Monthly Skin Giveaway</h3>
-                <button onclick="window.location.href='#chat'" class="w-full bg-white text-orange-600 font-black py-3 rounded-2xl shadow-xl">ENTER NOW</button>
+            <div class="lg:col-span-4 bento-card bg-gradient-to-br from-orange-600 to-red-600 text-white flex flex-col items-center text-center">
+                <img src="channels4_profile.jpg" class="w-20 h-20 rounded-full border-4 border-white mb-4 shadow-xl">
+                <h3 class="text-xl font-black uppercase italic mb-4">WEEKLY GIVEAWAY</h3>
+                <button onclick="window.location.href='#chat'" class="w-full bg-white text-orange-600 font-black py-3 rounded-2xl">ENTER NOW</button>
             </div>
         </div>
 
-        <!-- HERO COUNTER LIST (FULLY ADDED) -->
+        <!-- FULL HERO COUNTER DATABASE -->
         <section id="counter" class="space-y-6">
-            <h3 class="text-xl font-black tracking-tight uppercase italic text-center md:text-left underline decoration-orange-500 underline-offset-8">Hero Counter Database</h3>
+            <h3 class="text-xl font-black uppercase italic border-b-2 border-orange-500 inline-block pb-2">Hero Counter Database</h3>
             <div class="counter-grid">
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🪨 Fredrinn</span><span class="text-right text-green-400 font-bold text-xs uppercase">Karrie, Dyrroth, X.Borg</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🐢 Uranus</span><span class="text-right text-green-400 font-bold text-xs uppercase">Esmeralda, Karrie, X.Borg</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🐉 Yu Zhong</span><span class="text-right text-green-400 font-bold text-xs uppercase">Valir, Dyrroth, X.Borg</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🪓 Arlott</span><span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Franco, Chou</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🌀 Wanwan</span><span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Phoveus, Franco</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🔫 Brody</span><span class="text-right text-green-400 font-bold text-xs uppercase">Lancelot, Hayabusa, Natalia</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">⚡ Xavier</span><span class="text-right text-green-400 font-bold text-xs uppercase">Natalia, Helcurt, Saber</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🧬 Valentina</span><span class="text-right text-green-400 font-bold text-xs uppercase">Saber, Franco, Kaja</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🐺 Lancelot</span><span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Ruby, Franco</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🎧 Joy</span><span class="text-right text-green-400 font-bold text-xs uppercase">Franco, Kaja, Khufra</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🗡️ Gusion</span><span class="text-right text-green-400 font-bold text-xs uppercase">Helcurt, Franco, Saber</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">👤 Natalia</span><span class="text-right text-green-400 font-bold text-xs uppercase">Rafaela, Kaja, Khufra</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🛡️ Khufra</span><span class="text-right text-green-400 font-bold text-xs uppercase">Diggie, Valir, Akai</span></div>
-                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition"><span class="text-xs font-bold uppercase tracking-wider">🪝 Franco</span><span class="text-right text-green-400 font-bold text-xs uppercase">Diggie, Valir, Lolita</span></div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🪨 Fredrinn</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Karrie, Dyrroth, X.Borg</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🐢 Uranus</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Esmeralda, Karrie, X.Borg</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🐉 Yu Zhong</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Valir, Dyrroth, X.Borg</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🪓 Arlott</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Franco, Chou</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🌀 Wanwan</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Phoveus, Franco</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🔫 Brody</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Lancelot, Hayabusa, Natalia</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">⚡ Xavier</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Natalia, Helcurt, Saber</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🧬 Valentina</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Saber, Franco, Kaja</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🐺 Lancelot</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Khufra, Ruby, Franco</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🎧 Joy</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Franco, Kaja, Khufra</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🗡️ Gusion</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Helcurt, Franco, Saber</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">👤 Natalia</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Rafaela, Kaja, Khufra</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🛡️ Khufra</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Diggie, Valir, Akai</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-3xl border border-white/5 flex justify-between items-center hover:bg-orange-500/10 transition">
+                    <span class="text-xs font-bold uppercase tracking-wider">🪝 Franco</span>
+                    <span class="text-right text-green-400 font-bold text-xs uppercase">Diggie, Valir, Lolita</span>
+                </div>
             </div>
         </section>
 
-        <!-- SPIN WHEEL -->
+        <!-- GIVEAWAY SPIN -->
         <section id="spin" class="bento-card flex flex-col items-center justify-center text-center">
-            <h3 class="broxy-logo text-xl font-black text-orange-500 mb-6 italic">BROXY LUCKY SPIN</h3>
+            <h3 class="broxy-logo text-xl font-black text-orange-500 mb-6 italic">LUCKY SPIN</h3>
             <div class="relative w-40 h-40 md:w-56 md:h-56 mb-6">
-                <img id="wheel" src="https://i.imgur.com/8mR1nZ0.png" class="w-full h-full object-contain">
+                <img id="wheel" src="https://i.imgur.com/8mR1nZ0.png" class="w-full h-full object-contain shadow-2xl">
                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 text-orange-500 text-3xl">▼</div>
             </div>
-            <button onclick="spinWheel()" class="w-full md:w-64 bg-orange-500 text-black font-black py-4 rounded-2xl shadow-xl hover:scale-105 transition uppercase">SPIN NOW</button>
+            <button onclick="spinWheel()" class="w-full md:w-64 bg-orange-500 text-black font-black py-4 rounded-2xl shadow-xl hover:scale-105 transition uppercase tracking-widest">SPIN</button>
         </section>
 
-        <!-- COMMUNITY CHAT -->
-        <section id="chat" class="bento-card flex flex-col h-[500px]">
-            <h3 class="text-xl font-black italic uppercase tracking-widest mb-4 underline decoration-orange-500 decoration-4">Community Lounge</h3>
-            <div id="chat-messages" class="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 text-sm"></div>
+        <!-- COMMUNITY LOUNGE (CHAT) -->
+        <section id="chat" class="bento-card flex flex-col h-[450px] md:h-[500px]">
+            <h3 class="text-lg md:text-xl font-black italic uppercase tracking-widest mb-4">COMMUNITY LOUNGE</h3>
+            <div id="chat-messages" class="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 text-xs"></div>
             <div class="flex gap-2 bg-[#0b0e14] p-2 rounded-2xl border border-white/10">
-                <input type="text" id="chat-input" placeholder="Type message..." class="flex-1 bg-transparent px-3 py-2 focus:outline-none text-xs text-gray-200">
-                <button onclick="sendMessage()" class="bg-orange-500 text-black px-4 py-2 rounded-xl font-bold uppercase text-[10px]">SEND</button>
+                <input type="text" id="chat-input" placeholder="Say something..." class="flex-1 bg-transparent px-3 py-2 outline-none text-gray-200">
+                <button onclick="sendMessage()" class="bg-orange-500 text-black px-4 py-2 rounded-xl font-bold">SEND</button>
             </div>
         </section>
-
     </main>
 
     <script>
@@ -131,9 +152,9 @@
                 const data = await res.json();
                 if (data.items.length > 0) {
                     const id = data.items[0].id.videoId;
-                    document.getElementById('latest-video-container').innerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
+                    document.getElementById('latest-vid').innerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
                 }
-            } catch (e) { console.error(e); }
+            } catch (e) { document.getElementById('latest-vid').innerHTML = `<p class="text-red-500">Video Error: Check Google Cloud Restrictions</p>`; }
         }
         loadLatest();
 
@@ -141,13 +162,12 @@
             const wheel = document.getElementById('wheel');
             const randomRotate = Math.floor(Math.random() * 3600) + 1440;
             wheel.style.transform = `rotate(${randomRotate}deg)`;
-            setTimeout(() => { alert("Spin Complete! Connect to Lounge for rewards."); }, 4500);
+            setTimeout(() => { alert("Spin Complete! Chat in Lounge for rewards."); }, 4500);
         }
 
-        const firebaseConfig = { databaseURL: "https://YOUR-DATABASE.firebaseio.com/" }; // Add your URL
+        const firebaseConfig = { databaseURL: "https://YOUR-DATABASE.firebaseio.com/" }; // REPLACE WITH YOUR FIREBASE URL
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
         function sendMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
@@ -156,12 +176,10 @@
                 input.value = "";
             }
         }
-
-        database.ref('messages').limitToLast(30).on('child_added', (snapshot) => {
-            const data = snapshot.val();
-            const msgBox = document.getElementById('chat-messages');
-            msgBox.innerHTML += `<div class="bg-white/5 p-3 rounded-2xl border border-white/5"><span class="text-[10px] font-black text-orange-500 block uppercase italic">${data.username}</span><p class="text-gray-300">${data.message}</p></div>`;
-            msgBox.scrollTop = msgBox.scrollHeight;
+        database.ref('messages').limitToLast(30).on('child_added', (snap) => {
+            const data = snap.val();
+            document.getElementById('chat-messages').innerHTML += `<div class="bg-white/5 p-3 rounded-2xl border border-white/5"><span class="text-[10px] font-black text-orange-500 block uppercase italic">${data.username}</span><p class="text-gray-300">${data.message}</p></div>`;
+            document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
         });
     </script>
 </body>
