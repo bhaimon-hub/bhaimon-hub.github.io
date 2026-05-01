@@ -1,285 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLBB Lucky Spin</title>
-  
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2649315592388720" crossorigin="anonymous"></script>
-  <meta name="google-adsense-account" content="ca-pub-2649315592388720">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaqutoSito | Professional MLBB Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Firebase SDK for Real-time Chat -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --deep-forest: #1a3c34;
-      --cream: #fbfbf8;
-      --soft-white: #ffffff;
-      --gold-accent: #c4a77d;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background-color: var(--cream);
-      background-image: linear-gradient(rgba(251, 251, 248, 0.95), rgba(251, 251, 248, 0.95)), 
-                        url('1000117952.jpg'); 
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: #333;
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      padding: 0 0 100px; /* Space for Bottom Ad */
-    }
-
-    /* TOP BAR & MENU */
-    .top-nav {
-      background: white;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      position: sticky;
-      top: 0; z-index: 1000;
-    }
-
-    .menu-dots { font-size: 28px; cursor: pointer; color: var(--deep-forest); }
-    
-    .dropdown {
-      display: none;
-      position: absolute;
-      top: 50px; right: 20px;
-      background: white;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      border-radius: 8px;
-      text-align: left;
-      width: 200px;
-      overflow: hidden;
-    }
-
-    .dropdown div {
-      padding: 12px 15px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .dropdown div:hover { background: #f9f9f9; color: var(--gold-accent); }
-
-    /* WHEEL AREA */
-    h1 {
-      margin-top: 30px;
-      font-family: 'Playfair Display', serif;
-      font-size: 32px;
-      color: var(--deep-forest);
-    }
-
-    .wheel-main-container {
-      position: relative;
-      width: 90vw;
-      max-width: 380px;
-      margin: 20px auto;
-    }
-
-    .pointer {
-      width: 0; height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 30px solid var(--deep-forest);
-      position: absolute;
-      top: -10px; left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
-
-    canvas {
-      width: 100%;
-      border-radius: 50%;
-      border: 8px solid var(--soft-white);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      transition: transform 5s cubic-bezier(0.2, 0, 0.1, 1);
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 18px 50px;
-      background-color: var(--deep-forest);
-      color: var(--soft-white);
-      border: none;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    button:disabled { background-color: #ccc; }
-
-    #result { margin-top: 25px; min-height: 80px; }
-    .winner-prize { color: var(--gold-accent); font-weight: 600; font-size: 32px; }
-
-    /* AD SLOTS */
-    .ad-bottom {
-      position: fixed; bottom: 0; left: 0;
-      width: 100%; height: 60px;
-      background: #f9f9f9;
-      border-top: 1px solid #ddd;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 999;
-    }
-
-    /* GOOGLE CONTENT */
-    .pro-article {
-      max-width: 800px;
-      margin: 40px auto;
-      text-align: left;
-      background: rgba(255,255,255,0.8);
-      padding: 30px;
-      border-radius: 12px;
-      font-size: 14px;
-    }
-
-    .particle { position: absolute; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; }
-  </style>
+    <style>
+        body { background-color: #0d1117; color: white; font-family: 'Inter', sans-serif; }
+        .neon-border { border: 1px solid rgba(255, 140, 0, 0.3); box-shadow: 0 0 15px rgba(255, 140, 0, 0.1); }
+        .orange-glow { text-shadow: 0 0 10px rgba(255, 140, 0, 0.6); }
+        .bento-card { background: #161b22; border-radius: 24px; padding: 24px; transition: transform 0.3s ease; border: 1px solid #30363d; }
+        .bento-card:hover { transform: translateY(-5px); border-color: #ff8c00; }
+        #wheel { border-radius: 50%; border: 5px solid #ff8c00; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+    </style>
 </head>
-
 <body>
 
-<div class="top-nav">
-  <div style="font-weight:600; color:var(--deep-forest);">Spins: <span id="sCount">3</span></div>
-  <div class="menu-dots" onclick="toggleMenu()">⋮</div>
-  <div id="myMenu" class="dropdown">
-    <div onclick="claimDaily()">🎁 Daily Spin</div>
-    <div onclick="watchAd()">📺 Watch Ad (+1)</div>
-    <div onclick="shareSite()">🔗 Share Site (+1)</div>
-  </div>
-</div>
+    <!-- NAV BAR -->
+    <nav class="flex justify-between items-center p-6 border-b border-gray-800 sticky top-0 bg-[#0d1117]/95 backdrop-blur z-50">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center font-bold text-black shadow-[0_0_15px_#ff8c00]">P</div>
+            <h1 class="text-xl font-black tracking-tighter">PAQUTO<span class="text-orange-500">SITO</span></h1>
+        </div>
+        <div class="hidden md:flex gap-6 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            <a href="#home" class="hover:text-orange-500 transition">Home</a>
+            <a href="#counter" class="hover:text-orange-500 transition">Counter-Picks</a>
+            <a href="#spin" class="hover:text-orange-500 transition">Giveaway</a>
+            <a href="#chat" class="hover:text-orange-500 transition">Global Chat</a>
+        </div>
+        <a href="https://www.youtube.com/@PaqutoSito" target="_blank" class="bg-orange-500 text-black px-5 py-2 rounded-full text-xs font-bold hover:bg-orange-400 transition">SUBSCRIBE</a>
+    </nav>
 
-<h1>🎯 MLBB LUCKY SPIN</h1>
+    <main class="max-w-7xl mx-auto p-6 space-y-8">
+        
+        <!-- HERO SECTION: YOUTUBE & STATS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bento-card overflow-hidden !p-0 border-none relative group">
+                <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/videoseries?list=UUHuhBLFe1uxLgESiYpDfQgQ" frameborder="0" allowfullscreen></iframe>
+                <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md p-3 rounded-xl border border-white/10">
+                    <p class="text-xs text-orange-400 font-bold uppercase">Latest Upload</p>
+                    <h3 class="font-bold">Watch My Professional MLBB Guides</h3>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-6">
+                <div class="bento-card flex items-center gap-4">
+                    <i class="fa-brands fa-youtube text-4xl text-red-500"></i>
+                    <div>
+                        <h4 class="text-2xl font-bold">50K+</h4>
+                        <p class="text-gray-400 text-xs uppercase tracking-widest">Total Views</p>
+                    </div>
+                </div>
+                <div class="bento-card bg-gradient-to-br from-orange-600 to-red-600 border-none text-white">
+                    <h3 class="text-xl font-bold mb-2">Weekly Giveaway</h3>
+                    <p class="text-sm opacity-80 mb-4">Win Skin Diamonds every Sunday! Be active in the chat below.</p>
+                    <button class="w-full bg-white text-orange-600 font-bold py-2 rounded-lg">JOIN NOW</button>
+                </div>
+            </div>
+        </div>
 
-<div class="wheel-main-container">
-  <div class="pointer"></div>
-  <canvas id="wheel" width="400" height="400"></canvas>
-</div>
+        <!-- HERO COUNTER & TIER LIST -->
+        <section id="counter" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bento-card">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-bolt text-orange-500"></i> Meta Counter-Picks</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between p-3 bg-white/5 rounded-xl border border-white/10">
+                        <span class="font-bold text-blue-400">Enemy: Lancelot</span>
+                        <span class="text-orange-400 font-bold">Counter: Khufra / Phoveus</span>
+                    </div>
+                    <div class="flex justify-between p-3 bg-white/5 rounded-xl border border-white/10">
+                        <span class="font-bold text-blue-400">Enemy: Fanny</span>
+                        <span class="text-orange-400 font-bold">Counter: Minsitthar / Franco</span>
+                    </div>
+                    <div class="flex justify-between p-3 bg-white/5 rounded-xl border border-white/10">
+                        <span class="font-bold text-blue-400">Enemy: Paquito</span>
+                        <span class="text-orange-400 font-bold">Counter: Baxia / Terizla</span>
+                    </div>
+                </div>
+            </div>
 
-<button id="spinBtn">Spin Now</button>
-<div id="result"></div>
+            <div id="spin" class="bento-card flex flex-col items-center justify-center text-center">
+                <h3 class="text-xl font-bold mb-4 italic">Lucky Spin Wheel</h3>
+                <div class="relative w-48 h-48 mb-4">
+                    <img id="wheel" src="https://i.imgur.com/8mR1nZ0.png" class="w-full h-full object-contain" style="transform: rotate(0deg);">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -mt-2 text-white text-2xl">▼</div>
+                </div>
+                <button onclick="spinWheel()" id="spinBtn" class="bg-orange-500 px-8 py-2 rounded-full font-bold shadow-lg hover:scale-105 active:scale-95 transition">SPIN NOW</button>
+            </div>
+        </section>
 
-<div class="ad-bottom">
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:100%;height:60px"
-       data-ad-client="ca-pub-2649315592388720"
-       data-ad-slot="auto"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+        <!-- REAL TIME CHAT -->
+        <section id="chat" class="bento-card">
+            <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-comments text-orange-500"></i> Global Player Chat</h3>
+            <div id="chat-messages" class="h-64 overflow-y-auto bg-black/30 p-4 rounded-xl border border-white/5 mb-4 text-sm space-y-2">
+                <!-- Messages will appear here -->
+                <div class="text-gray-500 italic">Welcome to PaqutoSito Global Chat! Start discussing...</div>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" id="chat-input" placeholder="Say something..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 focus:outline-none focus:border-orange-500">
+                <button onclick="sendMessage()" class="bg-orange-500 px-6 py-2 rounded-xl font-bold">SEND</button>
+            </div>
+        </section>
 
-<div class="pro-article">
-  <h2 style="font-family:'Playfair Display'; margin-bottom:10px;">Daily Mobile Legends Rewards</h2>
-  <p>The Broxy Lucky Spin is a community tool designed for fans of MLBB. Win virtual diamonds and skin vouchers through our transparent randomization system. Engage daily to maximize your rewards!</p>
-</div>
+    </main>
 
-<audio id="spinSound"><source src="https://www.soundjay.com/misc/sounds/wind-chime-1.mp3" type="audio/mpeg"></audio>
-<audio id="winSound"><source src="https://www.myinstants.com/media/sounds/ta-da.mp3" type="audio/mpeg"></audio>
+    <footer class="p-12 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 PAQUTOSITO GAMING. All rights reserved.</p>
+        <p class="mt-2">Created for the MLBB Community</p>
+    </footer>
 
-<script src="//code.tidio.co/masauak8ongk9kmleqi8a7b1zqso3ivz.js" async></script>
+    <script>
+        // --- SPIN WHEEL LOGIC ---
+        let canSpin = true;
+        function spinWheel() {
+            if (!canSpin) return;
+            canSpin = false;
+            const wheel = document.getElementById('wheel');
+            const randomDegree = Math.floor(Math.random() * 3600) + 720;
+            wheel.style.transform = `rotate(${randomDegree}deg)`;
+            
+            setTimeout(() => {
+                alert("Congratulations! You won a Digital Ticket. Join the chat to redeem!");
+                canSpin = true;
+            }, 4000);
+        }
 
-<script>
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
-const spinBtn = document.getElementById("spinBtn");
-const sCount = document.getElementById("sCount");
-const spinSound = document.getElementById("spinSound");
-const winSound = document.getElementById("winSound");
+        // --- FIREBASE CHAT SETUP ---
+        // REPLACE THESE WITH YOUR OWN FIREBASE CONFIG LATER
+        const firebaseConfig = {
+            databaseURL: "https://YOUR-DATABASE-NAME.firebaseio.com/",
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-// ANTI-CHEAT SPINS
-let spins = parseInt(localStorage.getItem('mlbb_spins'));
-if (isNaN(spins)) { spins = 3; localStorage.setItem('mlbb_spins', 3); }
-sCount.innerText = spins;
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (msg) {
+                database.ref('messages').push().set({
+                    username: "Guest" + Math.floor(Math.random() * 100),
+                    text: msg,
+                    timestamp: Date.now()
+                });
+                input.value = "";
+            }
+        }
 
-const sections = ["Try Again", "50 Diamonds", "Basic Skin", "100 Diamonds", "Elite Skin", "Epic Skin", "Special Reward", "JACKPOT"];
-const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0fbfc","#ffefdb"];
-
-function drawWheel() {
-  const arc = (Math.PI * 2) / sections.length;
-  for (let i = 0; i < sections.length; i++) {
-    ctx.beginPath(); ctx.fillStyle = colors[i];
-    ctx.moveTo(200, 200); ctx.arc(200, 200, 200, i * arc, (i + 1) * arc); ctx.fill();
-    ctx.save(); ctx.translate(200, 200); ctx.rotate(i * arc + arc / 2);
-    ctx.fillStyle = "#333"; ctx.font = "bold 14px Montserrat";
-    ctx.fillText(sections[i], 100, 10); ctx.restore();
-  }
-}
-drawWheel();
-
-function toggleMenu() {
-  const m = document.getElementById("myMenu");
-  m.style.display = m.style.display === "block" ? "none" : "block";
-}
-
-function updateSpins(val) {
-  spins += val;
-  localStorage.setItem('mlbb_spins', spins);
-  sCount.innerText = spins;
-}
-
-function claimDaily() {
-  const today = new Date().toDateString();
-  if (localStorage.getItem('last_claim') === today) return alert("Already claimed today!");
-  updateSpins(1); localStorage.setItem('last_claim', today); alert("Spin added!");
-}
-
-function watchAd() {
-  alert("Simulating Video Ad...");
-  setTimeout(() => { updateSpins(1); alert("Reward: +1 Spin!"); }, 2000);
-}
-
-function shareSite() {
-  if (navigator.share) {
-    navigator.share({title: 'MLBB Lucky Spin', url: window.location.href}).then(() => updateSpins(1));
-  } else {
-    alert("Link: " + window.location.href); updateSpins(1);
-  }
-}
-
-let currentDeg = 0;
-spinBtn.onclick = function() {
-  if (spins <= 0) return alert("Get more spins from the menu!");
-  
-  updateSpins(-1);
-  spinBtn.disabled = true;
-  document.getElementById("result").innerHTML = "";
-  spinSound.play();
-
-  const winningIndex = Math.floor(Math.random() * sections.length);
-  const sliceDeg = 360 / sections.length;
-  const stopAt = 270 - (winningIndex * sliceDeg) - (sliceDeg / 2);
-  
-  currentDeg += 3600 + stopAt + (360 - (currentDeg % 360));
-  canvas.style.transform = `rotate(${currentDeg}deg)`;
-
-  setTimeout(() => {
-    spinSound.pause(); spinSound.currentTime = 0;
-    winSound.play();
-    document.getElementById("result").innerHTML = `<div class="winner-prize">${sections[winningIndex]}</div>`;
-    spawnParticles();
-    spinBtn.disabled = false;
-  }, 5000);
-};
-
-function spawnParticles() {
-  for(let i=0; i<40; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.background = colors[Math.floor(Math.random()*colors.length)];
-    p.style.left = '50%'; p.style.top = '50%';
-    document.getElementById("result").appendChild(p);
-    const a = Math.random() * Math.PI * 2;
-    const v = Math.random() * 120 + 40;
-    p.animate([{ opacity: 1 }, { transform: `translate(${Math.cos(a)*v}px, ${Math.sin(a)*v}px)`, opacity: 0 }], { duration: 1000 }).onfinish = () => p.remove();
-  }
-}
-</script>
+        database.ref('messages').limitToLast(20).on('child_added', (snapshot) => {
+            const data = snapshot.val();
+            const chatBox = document.getElementById('chat-messages');
+            chatBox.innerHTML += `<div><span class="text-orange-500 font-bold">${data.username}:</span> <span class="text-gray-200">${data.text}</span></div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    </script>
 </body>
 </html>
