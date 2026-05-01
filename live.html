@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BROXY | Live Now</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0b0e14] text-white">
+    <nav class="p-6 border-b border-gray-800 flex justify-between items-center">
+        <h1 class="text-2xl font-black italic tracking-tighter text-red-500">BROXY LIVE</h1>
+        <a href="index.html" class="text-orange-500 font-bold">Back to Home</a>
+    </nav>
+    <main class="max-w-7xl mx-auto p-6 flex flex-col items-center">
+        <div id="live-check" class="w-full max-w-4xl bg-[#151921] p-10 rounded-3xl border border-gray-800 text-center">
+            <p class="animate-pulse text-gray-500">Checking Broxy stream status...</p>
+        </div>
+    </main>
+    <script>
+        const API_KEY = 'AIzaSyD-aZcMCuAFtnCKUd0wu7uv4Dp9UYtfkyc';
+        const CHANNEL_ID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
+        async function checkLive() {
+            try {
+                const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&type=video&eventType=live`);
+                const data = await res.json();
+                const container = document.getElementById('live-check');
+                if (data.items.length > 0) {
+                    const id = data.items[0].id.videoId;
+                    container.innerHTML = `<iframe class="w-full aspect-video rounded-xl shadow-2xl border-2 border-red-500" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>
+                    <p class="mt-4 text-red-500 font-black animate-pulse">BROXY IS LIVE NOW!</p>`;
+                } else {
+                    container.innerHTML = `<i class="fa-solid fa-video-slash text-5xl text-gray-800 mb-4"></i><h2 class="text-2xl font-bold text-gray-500">BROXY IS CURRENTLY OFFLINE</h2><p class="text-gray-700">Subscribe on YouTube to get notified when the stream starts!</p>`;
+                }
+            } catch (e) { console.error(e); }
+        }
+        checkLive();
+    </script>
+</body>
+</html>
