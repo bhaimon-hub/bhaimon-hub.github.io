@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -25,7 +24,7 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-/* 🔥 UPDATED PROFESSIONAL RESULT BOX */
+/* RESULT BOX */
 #result-notice {
   position: fixed;
   top: -150px;
@@ -35,13 +34,10 @@ body {
   padding: 25px 80px;
   border-radius: 20px;
   transition: all 0.7s cubic-bezier(0.2, 1, 0.3, 1);
-
   backdrop-filter: blur(15px);
   background: rgba(15, 20, 30, 0.7);
-
   border: 2px solid rgba(255,255,255,0.2);
   color: white;
-
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
@@ -87,7 +83,6 @@ button {
   border: none;
 }
 </style>
-
 </head>
 
 <body>
@@ -106,7 +101,8 @@ button {
 
 <button id="spinBtn">Spin Now</button>
 
-<audio id="tickSound" src="https://www.soundjay.com/buttons/button-10.mp3"></audio> <audio id="winSound" src="https://www.myinstants.com/media/sounds/tada.mp3"></audio>
+<audio id="tickSound" src="https://www.soundjay.com/buttons/button-10.mp3"></audio>
+<audio id="winSound" src="https://www.myinstants.com/media/sounds/tada.mp3"></audio>
 
 <script>
 const canvas = document.getElementById("wheel");
