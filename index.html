@@ -48,11 +48,24 @@
             <div id="latest-vid" class="lg:col-span-8 bento-card !p-0 overflow-hidden min-h-[350px] flex items-center justify-center">
                 <p class="animate-pulse text-gray-500 uppercase italic">Loading Latest Feed...</p>
             </div>
-            <div class="lg:col-span-4 bento-card bg-gradient-to-br from-orange-600 to-red-600 text-white flex flex-col items-center text-center">
-                <img src="channels4_profile.jpg" class="w-20 h-20 rounded-full border-4 border-white mb-4 shadow-xl">
-                <h3 class="text-xl font-black uppercase italic">Weekly Giveaway</h3>
-                <button onclick="window.location.href='giveaway.html'" class="w-full bg-white text-orange-600 font-black py-3 rounded-2xl shadow-xl hover:scale-105 transition">ENTER NOW</button>
-            </div>
+            <!-- UPDATED PREMIUM GIVEAWAY CARD -->
+<div class="lg:col-span-4 bento-card relative overflow-hidden border-none text-white flex flex-col justify-between items-center text-center group" 
+     style="background-image: radial-gradient(circle at center, #ff4500 0%, #b91c1c 100%);">
+    
+    <!-- Background glow decoration -->
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-dotted-2.png')] opacity-30"></div>
+    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
+
+    <img src="channels4_profile.jpg" alt="Broxy Royale Logo" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-2xl relative z-10 mb-4 object-cover">
+    
+    <div class="relative z-10 space-y-2 mb-4">
+        <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-inner">Broxy Royale</span>
+        <h3 class="text-xl md:text-2xl font-black uppercase italic" style="text-shadow: 0 2px 5px rgba(0,0,0,0.3)">Weekly Skin Giveaway</h3>
+    </div>
+    
+    <!-- LINK TO THE NEW PREMIUM WHEEL -->
+    <button onclick="window.location.href='giveaway.html'" class="w-full bg-white text-red-600 font-black py-4 rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition relative z-10 uppercase text-sm tracking-wider">ENTER NOW</button>
+</div>
         </div>
 
         <section id="counter" class="space-y-6">
