@@ -6,11 +6,11 @@
     <title>BROXY | Royale Giveaway</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
     <style>
         body { 
             background-color: #0b0e14; 
-            background-image: radial-gradient(circle at center, #1a1f2b 0%, #0b0e14 100%), url('https://www.transparenttextures.com/patterns/dark-matter.png');
+            background-image: radial-gradient(circle at center, #1a1f2b 0%, #0b0e14 100%);
             color: white; 
             font-family: 'Rajdhani', sans-serif; 
             min-height: 100vh;
@@ -22,31 +22,21 @@
             overflow: hidden;
         }
 
-        /* Luxury Casino Glow */
-        .page-container {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-
+        /* PREMIUM GOLD CASINO BORDER (FROM THE IMAGE) */
         .wheel-outer-border {
             position: relative;
             padding: 15px;
-            background: linear-gradient(145deg, #ffd700, #b8860b, #8b6508);
+            background: linear-gradient(145deg, #ffd700 0%, #b8860b 50%, #ffd700 100%);
             border-radius: 50%;
-            box-shadow: 0 0 80px rgba(212, 175, 55, 0.3), inset 0 0 20px rgba(0,0,0,0.5);
-            margin: 20px auto;
+            box-shadow: 0 0 80px rgba(212, 175, 55, 0.4), inset 0 0 20px rgba(0,0,0,0.5);
+            border: 4px solid #fff;
         }
 
         .wheel-container {
             position: relative;
-            width: 320px;
-            height: 320px;
-            border: 6px solid #111;
+            width: 350px;
+            height: 350px;
+            border: 8px solid #222;
             border-radius: 50%;
             background: #111;
         }
@@ -58,27 +48,15 @@
             transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1);
         }
 
-        .pointer {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 50px;
-            background: #ffd700;
-            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
-            z-index: 30;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
-        }
-
+        /* PREMIUM GOLD CENTER BUTTON (FROM THE IMAGE) */
         .spin-center {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #ffd700 0%, #8b6508 100%);
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #fff 0%, #ffd700 30%, #8b6508 100%);
             border: 4px solid #fff;
             border-radius: 50%;
             display: flex;
@@ -88,10 +66,33 @@
             color: #000;
             cursor: pointer;
             z-index: 40;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
             font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 1.2rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
         }
 
+        .spin-center:active { transform: translate(-50%, -45%) scale(0.95); }
+
+        /* CASINO STYLE TOP POINTER */
+        .pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 60px;
+            background: #ffd700;
+            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+            z-index: 30;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
+            border: 2px solid white;
+        }
+
+        /* Sleek Result Notice (Replaces Alert) */
         #result-notice {
             position: fixed;
             top: -100px;
@@ -105,6 +106,7 @@
             transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             border: 2px solid gold;
+            font-family: 'Oswald', sans-serif;
         }
         #result-notice.show { top: 40px; }
     </style>
@@ -113,10 +115,10 @@
 
     <nav class="w-full flex justify-between p-6 absolute top-0 z-50">
         <h1 class="text-2xl font-black italic">BROXY <span class="text-orange-500">ROYALE</span></h1>
-        <a href="index.html" class="text-orange-500 font-bold border-b-2 border-orange-500 hover:text-white hover:border-white transition">EXIT HUB</a>
+        <a href="index.html" class="text-orange-500 font-bold border-b-2 border-orange-500 hover:text-white hover:border-white transition">HUB</a>
     </nav>
     
-    <div class="page-container">
+    <div class="page-container flex flex-col items-center justify-center">
         <div class="text-center mb-6">
             <h2 class="text-4xl md:text-5xl font-black italic uppercase text-white tracking-tighter" style="text-shadow: 0 0 20px rgba(255,140,0,0.8)">Lucky Spinning Wheel</h2>
             <p class="text-gray-500 text-xs mt-2 uppercase font-bold tracking-[0.3em]">Premium Giveaway Edition</p>
@@ -126,14 +128,14 @@
             <div class="pointer"></div>
             <div class="wheel-container">
                 <canvas id="wheel" width="500" height="500"></canvas>
-                <div class="spin-center" onclick="spin()">SPIN</div>
+                <div class="spin-center" onclick="spin()">SPIN<br><span class="text-[10px] font-normal">NOW!</span></div>
             </div>
         </div>
     </div>
 
     <div id="result-notice"></div>
 
-    <!-- AUDIO -->
+    <!-- AUDIO ELEMENTS -->
     <audio id="tickSound" src="https://www.soundjay.com/buttons/button-10.mp3"></audio>
     <audio id="winSound" src="https://www.myinstants.com/media/sounds/tada.mp3"></audio>
 
@@ -144,12 +146,13 @@
         const winSound = document.getElementById('winSound');
         const notice = document.getElementById('result-notice');
 
+        // New prizes with proper labels (1💎 instead of text)
         const prizes = [
-            { label: "1 DIAMOND", color: "#6a0dad" },
-            { label: "TRY AGAIN", color: "#1c222d" },
-            { label: "REDEEM CODE", color: "#ffd700" },
-            { label: "1+ SPIN", color: "#ff4500" },
-            { label: "TRY AGAIN", color: "#0b0e14" }
+            { label: "1💎", color: "#6a0dad", chance: 0.05 },
+            { label: "TRY AGAIN", color: "#1c222d", chance: 49.9 },
+            { label: "CODE", color: "#ffd700", chance: 0.05 },
+            { label: "1+ SPIN", color: "#ff4500", chance: 15.0 },
+            { label: "TRY AGAIN", color: "#0b0e14", chance: 35.0 }
         ];
 
         const totalPrizes = prizes.length;
@@ -159,6 +162,8 @@
             ctx.clearRect(0,0,500,500);
             for(let i=0; i<totalPrizes; i++) {
                 const angle = i * arc;
+                
+                // Draw Section
                 ctx.fillStyle = prizes[i].color;
                 ctx.beginPath();
                 ctx.moveTo(250, 250);
@@ -168,12 +173,13 @@
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
+                // Draw Text (Diamond is handled specially)
                 ctx.save();
                 ctx.translate(250, 250);
                 ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#fff";
-                ctx.font = "bold 22px Rajdhani";
+                ctx.font = prizes[i].label === "1💎" ? "bold 32px Inter" : "bold 22px Rajdhani";
                 ctx.fillText(prizes[i].label, 230, 10);
                 ctx.restore();
             }
@@ -187,23 +193,26 @@
             if (isSpinning) return;
             isSpinning = true;
             
+            // Rigged probability check
             const rand = Math.random() * 100;
             let winIdx;
             
-            if (rand <= 0.05) winIdx = 0; // Rigged
-            else if (rand <= 0.1) winIdx = 2; // Rigged
-            else if (rand <= 15) winIdx = 3;
-            else winIdx = Math.random() > 0.5 ? 1 : 4;
+            if (rand <= 0.05) winIdx = 0; // 1💎
+            else if (rand <= 0.1) winIdx = 2; // Redeem Code
+            else if (rand <= 15) winIdx = 3; // 1+ Spin
+            else winIdx = Math.random() > 0.5 ? 1 : 4; // Try Again
 
+            // FIX: Slow deliberate spins (from cubic-bezier)
             const extraSpins = 3600;
             const prizeSliceDeg = 360 / totalPrizes;
             
-            // MATH FIX: Centers the prize under the pointer
+            // THE CRITICAL MATH FIX: Stops pointer in the middle of the slice, not on the line.
             const targetRotation = (360 - (winIdx * prizeSliceDeg)) - (prizeSliceDeg / 2);
             rotation += extraSpins + targetRotation;
             
             canvas.style.transform = `rotate(${rotation}deg)`;
 
+            // Sound logic (tick while spinning)
             let soundLoop = setInterval(() => {
                 tickSound.currentTime = 0;
                 tickSound.play();
@@ -223,7 +232,7 @@
                 }
 
                 setTimeout(() => { notice.classList.remove("show"); }, 4000);
-            }, 6000);
+            }, 6000); // 6 seconds spin time
         }
     </script>
 </body>
