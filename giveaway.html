@@ -95,6 +95,24 @@ button {
   padding: 8px;
   border-radius: 8px;
 }
+
+/* ✅ CUSTOM POPUP */
+.popup {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  transition: 0.4s;
+  z-index: 9999;
+}
+
+.popup.show {
+  bottom: 30px;
+}
 </style>
 </head>
 
@@ -107,6 +125,9 @@ button {
   <div onclick="shareSpin()">📤 Share for Spins</div>
   <div onclick="watchAd()">📺 Watch Ads</div>
 </div>
+
+<!-- POPUP -->
+<div id="popup" class="popup"><div id="popupText"></div></div>
 
 <h2>🎯 BROXY SPIN</h2>
 
@@ -152,32 +173,39 @@ for (let i = 0; i < total; i++) {
   ctx.restore();
 }
 
-// SPINS STORAGE
+// POPUP FUNCTION
+function showPopup(msg) {
+  const p = document.getElementById("popup");
+  document.getElementById("popupText").innerText = msg;
+  p.classList.add("show");
+  setTimeout(() => p.classList.remove("show"), 2500);
+}
+
+// STORAGE
 let spins = parseInt(localStorage.getItem("spins")) || 2;
 let lastDaily = localStorage.getItem("lastDaily") || 0;
-
-// MENU TOGGLE
-document.getElementById("menuBtn").onclick = () => {
-  const m = document.getElementById("menu");
-  m.style.display = m.style.display === "block" ? "none" : "block";
-};
 
 function saveSpins() {
   localStorage.setItem("spins", spins);
 }
 
-// SPIN FUNCTION (UNCHANGED CORE)
+// MENU
+document.getElementById("menuBtn").onclick = () => {
+  const m = document.getElementById("menu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
+};
+
+// SPIN (UNCHANGED LOGIC)
 function spin() {
 
   if (spins <= 0) {
-    alert("No spins left!");
+    showPopup("No spins left!");
     return;
   }
 
   spins--;
   saveSpins();
 
-  // 🎯 RARE SYSTEM
   const rand = Math.random() * 100;
   let winIdx;
 
@@ -210,7 +238,7 @@ function spin() {
   }, 5000);
 }
 
-// DAILY SPIN
+// DAILY
 function dailySpin() {
   const now = Date.now();
   if (now - lastDaily > 86400000) {
@@ -218,34 +246,41 @@ function dailySpin() {
     lastDaily = now;
     localStorage.setItem("lastDaily", lastDaily);
     saveSpins();
-    alert("+1 spin claimed!");
+    showPopup("+1 spin claimed!");
   } else {
-    alert("Already claimed today!");
+    showPopup("Already claimed today!");
   }
 }
 
-// SHARE
+// SHARE (FIXED)
 function shareSpin() {
-  if (navigator.share) {
-    navigator.share({
-      title: "Broxy Spin",
-      text: "Try your luck!",
-      url: location.href
-    });
+  if (!navigator.share) {
+    showPopup("Sharing not supported!");
+    return;
   }
-  spins++;
-  saveSpins();
-  alert("+1 spin added!");
+
+  navigator.share({
+    title: "Broxy Spin",
+    text: "Try your luck!",
+    url: location.href
+  }).then(() => {
+    spins++;
+    saveSpins();
+    showPopup("+1 spin after sharing!");
+  }).catch(() => {
+    showPopup("Share cancelled");
+  });
 }
 
-// ADS
+// ADS (REAL LINK)
 function watchAd() {
-  alert("Watching ad...");
+  window.open("https://www.profitableratecpm.com/abc123", "_blank"); // 🔥 PUT YOUR AD LINK
+
   setTimeout(() => {
     spins++;
     saveSpins();
-    alert("+1 spin earned!");
-  }, 2000);
+    showPopup("+1 spin after ad!");
+  }, 5000);
 }
 
 // FAKE LIVE WINNERS
