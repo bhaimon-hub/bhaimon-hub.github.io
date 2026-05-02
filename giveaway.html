@@ -8,117 +8,47 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
 <style>
-body {
-  text-align: center;
-  font-family: Arial;
-  background: #f5f5f5;
-}
+body { text-align:center; font-family:Arial; background:#f5f5f5; }
 
 /* MENU */
-#menuBtn {
-  position: fixed;
-  top: 15px;
-  right: 20px;
-  font-size: 28px;
-  cursor: pointer;
-}
-
+#menuBtn { position:fixed; top:15px; right:20px; font-size:28px; cursor:pointer; }
 #menu {
-  position: fixed;
-  top: 50px;
-  right: 20px;
-  background: white;
-  border-radius: 10px;
-  display: none;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position:fixed; top:50px; right:20px;
+  background:white; border-radius:10px;
+  display:none; box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
-
-#menu div {
-  padding: 12px 20px;
-  cursor: pointer;
-}
-
-#menu div:hover {
-  background: #eee;
-}
+#menu div { padding:12px 20px; cursor:pointer; }
+#menu div:hover { background:#eee; }
 
 /* WHEEL */
-#wheelBox {
-  position: relative;
-  width: 350px;
-  margin: 40px auto;
-}
-
+#wheelBox { position:relative; width:350px; margin:40px auto; }
 .pointer {
-  position: absolute;
-  left: 50%;
-  top: -10px;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 18px solid transparent;
-  border-right: 18px solid transparent;
-  border-top: 35px solid black;
-  z-index: 10;
+  position:absolute; left:50%; top:-10px; transform:translateX(-50%);
+  border-left:18px solid transparent;
+  border-right:18px solid transparent;
+  border-top:35px solid black;
 }
+canvas { width:100%; border-radius:50%; border:10px solid white; }
 
-canvas {
-  width: 100%;
-  border-radius: 50%;
-  border: 10px solid white;
-}
+button { padding:12px 40px; margin-top:20px; cursor:pointer; }
 
-button {
-  padding: 12px 40px;
-  margin-top: 20px;
-  cursor: pointer;
-}
+#result { margin-top:15px; font-weight:bold; }
+#spinCount { margin-top:8px; font-weight:bold; }
 
-#result {
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* LEADERBOARD */
-#leaderboard {
-  margin-top: 30px;
-  max-width: 350px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
-
-#leaderboard div {
-  background: white;
-  margin: 5px 0;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-/* ✅ CUSTOM POPUP */
+/* POPUP */
 .popup {
-  position: fixed;
-  bottom: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111;
-  color: white;
-  padding: 12px 25px;
-  border-radius: 30px;
-  transition: 0.4s;
-  z-index: 9999;
+  position:fixed; bottom:-100px; left:50%;
+  transform:translateX(-50%);
+  background:#111; color:white;
+  padding:10px 20px; border-radius:20px;
+  transition:0.4s;
 }
-
-.popup.show {
-  bottom: 30px;
-}
+.popup.show { bottom:30px; }
 </style>
 </head>
 
 <body>
 
-<!-- MENU -->
 <div id="menuBtn">⋮</div>
 <div id="menu">
   <div onclick="dailySpin()">🎁 Daily Spin</div>
@@ -126,8 +56,7 @@ button {
   <div onclick="watchAd()">📺 Watch Ads</div>
 </div>
 
-<!-- POPUP -->
-<div id="popup" class="popup"><div id="popupText"></div></div>
+<div id="popup" class="popup"><span id="popupText"></span></div>
 
 <h2>🎯 BROXY SPIN</h2>
 
@@ -137,68 +66,85 @@ button {
 </div>
 
 <button onclick="spin()">Spin</button>
+<div id="spinCount"></div>
 <div id="result"></div>
 
-<!-- LEADERBOARD -->
 <div id="leaderboard">
-  <h3>🏆 Live Winners</h3>
-  <div id="leaderboardList"></div>
+  <h3>🏆 Winners</h3>
+  <div style="text-align:center;">No winners yet</div>
 </div>
 
 <script>
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
-const sections = ["Try Again", "2💎", "1💎", "Try Again", "CODE", "1 Spin", "Try Again", "10💎"];
+const sections = ["Try Again","2💎","1💎","Try Again","CODE","1 Spin","Try Again","10💎"];
 const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0fbfc","#ffefdb"];
 
 const total = sections.length;
-const arc = 2 * Math.PI / total;
+const arc = 2*Math.PI/total;
 
 // DRAW
-for (let i = 0; i < total; i++) {
+for(let i=0;i<total;i++){
   ctx.beginPath();
-  ctx.fillStyle = colors[i];
+  ctx.fillStyle=colors[i];
   ctx.moveTo(250,250);
   ctx.arc(250,250,250,i*arc,(i+1)*arc);
   ctx.fill();
 
   ctx.save();
   ctx.translate(250,250);
-  ctx.rotate(i*arc + arc/2);
+  ctx.rotate(i*arc+arc/2);
   ctx.fillStyle="#000";
   ctx.textAlign="right";
   ctx.font="bold 16px Arial";
-  ctx.fillText(sections[i], 220, 10);
+  ctx.fillText(sections[i],220,10);
   ctx.restore();
 }
 
-// POPUP FUNCTION
-function showPopup(msg) {
-  const p = document.getElementById("popup");
-  document.getElementById("popupText").innerText = msg;
+// POPUP
+function showPopup(msg){
+  const p=document.getElementById("popup");
+  document.getElementById("popupText").innerText=msg;
   p.classList.add("show");
-  setTimeout(() => p.classList.remove("show"), 2500);
+  setTimeout(()=>p.classList.remove("show"),2500);
 }
 
-// STORAGE
-let spins = parseInt(localStorage.getItem("spins")) || 2;
-let lastDaily = localStorage.getItem("lastDaily") || 0;
+// 🔒 FIXED STORAGE
+let spins, lastDaily;
 
-function saveSpins() {
-  localStorage.setItem("spins", spins);
+if(localStorage.getItem("initialized")){
+  spins=parseInt(localStorage.getItem("spins"));
+  lastDaily=parseInt(localStorage.getItem("lastDaily"))||0;
+}else{
+  spins=2;
+  lastDaily=0;
+  localStorage.setItem("initialized","true");
+  localStorage.setItem("spins",spins);
+  localStorage.setItem("lastDaily",lastDaily);
 }
+
+function saveSpins(){
+  localStorage.setItem("spins",spins);
+  updateSpinUI();
+}
+
+function updateSpinUI(){
+  document.getElementById("spinCount").innerText="Spins: "+spins;
+}
+
+updateSpinUI();
 
 // MENU
-document.getElementById("menuBtn").onclick = () => {
-  const m = document.getElementById("menu");
-  m.style.display = m.style.display === "block" ? "none" : "block";
+document.getElementById("menuBtn").onclick=()=>{
+  const m=document.getElementById("menu");
+  m.style.display=m.style.display==="block"?"none":"block";
 };
 
-// SPIN (UNCHANGED LOGIC)
-function spin() {
+// SPIN (UNCHANGED)
+function spin(){
 
-  if (spins <= 0) {
+  if(spins<=0){
     showPopup("No spins left!");
     return;
   }
@@ -206,104 +152,81 @@ function spin() {
   spins--;
   saveSpins();
 
-  const rand = Math.random() * 100;
+  const rand=Math.random()*100;
   let winIdx;
 
-  if (rand < 0.05) winIdx = 7;
-  else if (rand < 0.10) winIdx = 2;
-  else if (rand < 0.15) winIdx = 4;
-  else {
-    const common = [0,3,6];
-    winIdx = common[Math.floor(Math.random()*common.length)];
+  if(rand<0.05) winIdx=7;
+  else if(rand<0.10) winIdx=2;
+  else if(rand<0.15) winIdx=4;
+  else{
+    const common=[0,3,6];
+    winIdx=common[Math.floor(Math.random()*common.length)];
   }
 
-  const sliceDeg = 360 / total;
-  const targetAngle = (winIdx * sliceDeg) + sliceDeg/2;
-  const finalAngle = 360 - targetAngle - 90;
-  const totalRotation = 360 * 6 + finalAngle;
+  const sliceDeg=360/total;
+  const target=(winIdx*sliceDeg)+sliceDeg/2;
+  const final=360-target-90;
+  const rotate=360*6+final;
 
-  canvas.style.transition = "none";
-  canvas.style.transform = `rotate(0deg)`;
+  canvas.style.transition="none";
+  canvas.style.transform="rotate(0deg)";
   canvas.offsetHeight;
 
-  canvas.style.transition = "transform 5s cubic-bezier(0.25,1,0.5,1)";
-  canvas.style.transform = `rotate(${totalRotation}deg)`;
+  canvas.style.transition="transform 5s cubic-bezier(0.25,1,0.5,1)";
+  canvas.style.transform=`rotate(${rotate}deg)`;
 
-  setTimeout(() => {
-    document.getElementById("result").innerText = "You got: " + sections[winIdx];
-
-    if ([2,4,7].includes(winIdx)) {
-      confetti({ particleCount: 200, spread: 100 });
+  setTimeout(()=>{
+    document.getElementById("result").innerText="You got: "+sections[winIdx];
+    if([2,4,7].includes(winIdx)){
+      confetti({particleCount:200,spread:100});
     }
-  }, 5000);
+  },5000);
 }
 
 // DAILY
-function dailySpin() {
-  const now = Date.now();
-  if (now - lastDaily > 86400000) {
+function dailySpin(){
+  const now=Date.now();
+  if(now-lastDaily>86400000){
     spins++;
-    lastDaily = now;
-    localStorage.setItem("lastDaily", lastDaily);
+    lastDaily=now;
+    localStorage.setItem("lastDaily",lastDaily);
     saveSpins();
     showPopup("+1 spin claimed!");
-  } else {
+  }else{
     showPopup("Already claimed today!");
   }
 }
 
-// SHARE (FIXED)
-function shareSpin() {
-  if (!navigator.share) {
+// SHARE
+function shareSpin(){
+  if(!navigator.share){
     showPopup("Sharing not supported!");
     return;
   }
 
   navigator.share({
-    title: "Broxy Spin",
-    text: "Try your luck!",
-    url: location.href
-  }).then(() => {
+    title:"Broxy Spin",
+    text:"Try your luck!",
+    url:location.href
+  }).then(()=>{
     spins++;
     saveSpins();
     showPopup("+1 spin after sharing!");
-  }).catch(() => {
+  }).catch(()=>{
     showPopup("Share cancelled");
   });
 }
 
-// ADS (REAL LINK)
-function watchAd() {
-  window.open("https://www.profitableratecpm.com/abc123", "_blank"); // 🔥 PUT YOUR AD LINK
+// ADS
+function watchAd(){
+  window.open("https://www.profitableratecpm.com/abc123","_blank");
 
-  setTimeout(() => {
+  setTimeout(()=>{
     spins++;
     saveSpins();
     showPopup("+1 spin after ad!");
-  }, 5000);
+  },5000);
 }
-
-// FAKE LIVE WINNERS
-const names = ["Rahul","Aman","Priya","Neha","Rohit","Suman","Arjun"];
-const rewards = ["10💎","1💎","CODE"];
-
-function addWinner() {
-  const board = document.getElementById("leaderboardList");
-  const div = document.createElement("div");
-
-  div.innerText =
-    names[Math.floor(Math.random()*names.length)] +
-    " won " +
-    rewards[Math.floor(Math.random()*rewards.length)];
-
-  board.prepend(div);
-
-  if (board.children.length > 10) {
-    board.removeChild(board.lastChild);
-  }
-}
-
-setInterval(addWinner, 3000);
 </script>
 
 </body>
