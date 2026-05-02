@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BROXY | Royale Giveaway</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Confetti Library for winners -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
         body { 
             background-color: #0b0e14; 
@@ -15,22 +16,25 @@
             font-family: 'Rajdhani', sans-serif; 
             min-h-screen; 
             overflow-x: hidden;
+            display: flex; flex-col; items-center; justify-center;
         }
         
-        /* Gold Border & Glow Effect */
+        /* Premuim Gold Casino Border & Glow */
         .wheel-outer-border {
             position: relative;
-            padding: 15px;
+            padding: 18px;
             background: linear-gradient(145deg, #ffd700, #b8860b, #8b6508);
             border-radius: 50%;
             box-shadow: 0 0 50px rgba(212, 175, 55, 0.4), inset 0 0 20px rgba(0,0,0,0.5);
+            transition: scale 0.3s ease;
         }
+        .wheel-outer-border:hover { scale: 1.02; }
 
         .wheel-container {
             position: relative;
-            width: 340px;
-            height: 340px;
-            border: 5px solid #222;
+            width: 350px;
+            height: 350px;
+            border: 6px solid #222;
             border-radius: 50%;
             overflow: hidden;
         }
@@ -38,17 +42,18 @@
         canvas {
             width: 100%;
             height: 100%;
-            transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1);
+            transform: rotate(0deg);
+            transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1); /* Slow, deliberate stop */
         }
 
-        /* The Gold Center Button */
+        /* The Gold Center Button from your reference */
         .spin-center {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
+            width: 85px;
+            height: 85px;
             background: radial-gradient(circle, #ffd700 0%, #8b6508 100%);
             border: 4px solid #fff;
             border-radius: 50%;
@@ -56,6 +61,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 900;
+            font-size: 1.1rem;
             color: #000;
             cursor: pointer;
             z-index: 20;
@@ -65,39 +71,61 @@
 
         .spin-center:active { transform: translate(-50%, -45%) scale(0.95); }
 
-        .ticker {
+        .pointer {
             position: absolute;
-            top: -10px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 40px;
-            height: 50px;
+            width: 45px;
+            height: 55px;
             background: #ffd700;
             clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
             z-index: 30;
             filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
         }
+
+        /* Fixed Result Notifications */
+        #result-notice {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-weight: black;
+            font-size: 1.2rem;
+            text-align: center;
+            transition: top 0.5s ease-in-out;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            backdrop-blur: 10px;
+        }
+        #result-notice.show { top: 30px; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-6 min-h-screen">
+<body>
 
     <nav class="w-full flex justify-between p-6 absolute top-0">
         <h1 class="text-2xl font-black italic tracking-tighter">BROXY <span class="text-orange-500">ROYALE</span></h1>
-        <a href="index.html" class="text-orange-500 font-bold border-b-2 border-orange-500">EXIT</a>
+        <a href="index.html" class="text-orange-500 font-bold border-b-2 border-orange-500 hover:border-white hover:text-white transition">EXIT HUB</a>
     </nav>
     
-    <div class="text-center mb-8">
-        <h2 class="text-4xl font-black italic uppercase tracking-widest text-white shadow-orange-500 drop-shadow-lg">Lucky Spinning Wheel</h2>
-        <p class="text-gray-500 text-xs mt-2 uppercase font-bold tracking-[0.3em]">Premium Giveaway Edition</p>
+    <div class="text-center mb-10 mt-20">
+        <h2 class="text-4xl md:text-5xl font-black italic uppercase tracking-widest text-white drop-shadow-lg" style="text-shadow: 0 0 15px rgba(255,140,0,0.8)">Lucky Spinning Wheel</h2>
+        <p class="text-gray-500 text-xs mt-3 uppercase font-bold tracking-[0.4em]">Premium Giveaway Edition</p>
     </div>
 
+    <!-- The Casino Wheel Component -->
     <div class="wheel-outer-border">
-        <div class="ticker"></div>
+        <div class="pointer"></div>
         <div class="wheel-container">
             <canvas id="wheel" width="500" height="500"></canvas>
             <div class="spin-center" onclick="spin()">SPIN</div>
         </div>
     </div>
+
+    <!-- Custom Result Notification (replaces alert) -->
+    <div id="result-notice"></div>
 
     <!-- AUDIO ELEMENTS -->
     <audio id="tickSound" src="https://www.soundjay.com/buttons/button-10.mp3"></audio>
@@ -108,13 +136,15 @@
         const ctx = canvas.getContext('2d');
         const tickSound = document.getElementById('tickSound');
         const winSound = document.getElementById('winSound');
+        const notice = document.getElementById('result-notice');
 
+        // Prizes list matching your design and probabilities
         const prizes = [
-            { label: "1 DIAMOND", color: "#6a0dad", chance: 0.05 }, // Purple (Elite)
-            { label: "TRY AGAIN", color: "#1c222d", chance: 49.9 }, // Dark
-            { label: "REDEEM CODE", color: "#ffd700", chance: 0.05 }, // Gold (Elite)
-            { label: "1+ SPIN", color: "#ff4500", chance: 15.0 }, // Orange
-            { label: "TRY AGAIN", color: "#0b0e14", chance: 35.0 }  // Black
+            { label: "1 DIAMOND", color: "#6a0dad" }, // Purple (Elite Win)
+            { label: "TRY AGAIN", color: "#1c222d" }, // Dark (Common Loss)
+            { label: "REDEEM CODE", color: "#ffd700" }, // Gold (Elite Win)
+            { label: "1+ SPIN", color: "#ff4500" }, // Orange (Small Win)
+            { label: "TRY AGAIN", color: "#0b0e14" }  // Black (Common Loss)
         ];
 
         const totalPrizes = prizes.length;
@@ -125,24 +155,24 @@
             for(let i=0; i<totalPrizes; i++) {
                 const angle = i * arc;
                 
-                // Draw Section
+                // Draw Premium Section
                 ctx.fillStyle = prizes[i].color;
                 ctx.beginPath();
                 ctx.moveTo(250, 250);
                 ctx.arc(250, 250, 250, angle, angle + arc);
                 ctx.lineTo(250, 250);
                 ctx.fill();
-                ctx.strokeStyle = "rgba(212, 175, 55, 0.5)";
+                ctx.strokeStyle = "rgba(212, 175, 55, 0.5)"; // Gold divider lines
                 ctx.lineWidth = 4;
                 ctx.stroke();
 
-                // Draw Text
+                // Draw Section Text
                 ctx.save();
                 ctx.translate(250, 250);
-                ctx.rotate(angle + arc / 2);
+                ctx.rotate(angle + arc / 2); // Center of the slice
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#fff";
-                ctx.font = "900 24px Rajdhani";
+                ctx.font = "900 24px Inter";
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = "black";
                 ctx.fillText(prizes[i].label, 230, 10);
@@ -158,54 +188,60 @@
             if (isSpinning) return;
             isSpinning = true;
             
-            // Winning Logic (Rigged Math)
+            // Winning Logic (Rigged 0.05% Math)
             const rand = Math.random() * 100;
             let winIdx;
             
-            if (rand <= 0.05) winIdx = 0; // 1 Diamond
-            else if (rand <= 0.1) winIdx = 2; // Redeem Code
-            else if (rand <= 15) winIdx = 3; // 1+ Spin
-            else winIdx = Math.random() > 0.5 ? 1 : 4; // Try Again
+            if (rand <= 0.05) winIdx = 0; // 1 Diamond (0.05% chance)
+            else if (rand <= 0.1) winIdx = 2; // Redeem Code (0.05% chance)
+            else if (rand <= 15) winIdx = 3; // 1+ Spin (approx 15% chance)
+            else winIdx = Math.random() > 0.5 ? 1 : 4; // Try Again (Common)
 
             // Perfect Centering Logic
-            // The ticker is at the top (270 degrees in canvas math).
-            // We need the center of the prize slice to land at the top.
-            const extraSpins = 3600; // 10 rounds
+            // The pointer is at the top (270 deg). 
+            // This formula ensures the perfect middle of the winning slice lands at the pointer.
+            const extraSpins = 3600; // 10 rounds for tension
             const prizeSliceDeg = 360 / totalPrizes;
-            
-            // This formula ensures the slice is perfectly centered under the ticker
             const targetRotation = extraSpins + (360 - (winIdx * prizeSliceDeg)) - (prizeSliceDeg / 2);
             
             currentRotation += targetRotation;
             canvas.style.transform = `rotate(${currentRotation}deg)`;
 
-            // Sound Effect Loop
+            // --- Tick Sound Loop ---
+            // plays rapidly during the spin to simulate a physical machine ticking.
+            tickSound.playbackRate = 1.2;
             let soundInterval = setInterval(() => {
-                tickSound.currentTime = 0;
+                tickSound.currentTime = 0; // Restart sound immediately
                 tickSound.play();
-            }, 150);
+            }, 120);
 
             setTimeout(() => {
-                clearInterval(soundInterval);
+                clearInterval(soundInterval); // Stop ticking
                 isSpinning = false;
                 
-                // Celebration Logic
-                if (winIdx === 0 || winIdx === 2) {
+                // --- CUSTOM RESULT NOTICE ---
+                const label = prizes[winIdx].label;
+                notice.innerHTML = `<span class="uppercase tracking-widest text-xs font-bold text-gray-300 block mb-1">Giveaway Result</span><span class="block">${label}</span>`;
+                
+                // Colorize the notice based on win type
+                notice.className = ""; // clear
+                if (winIdx === 0 || winIdx === 2) { 
+                    // BIG WIN: RED & Celebration
+                    notice.classList.add("bg-red-600", "text-white", "show"); 
                     winSound.play();
-                    confetti({
-                        particleCount: 150,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#ffd700', '#ffffff', '#ff4500']
-                    });
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ffd700', '#ffffff', '#ff4500'] });
+                } else if (winIdx === 3) {
+                    // 1+ SPIN: ORANGE
+                    notice.classList.add("bg-orange-500", "text-black", "show"); 
+                } else {
+                    // TRY AGAIN: WHITE/BLACK
+                    notice.classList.add("bg-white", "text-black", "show");
                 }
 
-                // Smooth alert
-                setTimeout(() => {
-                    alert("RESULT: " + prizes[winIdx].label);
-                }, 500);
+                // Hide the notice after 4 seconds
+                setTimeout(() => { notice.classList.remove("show"); }, 4000);
                 
-            }, 6000);
+            }, 6000); // 6 seconds spin time
         }
     </script>
 </body>
