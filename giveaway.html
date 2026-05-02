@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perfect Spin Fix</title>
+<title>Broxy Spin</title>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
@@ -14,6 +14,35 @@ body {
   background: #f5f5f5;
 }
 
+/* MENU */
+#menuBtn {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+#menu {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  background: white;
+  border-radius: 10px;
+  display: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+#menu div {
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
+#menu div:hover {
+  background: #eee;
+}
+
+/* WHEEL */
 #wheelBox {
   position: relative;
   width: 350px;
@@ -50,12 +79,36 @@ button {
   font-size: 20px;
   font-weight: bold;
 }
+
+/* LEADERBOARD */
+#leaderboard {
+  margin-top: 30px;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+#leaderboard div {
+  background: white;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 8px;
+}
 </style>
 </head>
 
 <body>
 
-<h2>🎯 FIXED SPIN</h2>
+<!-- MENU -->
+<div id="menuBtn">⋮</div>
+<div id="menu">
+  <div onclick="dailySpin()">🎁 Daily Spin</div>
+  <div onclick="shareSpin()">📤 Share for Spins</div>
+  <div onclick="watchAd()">📺 Watch Ads</div>
+</div>
+
+<h2>🎯 BROXY SPIN</h2>
 
 <div id="wheelBox">
   <div class="pointer"></div>
@@ -64,6 +117,12 @@ button {
 
 <button onclick="spin()">Spin</button>
 <div id="result"></div>
+
+<!-- LEADERBOARD -->
+<div id="leaderboard">
+  <h3>🏆 Live Winners</h3>
+  <div id="leaderboardList"></div>
+</div>
 
 <script>
 const canvas = document.getElementById("wheel");
@@ -75,7 +134,7 @@ const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0
 const total = sections.length;
 const arc = 2 * Math.PI / total;
 
-// draw wheel
+// DRAW
 for (let i = 0; i < total; i++) {
   ctx.beginPath();
   ctx.fillStyle = colors[i];
@@ -93,54 +152,123 @@ for (let i = 0; i < total; i++) {
   ctx.restore();
 }
 
-function spin() {
+// SPINS STORAGE
+let spins = parseInt(localStorage.getItem("spins")) || 2;
+let lastDaily = localStorage.getItem("lastDaily") || 0;
 
-  // 🎯 EXTREME RARE SYSTEM
-const rand = Math.random() * 100;
-let winIdx;
+// MENU TOGGLE
+document.getElementById("menuBtn").onclick = () => {
+  const m = document.getElementById("menu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
+};
 
-// 0.05% each (VERY RARE)
-if (rand < 0.05) {
-  winIdx = 7; // 10💎
-} else if (rand < 0.10) {
-  winIdx = 2; // 1💎
-} else if (rand < 0.15) {
-  winIdx = 4; // CODE
-} else {
-  // 99.85% chance → mostly "Try Again"
-  const common = [0, 3, 6]; // Try Again indexes
-  winIdx = common[Math.floor(Math.random() * common.length)];
+function saveSpins() {
+  localStorage.setItem("spins", spins);
 }
 
+// SPIN FUNCTION (UNCHANGED CORE)
+function spin() {
+
+  if (spins <= 0) {
+    alert("No spins left!");
+    return;
+  }
+
+  spins--;
+  saveSpins();
+
+  // 🎯 RARE SYSTEM
+  const rand = Math.random() * 100;
+  let winIdx;
+
+  if (rand < 0.05) winIdx = 7;
+  else if (rand < 0.10) winIdx = 2;
+  else if (rand < 0.15) winIdx = 4;
+  else {
+    const common = [0,3,6];
+    winIdx = common[Math.floor(Math.random()*common.length)];
+  }
+
   const sliceDeg = 360 / total;
-
-  // 🎯 EXACT CENTER landing
   const targetAngle = (winIdx * sliceDeg) + sliceDeg/2;
-
-  // 🎯 convert for top pointer
   const finalAngle = 360 - targetAngle - 90;
-
-  // 🎯 ALWAYS RESET ROTATION (NO DRIFT BUG)
   const totalRotation = 360 * 6 + finalAngle;
 
   canvas.style.transition = "none";
   canvas.style.transform = `rotate(0deg)`;
-
-  // force reset
   canvas.offsetHeight;
 
   canvas.style.transition = "transform 5s cubic-bezier(0.25,1,0.5,1)";
   canvas.style.transform = `rotate(${totalRotation}deg)`;
 
   setTimeout(() => {
-    const result = sections[winIdx];
-    document.getElementById("result").innerText = "You got: " + result;
+    document.getElementById("result").innerText = "You got: " + sections[winIdx];
 
     if ([2,4,7].includes(winIdx)) {
       confetti({ particleCount: 200, spread: 100 });
     }
   }, 5000);
 }
+
+// DAILY SPIN
+function dailySpin() {
+  const now = Date.now();
+  if (now - lastDaily > 86400000) {
+    spins++;
+    lastDaily = now;
+    localStorage.setItem("lastDaily", lastDaily);
+    saveSpins();
+    alert("+1 spin claimed!");
+  } else {
+    alert("Already claimed today!");
+  }
+}
+
+// SHARE
+function shareSpin() {
+  if (navigator.share) {
+    navigator.share({
+      title: "Broxy Spin",
+      text: "Try your luck!",
+      url: location.href
+    });
+  }
+  spins++;
+  saveSpins();
+  alert("+1 spin added!");
+}
+
+// ADS
+function watchAd() {
+  alert("Watching ad...");
+  setTimeout(() => {
+    spins++;
+    saveSpins();
+    alert("+1 spin earned!");
+  }, 2000);
+}
+
+// FAKE LIVE WINNERS
+const names = ["Rahul","Aman","Priya","Neha","Rohit","Suman","Arjun"];
+const rewards = ["10💎","1💎","CODE"];
+
+function addWinner() {
+  const board = document.getElementById("leaderboardList");
+  const div = document.createElement("div");
+
+  div.innerText =
+    names[Math.floor(Math.random()*names.length)] +
+    " won " +
+    rewards[Math.floor(Math.random()*rewards.length)];
+
+  board.prepend(div);
+
+  if (board.children.length > 10) {
+    board.removeChild(board.lastChild);
+  }
+}
+
+setInterval(addWinner, 3000);
 </script>
 
 </body>
