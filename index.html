@@ -31,14 +31,13 @@
             <a href="giveaway.html">Giveaway</a>
         </div>
 
-        <!-- PROFESSIONAL SUBSCRIBE BUTTON -->
-<div class="hidden md:block ml-4">
-    <a href="https://www.youtube.com/channel/UCHuhBLFe1uxLgESiYpDfQgQ?sub_confirmation=1" 
-       target="_blank" 
-       class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-bold text-sm transition shadow-lg">
-       SUBSCRIBE
-    </a>
-</div>
+        <div class="hidden md:block ml-4">
+            <a href="https://www.youtube.com/channel/UCHuhBLFe1uxLgESiYpDfQgQ?sub_confirmation=1" 
+               target="_blank" 
+               class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-bold text-sm transition shadow-lg">
+                SUBSCRIBE
+            </a>
+        </div>
         
         <button onclick="toggleMenu()" class="md:hidden text-2xl text-orange-500"><i class="fa-solid fa-ellipsis-vertical"></i></button>
     </nav>
@@ -58,24 +57,17 @@
             <div id="latest-vid" class="lg:col-span-8 bento-card !p-0 overflow-hidden min-h-[350px] flex items-center justify-center">
                 <p class="animate-pulse text-gray-500 uppercase italic">Loading Latest Feed...</p>
             </div>
-            <!-- UPDATED PREMIUM GIVEAWAY CARD -->
-<div class="lg:col-span-4 bento-card relative overflow-hidden border-none text-white flex flex-col justify-between items-center text-center group" 
-     style="background-image: radial-gradient(circle at center, #ff4500 0%, #b91c1c 100%);">
-    
-    <!-- Background glow decoration -->
-    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-dotted-2.png')] opacity-30"></div>
-    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
-
-    <img src="channels4_profile.jpg" alt="Broxy Royale Logo" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-2xl relative z-10 mb-4 object-cover">
-    
-    <div class="relative z-10 space-y-2 mb-4">
-        <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-inner">Broxy Royale</span>
-        <h3 class="text-xl md:text-2xl font-black uppercase italic" style="text-shadow: 0 2px 5px rgba(0,0,0,0.3)">Weekly Skin Giveaway</h3>
-    </div>
-    
-    <!-- LINK TO THE NEW PREMIUM WHEEL -->
-    <button onclick="window.location.href='giveaway.html'" class="w-full bg-white text-red-600 font-black py-4 rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition relative z-10 uppercase text-sm tracking-wider">ENTER NOW</button>
-</div>
+            
+            <div class="lg:col-span-4 bento-card relative overflow-hidden border-none text-white flex flex-col justify-between items-center text-center group" 
+                 style="background-image: radial-gradient(circle at center, #ff4500 0%, #b91c1c 100%);">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-dotted-2.png')] opacity-30"></div>
+                <img src="channels4_profile.jpg" alt="Broxy Royale Logo" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-2xl relative z-10 mb-4 object-cover">
+                <div class="relative z-10 space-y-2 mb-4">
+                    <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-inner">Broxy Royale</span>
+                    <h3 class="text-xl md:text-2xl font-black uppercase italic">Weekly Skin Giveaway</h3>
+                </div>
+                <button onclick="window.location.href='giveaway.html'" class="w-full bg-white text-red-600 font-black py-4 rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition relative z-10 uppercase text-sm tracking-wider">ENTER NOW</button>
+            </div>
         </div>
 
         <section id="counter" class="space-y-6">
@@ -108,20 +100,60 @@
         </section>
     </main>
 
+    <footer class="mt-20 border-t border-gray-800 pt-10 pb-6 bg-[#0b0e14] text-gray-400">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
+            <div>
+                <h2 class="text-2xl font-black text-white italic mb-4">BROXY<span class="text-orange-500">HUB</span></h2>
+                <p class="text-sm leading-relaxed">
+                    The ultimate community platform for Mobile Legends enthusiasts. Managed by <span class="font-bold text-white">Broxy</span>, we provide advanced hero counter data, interactive community tools, and a hub for gaming content creators.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-xs">Legal & Info</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="about.html" class="hover:text-orange-500 transition">About Us</a></li>
+                    <li><a href="about.html#privacy" class="hover:text-orange-500 transition">Privacy Policy</a></li>
+                    <li><a href="about.html#terms" class="hover:text-orange-500 transition">Terms of Service</a></li>
+                    <li><a href="about.html#disclaimer" class="hover:text-orange-500 transition">Disclaimer</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-xs">Community</h3>
+                <p class="text-sm mb-4">Join our growing gaming family on our official platforms.</p>
+                <div class="flex space-x-6">
+                    <a href="https://www.youtube.com/channel/UCHuhBLFe1uxLgESiYpDfQgQ" target="_blank" class="text-3xl text-red-600 hover:scale-110 transition-all"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/broxy_official?igsh=MXZ4Zmh2ZTMwaG1tZQ==" target="_blank" class="text-3xl text-pink-500 hover:scale-110 transition-all"><i class="fab fa-instagram"></i></a>
+                    <a href="live.html" class="text-3xl text-blue-400 hover:scale-110 transition-all"><i class="fas fa-comment-dots"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 text-center border-t border-gray-800 pt-6 text-[10px] uppercase tracking-[0.3em]">
+            &copy; 2026 BROXY HUB | All Rights Reserved.
+        </div>
+    </footer>
+
     <script>
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
         const API_KEY = 'AIzaSyD-aZcMCuAFtnCKUd0wu7uv4Dp9UYtfkyc'; 
         const CHANNEL_ID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
 
         async function loadLatest() {
+            const vidContainer = document.getElementById('latest-vid');
             try {
+                // Ensure the channel ID and API key are used correctly to fetch the data
                 const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=1&type=video`);
+                if (!res.ok) throw new Error('API Request Failed');
                 const data = await res.json();
-                if (data.items.length > 0) {
+                if (data.items && data.items.length > 0) {
                     const id = data.items[0].id.videoId;
-                    document.getElementById('latest-vid').innerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
+                    vidContainer.innerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
+                } else {
+                    vidContainer.innerHTML = `<p class="text-gray-500 italic">No videos found.</p>`;
                 }
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error("YouTube Load Error:", e);
+                vidContainer.innerHTML = `<p class="text-red-500 text-xs">Failed to load YouTube feed. Check API Key restrictions.</p>`;
+            }
         }
         loadLatest();
 
@@ -143,55 +175,3 @@
     </script>
 </body>
 </html>
-
-<footer class="mt-20 border-t border-gray-800 pt-10 pb-6 bg-[#0b0e14] text-gray-400">
-    <div class="max-auto max-w-7xl px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
-        
-        <!-- Brand Section -->
-        <div>
-            <h2 class="text-2xl font-black text-white italic mb-4">BROXY<span class="text-orange-500">HUB</span></h2>
-            <p class="text-sm leading-relaxed">
-                The ultimate community platform for Mobile Legends enthusiasts. Managed by **Broxy**, we provide advanced hero counter data, interactive community tools, and a hub for gaming content creators.
-            </p>
-        </div>
-
-        <!-- Quick Links -->
-        <div>
-            <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-xs">Legal & Info</h3>
-            <ul class="space-y-2 text-sm">
-                <li><a href="about.html" class="hover:text-orange-500 transition">About Us</a></li>
-                <li><a href="about.html#privacy" class="hover:text-orange-500 transition">Privacy Policy</a></li>
-                <li><a href="about.html#terms" class="hover:text-orange-500 transition">Terms of Service</a></li>
-                <li><a href="about.html#disclaimer" class="hover:text-orange-500 transition">Disclaimer</a></li>
-            </ul>
-        </div>
-
-     <!-- Add this Font Awesome link inside your <head> tag if not already there -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<!-- Community Section -->
-<div>
-    <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-xs">Community</h3>
-    <p class="text-sm mb-4">Join our growing gaming family on our official platforms.</p>
-    <div class="flex space-x-6">
-        <!-- YouTube Official Logo -->
-        <a href="https://www.youtube.com/channel/UCHuhBLFe1uxLgESiYpDfQgQ" target="_blank" rel="noopener noreferrer" title="Broxy YouTube" class="text-3xl text-red-600 hover:text-white hover:scale-110 transition-all">
-            <i class="fab fa-youtube"></i>
-        </a>
-        
-        <!-- Instagram Official Logo -->
-        <a href="https://www.instagram.com/broxy_official?igsh=MXZ4Zmh2ZTMwaG1tZQ==" target="_blank" rel="noopener noreferrer" title="Broxy Instagram" class="text-3xl text-pink-500 hover:text-white hover:scale-110 transition-all">
-            <i class="fab fa-instagram"></i>
-        </a>
-        
-        <!-- Global Chat (Keeping the Bubble) -->
-        <a href="live.html" title="Community Chat" class="text-3xl text-blue-400 hover:text-white hover:scale-110 transition-all">
-            <i class="fas fa-comment-dots"></i>
-        </a>
-    </div>
-</div>
-
-    <div class="mt-12 text-center border-t border-gray-800 pt-6 text-[10px] uppercase tracking-[0.3em]">
-        &copy; 2026 BROXY HUB | All Rights Reserved.
-    </div>
-</footer>
