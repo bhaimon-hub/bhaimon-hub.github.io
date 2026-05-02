@@ -70,6 +70,7 @@
             </div>
         </div>
 
+        <!-- HERO COUNTER DATABASE (EXACTLY AS PER PREVIOUS UPDATES) -->
         <section id="counter" class="space-y-6">
             <h3 class="text-xl font-black uppercase italic underline decoration-orange-500 underline-offset-8">Hero Counter Database</h3>
             <div class="counter-grid">
@@ -100,6 +101,7 @@
         </section>
     </main>
 
+    <!-- PROFESSIONAL FOOTER MOVED INSIDE BODY TAGS -->
     <footer class="mt-20 border-t border-gray-800 pt-10 pb-6 bg-[#0b0e14] text-gray-400">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
             <div>
@@ -134,29 +136,43 @@
 
     <script>
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+        
+        // CORE API CONFIGURATION
         const API_KEY = 'AIzaSyD-aZcMCuAFtnCKUd0wu7uv4Dp9UYtfkyc'; 
         const CHANNEL_ID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
 
         async function loadLatest() {
             const vidContainer = document.getElementById('latest-vid');
             try {
-                // Ensure the channel ID and API key are used correctly to fetch the data
+                // FETCHING THE LATEST VIDEO WITH ERROR LOGGING
                 const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=1&type=video`);
-                if (!res.ok) throw new Error('API Request Failed');
+                
+                if (!res.ok) {
+                    const errorDetails = await res.json();
+                    throw new Error(errorDetails.error.message || 'Unknown API Error');
+                }
+
                 const data = await res.json();
                 if (data.items && data.items.length > 0) {
                     const id = data.items[0].id.videoId;
                     vidContainer.innerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
                 } else {
-                    vidContainer.innerHTML = `<p class="text-gray-500 italic">No videos found.</p>`;
+                    vidContainer.innerHTML = `<p class="text-gray-500 italic">No recent videos found on the channel.</p>`;
                 }
             } catch (e) { 
-                console.error("YouTube Load Error:", e);
-                vidContainer.innerHTML = `<p class="text-red-500 text-xs">Failed to load YouTube feed. Check API Key restrictions.</p>`;
+                console.error("YouTube Load Failure:", e);
+                // DISPLAYING A CLEAR ERROR MESSAGE INSTEAD OF "LOADING"
+                vidContainer.innerHTML = `
+                    <div class="text-center p-6 space-y-4">
+                        <p class="text-red-500 font-bold uppercase text-xs">Failed to sync YouTube feed</p>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">${e.message}</p>
+                    </div>`;
             }
         }
+        
         loadLatest();
 
+        // FIREBASE CHAT LOGIC (EXACTLY AS PER PREVIOUS UPDATES)
         const firebaseConfig = { databaseURL: "https://paqutosito-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
