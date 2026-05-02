@@ -1,24 +1,27 @@
-// Replace your existing loadArchive function with this:
-async function loadArchive() {
-    try {
-        // type=video and videoEmbeddable=true helps filter out stream-only content
-        const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50&type=video&videoEmbeddable=true`;
-        
-        const res = await fetch(url);
-        const data = await res.json();
-        
-        let html = '';
-        data.items.forEach(item => {
-            // Additional check to skip titles often associated with live streams
-            const title = item.snippet.title.toLowerCase();
-            if (!title.includes("live stream") && !title.includes("streamed")) {
-                html += `
-                    <div class="bg-[#151921] rounded-2xl overflow-hidden border border-gray-800">
-                        <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${item.id.videoId}" frameborder="0" allowfullscreen></iframe>
-                        <div class="p-4"><p class="text-sm font-bold truncate">${item.snippet.title}</p></div>
-                    </div>`;
-            }
-        });
-        document.getElementById('video-grid').innerHTML = html || '<p>No uploads found.</p>';
-    } catch (e) { console.error(e); }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BROXY | Archive</title><script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0b0e14] text-white">
+    <nav class="p-6 border-b border-gray-800 flex justify-between items-center"><h1 class="text-2xl font-black italic">BROXY <span class="text-orange-500">ARCHIVE</span></h1><a href="index.html" class="text-orange-500 font-bold">HOME</a></nav>
+    <main class="max-w-7xl mx-auto p-6"><div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div></main>
+    <script>
+        const API = 'AIzaSyD-aZcMCuAFtnCKUd0wu7uv4Dp9UYtfkyc'; const CID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
+        async function load() {
+            try {
+                const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API}&channelId=${CID}&part=snippet,id&order=date&maxResults=20&type=video`);
+                const data = await res.json();
+                let h = '';
+                data.items.forEach(i => {
+                    if(!i.snippet.title.toLowerCase().includes("live")) {
+                        h += `<div class="bg-[#151921] rounded-2xl overflow-hidden border border-gray-800"><iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${i.id.videoId}" frameborder="0" allowfullscreen></iframe></div>`;
+                    }
+                });
+                document.getElementById('grid').innerHTML = h;
+            } catch (e) { console.error(e); }
+        }
+        load();
+    </script>
+</body>
+</html>
