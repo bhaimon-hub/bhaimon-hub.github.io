@@ -95,8 +95,22 @@ for (let i = 0; i < total; i++) {
 
 function spin() {
 
-  // 🎯 choose result
-  let winIdx = Math.floor(Math.random() * total);
+  // 🎯 EXTREME RARE SYSTEM
+const rand = Math.random() * 100;
+let winIdx;
+
+// 0.05% each (VERY RARE)
+if (rand < 0.05) {
+  winIdx = 7; // 10💎
+} else if (rand < 0.10) {
+  winIdx = 2; // 1💎
+} else if (rand < 0.15) {
+  winIdx = 4; // CODE
+} else {
+  // 99.85% chance → mostly "Try Again"
+  const common = [0, 3, 6]; // Try Again indexes
+  winIdx = common[Math.floor(Math.random() * common.length)];
+}
 
   const sliceDeg = 360 / total;
 
