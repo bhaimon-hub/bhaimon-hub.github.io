@@ -13,8 +13,8 @@
     :root {
       --deep-forest: #1a3c34;
       --cream: #fbfbf8;
-      --gold-accent: #c4a77d;
-      --gold-glow: #ffd700;
+      --gold-royal: #ffd700;
+      --gold-dark: #b8860b;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,38 +31,46 @@
       padding: 0 20px 100px;
     }
 
-    /* PREMIUM RESULT NOTICE */
+    /* ULTIMATE PROFESSIONAL NOTICE */
     #result-notice {
       position: fixed;
-      top: -120px;
+      top: -150px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 1001;
-      padding: 20px 60px;
-      border-radius: 50px;
+      padding: 25px 70px;
+      border-radius: 20px;
       font-weight: 900;
       text-transform: uppercase;
-      transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-      border: 3px solid var(--gold-accent);
-      background: white;
+      transition: top 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 4px solid var(--gold-royal);
+      background: #0b0e14;
+      color: white;
       font-family: 'Playfair Display', serif;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
     }
-    #result-notice.show { top: 40px; }
+    #result-notice.show { top: 50px; }
+    .notice-small { font-size: 10px; color: var(--gold-royal); letter-spacing: 4px; }
 
     h1 {
       margin-top: 30px;
       font-family: 'Playfair Display', serif;
       font-size: clamp(24px, 8vw, 36px);
       color: var(--deep-forest);
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     .wheel-main-container {
       position: relative;
       width: 90vw;
       max-width: 380px;
-      margin: 20px auto;
+      margin: 30px auto;
     }
 
     .pointer {
@@ -80,37 +88,41 @@
     canvas {
       width: 100%;
       border-radius: 50%;
-      border: 10px solid white;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1);
+      border: 12px solid white;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      transition: transform 6.5s cubic-bezier(0.15, 0, 0.15, 1);
     }
 
     button {
       margin-top: 30px;
-      padding: 20px 60px;
+      padding: 22px 70px;
       font-size: 14px;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       border: none;
-      background-color: var(--deep-forest);
+      background: linear-gradient(135deg, var(--deep-forest), #0e241f);
       color: white;
       border-radius: 50px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 10px 25px rgba(26, 60, 52, 0.3);
-      transition: transform 0.2s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: all 0.3s;
     }
     button:active { transform: scale(0.95); }
-    button:disabled { background-color: #ccc; box-shadow: none; }
+    button:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+    button:disabled { background: #bbb; cursor: not-allowed; }
   </style>
 </head>
 
 <body>
 
-<div id="result-notice"></div>
+<div id="result-notice">
+  <span class="notice-small">OFFICIAL RESULT</span>
+  <span id="prize-text">TRY AGAIN</span>
+</div>
 
-<h1>🎯 MLBB LUCKY SPIN</h1>
-<span id="spinCountDisplay" style="color: var(--deep-forest); font-weight: 600; margin-bottom: 15px; display: block;">Available Spins: <span id="sCount">3</span></span>
+<h1>🎯 BROXY ROYALE SPIN</h1>
+<span id="spinCountDisplay" style="color: var(--deep-forest); font-weight: 900; margin-bottom: 20px; display: block;">SPINS LEFT: <span id="sCount">3</span></span>
 
 <div class="wheel-main-container">
   <div class="pointer"></div>
@@ -128,13 +140,14 @@ const ctx = canvas.getContext("2d");
 const spinBtn = document.getElementById("spinBtn");
 const sCount = document.getElementById("sCount");
 const notice = document.getElementById("result-notice");
+const prizeText = document.getElementById("prize-text");
 const tickSound = document.getElementById("tickSound");
 const winSound = document.getElementById("winSound");
 
 let spins = parseInt(localStorage.getItem('mlbb_spins')) || 3;
 sCount.innerText = spins;
 
-// PRIZES KEPT EXACTLY AS YOU REQUESTED
+// PRIZES KEPT EXACTLY AS REQUESTED
 const sections = ["Try Again", "2 Diamonds", "1💎", "Try Again", "REDEEM CODE", "1+ Spin", "Try Again", "10💎"];
 const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0fbfc","#ffefdb"];
 const total = sections.length;
@@ -152,7 +165,7 @@ function drawWheel() {
     ctx.translate(250,250);
     ctx.rotate(i*arc + arc/2);
     ctx.fillStyle="#333";
-    ctx.font = "bold 20px Montserrat";
+    ctx.font = "bold 18px Montserrat";
     ctx.textAlign = "right";
     ctx.fillText(sections[i], 230, 10);
     ctx.restore();
@@ -161,21 +174,23 @@ function drawWheel() {
 drawWheel();
 
 spinBtn.onclick = function () {
-  if (spins <= 0) return alert("No spins left!");
+  if (spins <= 0) return alert("NO SPINS LEFT!");
   
   spins--;
   localStorage.setItem('mlbb_spins', spins);
   sCount.innerText = spins;
   spinBtn.disabled = true;
 
-  // RIGGED LOGIC FOR YOUR SPECIFIC PRIZES
+  // --- RIGGED IMPOSSIBLE MATH ---
   const rand = Math.random() * 100;
   let winningIndex;
   
-  if (rand <= 0.05) winningIndex = 2;      // 1💎 (0.05% Chance)
-  else if (rand <= 0.1) winningIndex = 4;  // REDEEM CODE (0.05% Chance)
-  else if (rand <= 0.15) winningIndex = 7; // 10💎 (0.05% Chance)
-  else winningIndex = [0, 1, 3, 5, 6][Math.floor(Math.random() * 5)]; // Common Prizes
+  if (rand <= 0.05) winningIndex = 2;      // 1💎 (0.05%)
+  else if (rand <= 0.10) winningIndex = 4; // REDEEM CODE (0.05%)
+  else if (rand <= 0.15) winningIndex = 7; // 10💎 (0.05%)
+  else if (rand <= 20) winningIndex = 1;   // 2 Diamonds (20%)
+  else if (rand <= 35) winningIndex = 5;   // 1+ Spin (15%)
+  else winningIndex = [0, 3, 6][Math.floor(Math.random() * 3)]; // Try Again (Rest)
 
   const sliceDeg = 360 / total;
   const stopAt = (360 - (winningIndex * sliceDeg)) - (sliceDeg / 2);
@@ -186,30 +201,28 @@ spinBtn.onclick = function () {
   let soundLoop = setInterval(() => {
       tickSound.currentTime = 0;
       tickSound.play();
-  }, 150);
+  }, 160);
 
   setTimeout(() => {
     clearInterval(soundLoop);
     
-    const resultText = sections[winningIndex];
-    notice.innerHTML = `🎉 RESULT: ${resultText}`;
+    // UPDATE PROFESSIONAL NOTICE
+    const result = sections[winningIndex];
+    prizeText.innerText = result;
     
-    // Check if user won the rare prizes (Index 2, 4, or 7)
     if (winningIndex === 2 || winningIndex === 4 || winningIndex === 7) {
-        notice.style.backgroundColor = "#ffd700";
-        notice.style.color = "#1a3c34";
+        notice.style.borderColor = "#ffd700";
         winSound.play();
-        confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
+        confetti({ particleCount: 250, spread: 100, origin: { y: 0.6 }, colors: ['#ffd700', '#ffffff'] });
     } else {
-        notice.style.backgroundColor = "white";
-        notice.style.color = "#333";
+        notice.style.borderColor = "white";
     }
 
     notice.classList.add("show");
     spinBtn.disabled = false;
 
-    setTimeout(() => notice.classList.remove("show"), 4000);
-  }, 6000);
+    setTimeout(() => notice.classList.remove("show"), 5000);
+  }, 6500);
 };
 </script>
 </body>
