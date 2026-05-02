@@ -3,17 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MLBB Lucky Spin | Broxy Hub</title>
+<title>Perfect Spin Fix</title>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
-
 <style>
 body {
-  background: #fbfbf8;
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial;
+  background: #f5f5f5;
 }
 
 #wheelBox {
@@ -31,7 +29,7 @@ body {
   height: 0;
   border-left: 18px solid transparent;
   border-right: 18px solid transparent;
-  border-top: 35px solid #1a3c34;
+  border-top: 35px solid black;
   z-index: 10;
 }
 
@@ -39,23 +37,17 @@ canvas {
   width: 100%;
   border-radius: 50%;
   border: 10px solid white;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 }
 
 button {
-  padding: 15px 50px;
+  padding: 12px 40px;
   margin-top: 20px;
-  font-weight: bold;
-  border: none;
-  background: #1a3c34;
-  color: white;
-  border-radius: 40px;
   cursor: pointer;
 }
 
 #result {
   margin-top: 20px;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
 }
 </style>
@@ -63,15 +55,14 @@ button {
 
 <body>
 
-<h2>🎯 BROXY SPIN</h2>
+<h2>🎯 FIXED SPIN</h2>
 
 <div id="wheelBox">
   <div class="pointer"></div>
   <canvas id="wheel" width="500" height="500"></canvas>
 </div>
 
-<button onclick="spin()" id="spinBtn">Spin</button>
-
+<button onclick="spin()">Spin</button>
 <div id="result"></div>
 
 <script>
@@ -84,54 +75,48 @@ const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0
 const total = sections.length;
 const arc = 2 * Math.PI / total;
 
-let rotation = 0;
+// draw wheel
+for (let i = 0; i < total; i++) {
+  ctx.beginPath();
+  ctx.fillStyle = colors[i];
+  ctx.moveTo(250,250);
+  ctx.arc(250,250,250,i*arc,(i+1)*arc);
+  ctx.fill();
 
-function drawWheel() {
-  for (let i = 0; i < total; i++) {
-    ctx.beginPath();
-    ctx.fillStyle = colors[i];
-    ctx.moveTo(250,250);
-    ctx.arc(250,250,250,i*arc,(i+1)*arc);
-    ctx.fill();
-
-    ctx.save();
-    ctx.translate(250,250);
-    ctx.rotate(i*arc + arc/2);
-    ctx.fillStyle = "#222";
-    ctx.textAlign = "right";
-    ctx.font = "bold 16px Montserrat";
-    ctx.fillText(sections[i], 220, 10);
-    ctx.restore();
-  }
+  ctx.save();
+  ctx.translate(250,250);
+  ctx.rotate(i*arc + arc/2);
+  ctx.fillStyle="#000";
+  ctx.textAlign="right";
+  ctx.font="bold 16px Arial";
+  ctx.fillText(sections[i], 220, 10);
+  ctx.restore();
 }
 
-drawWheel();
-
 function spin() {
-  const btn = document.getElementById("spinBtn");
-  btn.disabled = true;
 
   // 🎯 choose result
-  const rand = Math.random()*100;
-  let winIdx;
-
-  if (rand < 2) winIdx = 7;       // 10💎 rare
-  else if (rand < 4) winIdx = 4;  // code
-  else if (rand < 6) winIdx = 2;  // 1💎
-  else winIdx = Math.floor(Math.random()*total);
+  let winIdx = Math.floor(Math.random() * total);
 
   const sliceDeg = 360 / total;
 
-  // 🎯 PERFECT ALIGNMENT (THIS IS THE FIX)
-  const angle = (winIdx * sliceDeg) + sliceDeg/2;
-  const finalRotation = 360 - angle - 90;
+  // 🎯 EXACT CENTER landing
+  const targetAngle = (winIdx * sliceDeg) + sliceDeg/2;
 
-  const spins = 360 * 6;
+  // 🎯 convert for top pointer
+  const finalAngle = 360 - targetAngle - 90;
 
-  rotation += spins + finalRotation;
+  // 🎯 ALWAYS RESET ROTATION (NO DRIFT BUG)
+  const totalRotation = 360 * 6 + finalAngle;
+
+  canvas.style.transition = "none";
+  canvas.style.transform = `rotate(0deg)`;
+
+  // force reset
+  canvas.offsetHeight;
 
   canvas.style.transition = "transform 5s cubic-bezier(0.25,1,0.5,1)";
-  canvas.style.transform = `rotate(${rotation}deg)`;
+  canvas.style.transform = `rotate(${totalRotation}deg)`;
 
   setTimeout(() => {
     const result = sections[winIdx];
@@ -140,8 +125,6 @@ function spin() {
     if ([2,4,7].includes(winIdx)) {
       confetti({ particleCount: 200, spread: 100 });
     }
-
-    btn.disabled = false;
   }, 5000);
 }
 </script>
